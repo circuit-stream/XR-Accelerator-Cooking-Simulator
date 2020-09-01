@@ -19,12 +19,17 @@ namespace XRAccelerator
         private float Velocity => sampleTraveledDistance / sampleSize;
         private float AngularVelocity => sampleAngularDistance / sampleSize;
 
-        [SerializeField] private int allowedJitter = 10;
-        [SerializeField] private int sampleSize = 50;
-        [SerializeField] private float tickTime = 0.05f;
+        [SerializeField]
+        private int allowedJitter = 10;
+        [SerializeField]
+        private int sampleSize = 50;
+        [SerializeField]
+        private float tickTime = 0.05f;
 
-        [SerializeField] private float targetAngularVelocity = 20;
-        [SerializeField] private float allowedAngularVelocityDelta = 5;
+        [SerializeField]
+        private float targetAngularVelocity = 20;
+        [SerializeField]
+        private float allowedAngularVelocityDelta = 5;
 
         private float currentTickTime;
         private LinkedList<GestureKeyframe> sampleKeyframes;
@@ -105,25 +110,6 @@ namespace XRAccelerator
 
             currentTickTime = 0;
             AddKeyframe();
-
-            LogDebug();
-        }
-
-        private bool logginDebug = true;
-
-        private void LogDebug()
-        {
-            if (Input.GetKey(KeyCode.Space))
-                logginDebug = !logginDebug;
-
-            var last = sampleKeyframes.Last.Value;
-
-            if (logginDebug)
-                Debug.Log("Position: " + last.position +
-                          "Angular Velocity: " + AngularVelocity +
-                          " , dentaAngle: " + last.deltaAngle +
-                          " , angle: " + last.angle +
-                          " , combo: " + currentComboDirections);
         }
     }
 }
