@@ -147,12 +147,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 45624017}
-  m_LocalRotation: {x: -0.33555806, y: 0.00000026822087, z: 0.00000023841855, w: 0.9420196}
-  m_LocalPosition: {x: -0.003, y: 0.378, z: 0.168}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalRotation: {x: -0, y: -0, z: -7.1054265e-15, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.19999999, y: 0.33333337, z: 0.20000002}
   m_Children: []
-  m_Father: {fileID: 626385165}
-  m_RootOrder: 4
+  m_Father: {fileID: 1181708166}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -39.213, y: 0, z: 0}
 --- !u!135 &45624019
 SphereCollider:
@@ -756,7 +756,6 @@ Transform:
   - {fileID: 1404774171}
   - {fileID: 84937748}
   - {fileID: 1181708166}
-  - {fileID: 45624018}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1192,7 +1191,8 @@ Transform:
   m_LocalRotation: {x: -0.33555806, y: 0.00000026822087, z: 0.00000023841855, w: 0.9420196}
   m_LocalPosition: {x: -0.003, y: 0.378, z: 0.168}
   m_LocalScale: {x: 0.05, y: 0.03, z: 0.05}
-  m_Children: []
+  m_Children:
+  - {fileID: 45624018}
   m_Father: {fileID: 626385165}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -39.213, y: 0, z: 0}
@@ -1204,8 +1204,8 @@ FixedJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1181708165}
   m_ConnectedBody: {fileID: 45624021}
-  m_BreakForce: 200
-  m_BreakTorque: 200
+  m_BreakForce: 100
+  m_BreakTorque: 100
   m_EnableCollision: 0
   m_EnablePreprocessing: 0
   m_MassScale: 1
@@ -1222,6 +1222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca438fad0024f2d875df70025dbcb4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grabbableObject: {fileID: 45624017}
 --- !u!54 &1181708169
 Rigidbody:
   m_ObjectHideFlags: 0
