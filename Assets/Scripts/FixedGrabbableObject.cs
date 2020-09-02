@@ -10,6 +10,8 @@ namespace XRAccelerator
             
         private Rigidbody connectedBody;
         private Transform connectedTransform;
+        private Collider connectedCollider;
+        
         private bool enablePreprocessing;
         private float breakForce;
 
@@ -23,6 +25,7 @@ namespace XRAccelerator
             breakForce = fixedJoint.breakForce;
 
             connectedTransform = connectedBody.transform;
+            connectedCollider = connectedBody.GetComponent<Collider>();
         }
         
         private void OnJointBreak(float _)
@@ -30,14 +33,16 @@ namespace XRAccelerator
             Debug.Log("A joint has just been broken!, force: " + breakForce);
             
             Destroy(grabbableObject.GetComponent<XRGrabInteractable>());
-            connectedTransform.parent = transform;
-            connectedTransform.localPosition = Vector3.zero;
-            connectedTransform.localScale = Vector3.one;
+            connectedCollider.enabled = false;
             Invoke(nameof(ReenableGrab), 0.1f);
         }
 
         private void ReenableGrab()
         {
+            connectedTransform.parent = transform.parent;
+            connectedTransform.localPosition = transform.localPosition;
+            connectedTransform.localRotation = transform.localRotation;
+            
             var fixedJoint = gameObject.AddComponent<FixedJoint>();
             fixedJoint.connectedBody = connectedBody;
             fixedJoint.breakForce = breakForce;
@@ -46,6 +51,8 @@ namespace XRAccelerator
             grabbableObject.AddComponent<XRGrabInteractable>();
             var grabInteractable = grabbableObject.GetComponent<XRGrabInteractable>();
             grabInteractable.throwOnDetach = false;
+            
+            connectedCollider.enabled = true;
         }
     }
 }

@@ -148,11 +148,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 45624017}
   m_LocalRotation: {x: -0, y: -0, z: -7.1054265e-15, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.19999999, y: 0.33333337, z: 0.20000002}
+  m_LocalPosition: {x: 0, y: 0.245, z: 0.19999999}
+  m_LocalScale: {x: 0.01, y: 0.010000001, z: 0.010000001}
   m_Children: []
-  m_Father: {fileID: 1181708166}
-  m_RootOrder: 0
+  m_Father: {fileID: 626385165}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -39.213, y: 0, z: 0}
 --- !u!135 &45624019
 SphereCollider:
@@ -286,13 +286,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 84937747}
-  m_LocalRotation: {x: 0.42883325, y: 0.000000059604638, z: 0.00000004470348, w: 0.9033837}
-  m_LocalPosition: {x: -0, y: 0.337, z: 0.08}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0, y: 0.275, z: 0.1}
   m_LocalScale: {x: 0.1, y: 0.2, z: 0.01}
   m_Children: []
   m_Father: {fileID: 626385165}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 50.787003, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!65 &84937749
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -314,12 +314,12 @@ ConfigurableJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 84937747}
   m_ConnectedBody: {fileID: 1181708169}
-  m_Anchor: {x: 0, y: 0.50000024, z: 0}
+  m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.060000263, y: 0.79557115, z: 0.11794382}
+  m_AutoConfigureConnectedAnchor: 0
+  m_ConnectedAnchor: {x: 0, y: 1, z: 0}
   serializedVersion: 2
-  m_SecondaryAxis: {x: 0, y: 1, z: 0}
+  m_SecondaryAxis: {x: 1, y: 0, z: 0}
   m_XMotion: 0
   m_YMotion: 0
   m_ZMotion: 0
@@ -335,13 +335,13 @@ ConfigurableJoint:
     contactDistance: 0
   m_AngularXLimitSpring:
     spring: 0
-    damper: 1e+23
+    damper: 0
   m_LowAngularXLimit:
-    limit: -90
+    limit: 15
     bounciness: 0
-    contactDistance: 1
+    contactDistance: 0
   m_HighAngularXLimit:
-    limit: 90
+    limit: 170
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -391,8 +391,8 @@ ConfigurableJoint:
     positionDamper: 0
     maximumForce: 3.4028233e+38
   m_ProjectionMode: 1
-  m_ProjectionDistance: 0.1
-  m_ProjectionAngle: 10
+  m_ProjectionDistance: 0
+  m_ProjectionAngle: 0
   m_ConfiguredInWorldSpace: 0
   m_SwapBodies: 0
   m_BreakForce: Infinity
@@ -719,7 +719,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590955563}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.573, y: 0.559, z: -1.115}
+  m_LocalPosition: {x: -0.436, y: 0.635, z: -0.707}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -756,6 +756,7 @@ Transform:
   - {fileID: 1404774171}
   - {fileID: 84937748}
   - {fileID: 1181708166}
+  - {fileID: 45624018}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1188,14 +1189,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1181708165}
-  m_LocalRotation: {x: -0.33555806, y: 0.00000026822087, z: 0.00000023841855, w: 0.9420196}
-  m_LocalPosition: {x: -0.003, y: 0.378, z: 0.168}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.245, z: 0.2}
   m_LocalScale: {x: 0.05, y: 0.03, z: 0.05}
-  m_Children:
-  - {fileID: 45624018}
+  m_Children: []
   m_Father: {fileID: 626385165}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: -39.213, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!138 &1181708167
 FixedJoint:
   m_ObjectHideFlags: 0
@@ -1205,7 +1205,7 @@ FixedJoint:
   m_GameObject: {fileID: 1181708165}
   m_ConnectedBody: {fileID: 45624021}
   m_BreakForce: 100
-  m_BreakTorque: 100
+  m_BreakTorque: 20
   m_EnableCollision: 0
   m_EnablePreprocessing: 0
   m_MassScale: 1
@@ -1387,7 +1387,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1319177353}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.509, z: -1.126}
+  m_LocalPosition: {x: -0.522, y: 0.5319, z: -0.36}
   m_LocalScale: {x: 2, y: 0.01, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1421,8 +1421,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1404774170}
-  m_LocalRotation: {x: 0.011283465, y: -0, z: 0.0000000144355, w: 0.9999364}
-  m_LocalPosition: {x: -4.656613e-10, y: 0.175, z: 0.00345251}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.175, z: 0}
   m_LocalScale: {x: 0.1, y: 0.2, z: 0.01}
   m_Children: []
   m_Father: {fileID: 626385165}
@@ -1441,7 +1441,7 @@ ConfigurableJoint:
   m_AutoConfigureConnectedAnchor: 0
   m_ConnectedAnchor: {x: 0, y: -0.5, z: 0}
   serializedVersion: 2
-  m_SecondaryAxis: {x: 0, y: 1, z: 0}
+  m_SecondaryAxis: {x: 1, y: 0, z: 0}
   m_XMotion: 0
   m_YMotion: 0
   m_ZMotion: 0
@@ -1457,15 +1457,15 @@ ConfigurableJoint:
     contactDistance: 0
   m_AngularXLimitSpring:
     spring: 0
-    damper: 100
+    damper: 0
   m_LowAngularXLimit:
-    limit: -20
+    limit: -40
     bounciness: 0
-    contactDistance: 1
+    contactDistance: 0
   m_HighAngularXLimit:
-    limit: 90
+    limit: 50
     bounciness: 0
-    contactDistance: 1
+    contactDistance: 0
   m_AngularYZLimitSpring:
     spring: 0
     damper: 0
@@ -1513,8 +1513,8 @@ ConfigurableJoint:
     positionDamper: 0
     maximumForce: 3.4028233e+38
   m_ProjectionMode: 1
-  m_ProjectionDistance: 0.1
-  m_ProjectionAngle: 10
+  m_ProjectionDistance: 0
+  m_ProjectionAngle: 0
   m_ConfiguredInWorldSpace: 0
   m_SwapBodies: 0
   m_BreakForce: Infinity
@@ -1661,7 +1661,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 94
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!23 &1739811002
 MeshRenderer:
@@ -1723,7 +1723,7 @@ ConfigurableJoint:
   m_AutoConfigureConnectedAnchor: 0
   m_ConnectedAnchor: {x: 0, y: -0.5, z: 0}
   serializedVersion: 2
-  m_SecondaryAxis: {x: 0, y: 1, z: 0}
+  m_SecondaryAxis: {x: 1, y: 0, z: 0}
   m_XMotion: 0
   m_YMotion: 0
   m_ZMotion: 0
@@ -1739,15 +1739,15 @@ ConfigurableJoint:
     contactDistance: 0
   m_AngularXLimitSpring:
     spring: 0
-    damper: 100
+    damper: 0
   m_LowAngularXLimit:
     limit: -30
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 90
+    limit: 45
     bounciness: 0
-    contactDistance: 1
+    contactDistance: 0
   m_AngularYZLimitSpring:
     spring: 0
     damper: 0
@@ -1795,8 +1795,8 @@ ConfigurableJoint:
     positionDamper: 0
     maximumForce: 3.4028233e+38
   m_ProjectionMode: 1
-  m_ProjectionDistance: 0.1
-  m_ProjectionAngle: 10
+  m_ProjectionDistance: 0
+  m_ProjectionAngle: 0
   m_ConfiguredInWorldSpace: 0
   m_SwapBodies: 0
   m_BreakForce: Infinity
