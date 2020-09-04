@@ -14,8 +14,11 @@ namespace XRAccelerator
         
         private bool enablePreprocessing;
         private float breakForce;
+        private float breakTorque;
 
         private XRGrabInteractable xrGrabInteractable;
+        private float smoothRotationAmount;
+        private float tightenRotation;
         
         private void Awake()
         {
@@ -23,9 +26,14 @@ namespace XRAccelerator
             connectedBody = fixedJoint.connectedBody;
             enablePreprocessing = fixedJoint.enablePreprocessing;
             breakForce = fixedJoint.breakForce;
+            breakTorque = fixedJoint.breakTorque;
 
             connectedTransform = connectedBody.transform;
             connectedCollider = connectedBody.GetComponent<Collider>();
+
+            var a = grabbableObject.GetComponent<XRGrabInteractable>();
+            smoothRotationAmount = a.smoothRotationAmount;
+            tightenRotation = a.tightenRotation;
         }
         
         private void OnJointBreak(float _)
@@ -46,11 +54,15 @@ namespace XRAccelerator
             var fixedJoint = gameObject.AddComponent<FixedJoint>();
             fixedJoint.connectedBody = connectedBody;
             fixedJoint.breakForce = breakForce;
+            fixedJoint.breakTorque = breakTorque;
             fixedJoint.enablePreprocessing = enablePreprocessing;
             
             grabbableObject.AddComponent<XRGrabInteractable>();
             var grabInteractable = grabbableObject.GetComponent<XRGrabInteractable>();
             grabInteractable.throwOnDetach = false;
+            grabInteractable.smoothRotation = true;
+            grabInteractable.tightenRotation = tightenRotation;
+            grabInteractable.smoothRotationAmount = smoothRotationAmount;
             
             connectedCollider.enabled = true;
         }
