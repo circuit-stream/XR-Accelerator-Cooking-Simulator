@@ -23,6 +23,8 @@ namespace XRAccelerator
         private XRGrabInteractable xrGrabInteractable;
         private float smoothRotationAmount;
         private float tightenRotation;
+        private XRBaseInteractable.MovementType movementType;
+        
         
         private void Awake()
         {
@@ -36,6 +38,7 @@ namespace XRAccelerator
             var grabInteractable = grabbableObject.GetComponent<XRGrabInteractable>();
             smoothRotationAmount = grabInteractable.smoothRotationAmount;
             tightenRotation = grabInteractable.tightenRotation;
+            movementType = grabInteractable.movementType;
             grabInteractable.onSelectEnter.AddListener(OnGrab);
         }
         
@@ -51,15 +54,15 @@ namespace XRAccelerator
 
         private void OnGrab(XRBaseInteractor interactor)
         {
-            grabbableTransform.parent = grabbableTransformParent;
-            grabbableTransform.localPosition = grabbablePosition;
-            grabbableTransform.localRotation = grabbableRotation;
-            
             CreateJoint();
         }
 
         private void ReenableGrab()
         {
+            grabbableTransform.parent = grabbableTransformParent;
+            grabbableTransform.localPosition = grabbablePosition;
+            grabbableTransform.localRotation = grabbableRotation;
+            
             CreateXRGrabInteractableComponent();
             connectedCollider.enabled = true;
         }
@@ -73,6 +76,7 @@ namespace XRAccelerator
             grabInteractable.smoothRotation = true;
             grabInteractable.tightenRotation = tightenRotation;
             grabInteractable.smoothRotationAmount = smoothRotationAmount;
+            grabInteractable.movementType = movementType;
 
             grabInteractable.onSelectEnter.AddListener(OnGrab);
         }
