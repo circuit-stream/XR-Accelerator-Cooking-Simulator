@@ -7,25 +7,36 @@ namespace XRAccelerator
     {
         [SerializeField]
         private GameObject grabbableObject;
-            
-        private Rigidbody connectedBody;
-        private Transform connectedTransform;
-        private Collider connectedCollider;
-        
-        private bool enablePreprocessing;
+        [SerializeField]
         private float breakForce;
+        [SerializeField]
+        private float breakTorque;
+        
+        private Rigidbody connectedBody;
+        private Collider connectedCollider;
+        private Transform grabbableTransform;
+        private Transform grabbableTransformParent;
+        private Vector3 grabbablePosition;
+        private Quaternion grabbableRotation;
+        
 
         private XRGrabInteractable xrGrabInteractable;
+        private float smoothRotationAmount;
+        private float tightenRotation;
         
         private void Awake()
         {
-            var fixedJoint = GetComponent<FixedJoint>();
-            connectedBody = fixedJoint.connectedBody;
-            enablePreprocessing = fixedJoint.enablePreprocessing;
-            breakForce = fixedJoint.breakForce;
-
-            connectedTransform = connectedBody.transform;
+            connectedBody = grabbableObject.GetComponent<Rigidbody>();
             connectedCollider = connectedBody.GetComponent<Collider>();
+            grabbableTransform = grabbableObject.transform;
+            grabbableTransformParent = grabbableTransform.parent;
+            grabbablePosition = grabbableTransform.localPosition;
+            grabbableRotation = grabbableTransform.localRotation;
+
+            var grabInteractable = grabbableObject.GetComponent<XRGrabInteractable>();
+            smoothRotationAmount = grabInteractable.smoothRotationAmount;
+            tightenRotation = grabInteractable.tightenRotation;
+            grabInteractable.onSelectEnter.AddListener(OnGrab);
         }
         
         private void OnJointBreak(float _)
@@ -34,25 +45,45 @@ namespace XRAccelerator
             
             Destroy(grabbableObject.GetComponent<XRGrabInteractable>());
             connectedCollider.enabled = false;
+            
             Invoke(nameof(ReenableGrab), 0.1f);
+        }
+
+        private void OnGrab(XRBaseInteractor interactor)
+        {
+            grabbableTransform.parent = grabbableTransformParent;
+            grabbableTransform.localPosition = grabbablePosition;
+            grabbableTransform.localRotation = grabbableRotation;
+            
+            CreateJoint();
         }
 
         private void ReenableGrab()
         {
-            connectedTransform.parent = transform.parent;
-            connectedTransform.localPosition = transform.localPosition;
-            connectedTransform.localRotation = transform.localRotation;
+            CreateXRGrabInteractableComponent();
+            connectedCollider.enabled = true;
+        }
+
+        private void CreateXRGrabInteractableComponent()
+        {
+            grabbableObject.AddComponent<XRGrabInteractable>();
+            var grabInteractable = grabbableObject.GetComponent<XRGrabInteractable>();
             
+            grabInteractable.throwOnDetach = false;
+            grabInteractable.smoothRotation = true;
+            grabInteractable.tightenRotation = tightenRotation;
+            grabInteractable.smoothRotationAmount = smoothRotationAmount;
+
+            grabInteractable.onSelectEnter.AddListener(OnGrab);
+        }
+        
+        private void CreateJoint()
+        {
             var fixedJoint = gameObject.AddComponent<FixedJoint>();
             fixedJoint.connectedBody = connectedBody;
             fixedJoint.breakForce = breakForce;
-            fixedJoint.enablePreprocessing = enablePreprocessing;
-            
-            grabbableObject.AddComponent<XRGrabInteractable>();
-            var grabInteractable = grabbableObject.GetComponent<XRGrabInteractable>();
-            grabInteractable.throwOnDetach = false;
-            
-            connectedCollider.enabled = true;
+            fixedJoint.breakTorque = breakTorque;
+            fixedJoint.enablePreprocessing = true;
         }
     }
 }
