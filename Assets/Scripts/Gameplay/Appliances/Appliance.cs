@@ -15,7 +15,7 @@ namespace XRAccelerator.Gameplay
 
         protected void Awake()
         {
-            // TODO: Get possibleRecipes from ConfigsProvider
+            // TODO Arthur: Get possibleRecipes from ConfigsProvider
             throw new NotImplementedException();
         }
     }

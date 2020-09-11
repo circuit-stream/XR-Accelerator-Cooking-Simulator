@@ -23,14 +23,14 @@ namespace XRAccelerator.Gameplay
         {
             base.OnTriggerEnter(other);
             
-            // TODO: If Fire call EnableAppliance
+            // TODO Arthur: If Fire call EnableAppliance
         }
 
         protected override void OnTriggerExit(Collider other)
         {
             base.OnTriggerExit(other);
             
-            // TODO: If Fire call DisableAppliance
+            // TODO Arthur: If Fire call DisableAppliance
         }
 
         private void Update()
@@ -38,7 +38,7 @@ namespace XRAccelerator.Gameplay
             if (!isApplianceEnabled)
                 return;
             
-            // TODO: After currentRecipeTime execute recipe
+            // TODO Arthur: After currentRecipeTime execute recipe
             
             throw new NotImplementedException();
         }
