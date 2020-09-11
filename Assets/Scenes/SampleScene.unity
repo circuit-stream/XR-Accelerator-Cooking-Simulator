@@ -1034,18 +1034,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 36090823, guid: d75b061be0f66ed44ab1b904026fc224, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2.54
-      objectReference: {fileID: 0}
-    - target: {fileID: 36090823, guid: d75b061be0f66ed44ab1b904026fc224, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.04
-      objectReference: {fileID: 0}
-    - target: {fileID: 36090823, guid: d75b061be0f66ed44ab1b904026fc224, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 36090824, guid: d75b061be0f66ed44ab1b904026fc224, type: 3}
       propertyPath: m_InteractionManager
       value: 
@@ -1109,16 +1097,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Faucet
-      objectReference: {fileID: 0}
-    - target: {fileID: 3159542781707313688, guid: d75b061be0f66ed44ab1b904026fc224,
-        type: 3}
-      propertyPath: breakForce
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 4978618877304811745, guid: d75b061be0f66ed44ab1b904026fc224,
-        type: 3}
-      propertyPath: m_LowAngularXLimit.limit
-      value: -55
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d75b061be0f66ed44ab1b904026fc224, type: 3}

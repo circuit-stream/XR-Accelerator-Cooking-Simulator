@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 36090822}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalPosition: {x: -2.54, y: -0.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 928238766}
@@ -224,7 +224,7 @@ Transform:
   m_GameObject: {fileID: 928238765}
   m_LocalRotation: {x: -0.000000011803373, y: -0.000000015717974, z: 0.097393475,
     w: 0.99524593}
-  m_LocalPosition: {x: -0.25144643, y: 0.3462606, z: 0}
+  m_LocalPosition: {x: -0.1621048, y: 0.4218445, z: 0}
   m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_Children:
   - {fileID: 36090823}
@@ -246,7 +246,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928238765}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grabbableObject: {fileID: 36090822}
-  breakForce: 100
+  breakForce: 50
   breakTorque: 1
 --- !u!1 &1033268635
 GameObject:
@@ -523,7 +523,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -65
+    limit: -55
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -771,11 +771,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: 79
+    limit: 96.99
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 80
+    limit: 97
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -1056,6 +1056,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808934787064342518, guid: 0d504288ca13342448c58ba98147c8d6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000001681088
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808934787064342518, guid: 0d504288ca13342448c58ba98147c8d6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000024330147
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808934787064342518, guid: 0d504288ca13342448c58ba98147c8d6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.82271516
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808934787064342518, guid: 0d504288ca13342448c58ba98147c8d6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.56845385
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808934787064342518, guid: 0d504288ca13342448c58ba98147c8d6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.000000106096266
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808934787064342518, guid: 0d504288ca13342448c58ba98147c8d6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1396401
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808934787064342518, guid: 0d504288ca13342448c58ba98147c8d6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.000000009536743
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808934787064342518, guid: 0d504288ca13342448c58ba98147c8d6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -110.715004
       objectReference: {fileID: 0}
     - target: {fileID: 7566374686654929382, guid: 0d504288ca13342448c58ba98147c8d6,
         type: 3}
