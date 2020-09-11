@@ -14,9 +14,6 @@ namespace XRAccelerator.Gestures
             
             // Difference between previous keyframe angle and current keyframe angle
             public float DeltaAngle;
-            
-            // Magnitude of vector previousKeyframePos -> currentKeyframePos
-            public float DeltaPos;
 
             // If the new keyframe rotated clockwise / counter-clockwise
             public int RotationDirection => DeltaAngle > 0 ? 1 : (DeltaAngle < 0 ? -1 : 0);
@@ -24,13 +21,11 @@ namespace XRAccelerator.Gestures
             public GestureKeyframe GestureKeyframe;
         }
         
-        public float Velocity => circularKeyframesDeltaPosSum / circularKeyframes.Count;
         public float AngularVelocity => circularKeyframesDeltaAngleSum / circularKeyframes.Count;
         public bool IsMovingCircularly;
 
         private readonly LinkedList<CircularGestureKeyframe> circularKeyframes;
 
-        private float circularKeyframesDeltaPosSum;
         private float circularKeyframesDeltaAngleSum;
         private int circularKeyframesRotationDirectionSum;
 
@@ -60,7 +55,6 @@ namespace XRAccelerator.Gestures
             var newKeyframe = circularKeyframes.Count == 0 ? CreateEmptyKeyframe(gestureKeyframe) : CreateKeyframeFromPrevious(gestureKeyframe);
             circularKeyframes.AddLast(newKeyframe);
         
-            circularKeyframesDeltaPosSum += newKeyframe.DeltaPos;
             circularKeyframesDeltaAngleSum += newKeyframe.DeltaAngle;
             circularKeyframesRotationDirectionSum += newKeyframe.RotationDirection;
         }
@@ -72,7 +66,6 @@ namespace XRAccelerator.Gestures
             
             circularKeyframes.RemoveFirst();
 
-            circularKeyframesDeltaPosSum -= removedKeyframe.DeltaPos;
             circularKeyframesDeltaAngleSum -= removedKeyframe.DeltaAngle;
             circularKeyframesRotationDirectionSum -= removedKeyframe.RotationDirection;
         }
@@ -85,7 +78,6 @@ namespace XRAccelerator.Gestures
 
             return new CircularGestureKeyframe()
             {
-                DeltaPos = direction.magnitude,
                 Angle = angle,
                 DeltaAngle = GetDeltaAngle(angle, previousKeyframe.Angle),
                 GestureKeyframe = gestureKeyframe
@@ -96,7 +88,6 @@ namespace XRAccelerator.Gestures
         {
             return new CircularGestureKeyframe()
             {
-                DeltaPos = 0,
                 Angle = 0,
                 DeltaAngle = 0,
                 GestureKeyframe = gestureKeyframe
