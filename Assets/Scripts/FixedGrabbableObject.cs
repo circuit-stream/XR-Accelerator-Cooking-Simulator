@@ -62,6 +62,8 @@ namespace XRAccelerator
             grabbableTransform.parent = grabbableTransformParent;
             grabbableTransform.localPosition = grabbablePosition;
             grabbableTransform.localRotation = grabbableRotation;
+            connectedBody.velocity = Vector3.zero;
+            connectedBody.angularVelocity = Vector3.zero;
             
             CreateXRGrabInteractableComponent();
             connectedCollider.enabled = true;
