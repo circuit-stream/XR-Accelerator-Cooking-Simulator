@@ -13,6 +13,7 @@ namespace XRAccelerator
         public void Start()
         {
             hoseEndIk.position = targetInitialPosition.position;
+            Destroy(gameObject);
         }
     }
 }
