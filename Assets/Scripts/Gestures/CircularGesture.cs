@@ -42,7 +42,6 @@ namespace XRAccelerator.Gestures
         protected override bool CanStart()
         {
             SetIsMovingCircularly();
-            Debug.Log("CanStart: " + IsMovingCircularly);
             return IsMovingCircularly;
         }
 
@@ -58,8 +57,6 @@ namespace XRAccelerator.Gestures
 
         protected override void OnAddedKeyframe(GestureKeyframe gestureKeyframe)
         {
-            Debug.Log("OnAddedKeyframe");
-            
             var newKeyframe = circularKeyframes.Count == 0 ? CreateEmptyKeyframe(gestureKeyframe) : CreateKeyframeFromPrevious(gestureKeyframe);
             circularKeyframes.AddLast(newKeyframe);
         

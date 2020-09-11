@@ -16,8 +16,8 @@ namespace XRAccelerator
         [SerializeField]
         private MeshRenderer meshRenderer;
         
-        private CircularGesture circularGesture;  
-        
+        private CircularGesture circularGesture;
+
         public void OnGrab()
         {
             gestureInteractor.TrackGestures(transform);
@@ -31,7 +31,9 @@ namespace XRAccelerator
         public bool IsMovingAtTargetVelocity()
         {
             if (circularGesture == null)
+            {
                 return false;
+            }
             
             var absAngularVelocity = Mathf.Abs(circularGesture.AngularVelocity);
             var absTargetDifference = Mathf.Abs(absAngularVelocity - targetAngularVelocity);
@@ -49,7 +51,6 @@ namespace XRAccelerator
         
         private void OnGestureStart(CircularGesture gesture)
         {
-            Debug.Log("OnGestureStart");
             if (gesture.TrackedTransform != transform)
                 return;
             
@@ -62,7 +63,6 @@ namespace XRAccelerator
 
         private void OnGestureFinished(CircularGesture gesture)
         {
-            Debug.Log("OnGestureFinished");
             Debug.Assert(gesture == circularGesture, "Received OnGestureFinished from different gesture");
             
             gesture.OnFinished -= OnGestureFinished;
