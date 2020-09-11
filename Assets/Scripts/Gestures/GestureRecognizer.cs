@@ -1,16 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace XRAccelerator.Gestures
 {
-    public abstract class GestureRecognizer<T> where T : Gesture<T>
+    public abstract class GestureRecognizer<T> where T : Gesture<T>, new()
     {
         public event Action<T> OnGestureStarted;
 
         protected readonly Dictionary<GestureKeyframeTracker, T> gestures = new Dictionary<GestureKeyframeTracker, T>();
 
-        public abstract void AddGestureTracker(GestureKeyframeTracker gestureKeyframeTracker);
+        public void AddGestureTracker(GestureKeyframeTracker gestureKeyframeTracker)
+        {
+            var newGesture = new T();
+            newGesture.SetGestureKeyframeTracker(gestureKeyframeTracker);
+            newGesture.OnStart += OnStart;
+            gestures.Add(gestureKeyframeTracker, newGesture);
+        }
 
         public void RemoveGestureTracker(GestureKeyframeTracker gestureKeyframeTracker)
         {

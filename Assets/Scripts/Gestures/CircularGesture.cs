@@ -34,8 +34,7 @@ namespace XRAccelerator.Gestures
         private float circularKeyframesDeltaAngleSum;
         private int circularKeyframesRotationDirectionSum;
 
-        public CircularGesture(GestureKeyframeTracker gestureKeyframeTracker) : base(
-            gestureKeyframeTracker)
+        public CircularGesture()
         {
             circularKeyframes = new LinkedList<CircularGestureKeyframe>();
         }

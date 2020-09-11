@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace XRAccelerator.Gestures
 {
-    public abstract class Gesture<T> where T : Gesture<T>
+    public abstract class Gesture<T> where T : Gesture<T>, new()
     {
         public event Action<T> OnStart;
         public event Action<T> OnUpdated;
@@ -12,48 +12,47 @@ namespace XRAccelerator.Gestures
 
         public Transform TrackedTransform => gestureKeyframeTracker.TrackedTransform;
 
-        protected readonly GestureKeyframeTracker gestureKeyframeTracker;
-        protected bool IsGestureActive;
+        protected GestureKeyframeTracker gestureKeyframeTracker;
+        private bool isGestureActive;
         
-        public Gesture(GestureKeyframeTracker gestureKeyframeTracker)
+        public void SetGestureKeyframeTracker(GestureKeyframeTracker keyframeTracker)
         {
-            this.gestureKeyframeTracker = gestureKeyframeTracker;
-
+            gestureKeyframeTracker = keyframeTracker;
             gestureKeyframeTracker.OnAddedKeyframe += OnAddedKeyframe;
             gestureKeyframeTracker.OnRemovedKeyframe += OnRemovedKeyframe;
         }
         
         public void Update()
         {
-            if (!IsGestureActive && CanStart())
+            if (!isGestureActive && CanStart())
             {
                 Start();
                 return;
             }
 
-            if (IsGestureActive && UpdateGesture())
+            if (isGestureActive && UpdateGesture())
             {
                 OnUpdated?.Invoke(this as T);
             }
         }
 
-        public virtual void Cancel()
+        public void Cancel()
         {
-            IsGestureActive = false;
+            isGestureActive = false;
             OnCancel?.Invoke(this as T);
         }
 
-        protected virtual void Finish()
+        protected void Finish()
         {
-            IsGestureActive = false;
+            isGestureActive = false;
             OnFinished?.Invoke(this as T);
         }
-        
-        protected virtual void Start()
+
+        private void Start()
         {
-            Debug.Assert(IsGestureActive == false, "Starting already started gesture");
+            Debug.Assert(isGestureActive == false, "Starting already started gesture");
             
-            IsGestureActive = true;
+            isGestureActive = true;
             OnStart?.Invoke(this as T);
         }
         
