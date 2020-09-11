@@ -25,7 +25,6 @@ namespace XRAccelerator
         private float tightenRotation;
         private XRBaseInteractable.MovementType movementType;
         
-        
         private void Awake()
         {
             connectedBody = grabbableObject.GetComponent<Rigidbody>();
@@ -41,11 +40,15 @@ namespace XRAccelerator
             movementType = grabInteractable.movementType;
             grabInteractable.onSelectEnter.AddListener(OnGrab);
         }
+
+        private void Start()
+        {
+            // Reset position after initial joint forces are resolved
+            Invoke(nameof(ResetGrabbableTransform), 0.1f);
+        }
         
         private void OnJointBreak(float _)
         {
-            Debug.Log("A joint has just been broken!, force: " + breakForce);
-            
             Destroy(grabbableObject.GetComponent<XRGrabInteractable>());
             connectedCollider.enabled = false;
             
@@ -59,12 +62,18 @@ namespace XRAccelerator
 
         private void ReenableGrab()
         {
+            ResetGrabbableTransform();
+            CreateXRGrabInteractableComponent();
+            connectedCollider.enabled = true;
+        }
+
+        private void ResetGrabbableTransform()
+        {
             grabbableTransform.parent = grabbableTransformParent;
             grabbableTransform.localPosition = grabbablePosition;
             grabbableTransform.localRotation = grabbableRotation;
-            
-            CreateXRGrabInteractableComponent();
-            connectedCollider.enabled = true;
+            connectedBody.velocity = Vector3.zero;
+            connectedBody.angularVelocity = Vector3.zero;
         }
 
         private void CreateXRGrabInteractableComponent()
