@@ -44,6 +44,7 @@ namespace XRAccelerator.Gameplay
 
             // TODO Arthur: Check for minimum mesh size
             // TODO Arthur: Handle multiple ingredients
+
             solidIngredient.CurrentIngredients = new List<IngredientAmount>
             {
                 new IngredientAmount
@@ -53,12 +54,15 @@ namespace XRAccelerator.Gameplay
                 }
             };
 
-            float originalMeshVolume = MeshUtils.VolumeOfMesh(solidIngredient.GetComponent<MeshFilter>().mesh);
-            SolidIngredient newSlicedIngredient = Instantiate(recipeConfig.OutputIngredient.IngredientPrefab) as SolidIngredient;
-            newSlicedIngredient.ChangeMesh(slicedHull.UpperHull, originalMeshVolume, solidIngredient);
-            solidIngredient.ChangeMesh(slicedHull.LowerHull, originalMeshVolume, solidIngredient);
+            CreateSlicedIngredient(recipeConfig.OutputIngredient.IngredientPrefab, slicedHull.UpperHull, solidIngredient);
+            CreateSlicedIngredient(recipeConfig.OutputIngredient.IngredientPrefab, slicedHull.LowerHull, solidIngredient);
+            Destroy(solidIngredient.gameObject);
+        }
 
-            colliderCutCooldown.Add(solidIngredient.GetComponent<Collider>(), cutCooldown);
+        private void CreateSlicedIngredient(IngredientGraphics prefab, Mesh newMesh, SolidIngredient originalIngredient)
+        {
+            SolidIngredient newSlicedIngredient = Instantiate(prefab) as SolidIngredient;
+            newSlicedIngredient.ChangeMesh(newMesh, originalIngredient);
             colliderCutCooldown.Add(newSlicedIngredient.GetComponent<Collider>(), cutCooldown);
         }
 

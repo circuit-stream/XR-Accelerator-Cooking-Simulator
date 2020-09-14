@@ -9,10 +9,10 @@ namespace XRAccelerator.Gameplay
         [SerializeField]
         private Material slicedSectionMaterial;
 
-        public void ChangeMesh(Mesh newMesh, float originalMeshVolume, SolidIngredient originalIngredient)
+        public void ChangeMesh(Mesh newMesh, SolidIngredient originalIngredient)
         {
             var newSizePercentage =
-                GetNewMeshSizePercentage(originalMeshVolume, newMesh);
+                GetNewMeshSizePercentage(originalIngredient.GetComponent<MeshFilter>().mesh, newMesh);
 
             CurrentIngredients = originalIngredient.CurrentIngredients.Select(ingredientAmount =>
                 new IngredientAmount
@@ -25,9 +25,9 @@ namespace XRAccelerator.Gameplay
             SlicedMeshHull.AddHullToGameObject(gameObject, originalIngredient.gameObject, newMesh, slicedSectionMaterial);
         }
 
-        private float GetNewMeshSizePercentage(float originalMeshVolume, Mesh newMesh)
+        private float GetNewMeshSizePercentage(Mesh originalMesh, Mesh newMesh)
         {
-            return MeshUtils.VolumeOfMesh(newMesh) / originalMeshVolume;
+            return MeshUtils.VolumeOfMesh(newMesh) / MeshUtils.VolumeOfMesh(originalMesh);
         }
     }
 }
