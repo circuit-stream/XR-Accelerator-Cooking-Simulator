@@ -6,7 +6,7 @@ namespace EzySlice
     /**
      * Contains methods for slicing GameObjects
      */
-    public static class Slicer
+    public static class MeshSlicer
     {
         /**
          * An internal class for storing internal submesh values
@@ -54,7 +54,7 @@ namespace EzySlice
          * approprietly before the slice occurs
          * See -> Slice(Mesh, Plane) for more info
          */
-        public static SlicedHull Slice(GameObject obj, Plane pl, TextureRegion crossRegion, Material crossMaterial)
+        public static SlicedMeshHull Slice(GameObject obj, Plane pl, TextureRegion crossRegion, Material crossMaterial)
         {
             MeshFilter filter = obj.GetComponent<MeshFilter>();
 
@@ -129,7 +129,7 @@ namespace EzySlice
          * Returns null if no intersection has been found or the GameObject does not contain
          * a valid mesh to cut.
          */
-        public static SlicedHull Slice(Mesh sharedMesh, Plane pl, TextureRegion region, int crossIndex)
+        public static SlicedMeshHull Slice(Mesh sharedMesh, Plane pl, TextureRegion region, int crossIndex)
         {
             if (sharedMesh == null)
             {
@@ -273,7 +273,7 @@ namespace EzySlice
         /**
          * Generates a single SlicedHull from a set of cut submeshes 
          */
-        private static SlicedHull CreateFrom(SlicedSubmesh[] meshes, List<Triangle> cross, int crossSectionIndex)
+        private static SlicedMeshHull CreateFrom(SlicedSubmesh[] meshes, List<Triangle> cross, int crossSectionIndex)
         {
             int submeshCount = meshes.Length;
 
@@ -290,7 +290,7 @@ namespace EzySlice
             Mesh upperHull = CreateUpperHull(meshes, upperHullCount, cross, crossSectionIndex);
             Mesh lowerHull = CreateLowerHull(meshes, lowerHullCount, cross, crossSectionIndex);
 
-            return new SlicedHull(upperHull, lowerHull);
+            return new SlicedMeshHull(upperHull, lowerHull);
         }
 
         private static Mesh CreateUpperHull(SlicedSubmesh[] mesh, int total, List<Triangle> crossSection,

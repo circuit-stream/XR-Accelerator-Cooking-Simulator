@@ -3,20 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using XRAccelerator.Configs;
 using XRAccelerator.Enums;
+using XRAccelerator.Services;
 
 namespace XRAccelerator.Gameplay
 {
     public abstract class Appliance : MonoBehaviour
     {
         [SerializeField]
-        protected ApplianceType ApplianceType;
+        protected ApplianceType applianceType;
 
         protected List<RecipeConfig> possibleRecipes;
+        protected bool isApplianceEnabled;
 
-        protected void Awake()
+        protected virtual void Awake()
         {
-            // TODO Arthur: Get possibleRecipes from ConfigsProvider
-            throw new NotImplementedException();
+            var configsProvider = ServiceLocator.GetService<ConfigsProvider>();
+            possibleRecipes = configsProvider.GetRecipesForAppliance(applianceType);
+        }
+
+        protected RecipeConfig GetRecipeForIngredients(List<IngredientAmount> ingredients)
+        {
+            foreach (var possibleRecipe in possibleRecipes)
+            {
+                if (possibleRecipe.DoesIngredientsSatisfyRecipe(ingredients))
+                {
+                    return possibleRecipe;
+                }
+            }
+
+            return null;
         }
     }
 }

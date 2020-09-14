@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using XRAccelerator.Configs;
 using XRAccelerator.Enums;
 
@@ -7,16 +9,16 @@ namespace XRAccelerator.Services
 {
     public class ConfigsProvider
     {
+        private RecipeConfig[] recipeConfigs;
+
         public ConfigsProvider()
         {
-            // TODO Arthur: Any other necessary initialization
             FetchConfigs();
         }
 
         public List<RecipeConfig> GetRecipesForAppliance(ApplianceType applianceType)
         {
-            // TODO Arthur: return all recipes for target appliance
-            throw new NotImplementedException();
+            return recipeConfigs.Where(recipeConfig => recipeConfig.ApplianceType == applianceType).ToList();
         }
 
         public List<LevelConfig> GetAllLevelConfigs()
@@ -28,8 +30,8 @@ namespace XRAccelerator.Services
         private void FetchConfigs()
         {
             // TODO Arthur: Load RecipeConfigs / IngredientConfigs / ...
-            throw new NotImplementedException();
-            
+            recipeConfigs = Resources.LoadAll<RecipeConfig>("RecipeConfigs");
+
             // TODO Arthur Optional: Use AssetBundles / Addressables
         }
     }

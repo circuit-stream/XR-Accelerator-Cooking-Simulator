@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using XRAccelerator.Services;
 
 namespace XRAccelerator.Gameplay
 {
@@ -9,7 +10,7 @@ namespace XRAccelerator.Gameplay
         private void Awake()
         {
             // TODO Arthur: Instantiate services + any other setup required
-            throw new NotImplementedException();
+            ServiceLocator.RegisterService(new ConfigsProvider());
         }
     }
 }

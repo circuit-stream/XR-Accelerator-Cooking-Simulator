@@ -5,7 +5,6 @@ namespace XRAccelerator.Gameplay
 {
     public class StewPan : Container
     {
-        private bool isApplianceEnabled;
         private float applianceEnabledTime;
 
         private void EnableAppliance()
