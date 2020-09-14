@@ -110,16 +110,11 @@ namespace EzySlice
 #if UNITY_EDITOR
         public void OnDebugDraw()
         {
-            OnDebugDraw(Color.white);
-        }
-
-        public void OnDebugDraw(Color drawColor)
-        {
             // NOTE -> Gizmos are only supported in the editor. We will keep these function
             // signatures for consistancy however at final build, these will do nothing
             // TO/DO -> Should we throw a runtime exception if this function tried to get executed
             // at runtime?
-            
+
             if (trans_ref == null)
             {
                 return;
@@ -128,9 +123,13 @@ namespace EzySlice
             Color prevColor = Gizmos.color;
             Matrix4x4 prevMatrix = Gizmos.matrix;
 
-            // TO-DO
-            Gizmos.matrix = Matrix4x4.TRS(trans_ref.position, trans_ref.rotation, trans_ref.localScale);
-            Gizmos.color = drawColor;
+            Color32 color = Color.blue;
+            color.a = 125;
+            Gizmos.color = color;
+
+            Quaternion rotation = Quaternion.LookRotation(trans_ref.TransformDirection(m_normal));
+            Matrix4x4 trs = Matrix4x4.TRS(trans_ref.position, rotation, Vector3.one);
+            Gizmos.matrix = trs;
 
             Gizmos.DrawWireCube(Vector3.zero, new Vector3(1.0f, 0.0f, 1.0f));
 

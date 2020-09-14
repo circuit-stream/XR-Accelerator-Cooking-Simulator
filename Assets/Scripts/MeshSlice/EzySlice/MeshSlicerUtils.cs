@@ -5,23 +5,23 @@ namespace EzySlice
     /**
      * Define sugar methods for easy access to slicer functionality
      */
-    public static class SlicerUtils
+    public static class MeshSlicerUtils
     {
         /**
          * SlicedHull Return functions and appropriate overrides!
          */
-        public static SlicedHull Slice(GameObject obj, Plane pl, Material crossSectionMaterial = null)
+        public static SlicedMeshHull Slice(GameObject obj, Plane pl, Material crossSectionMaterial = null)
         {
             return Slice(obj, pl, new TextureRegion(0.0f, 0.0f, 1.0f, 1.0f), crossSectionMaterial);
         }
 
-        public static SlicedHull Slice(GameObject obj, Vector3 position, Vector3 direction,
+        public static SlicedMeshHull Slice(GameObject obj, Vector3 position, Vector3 direction,
             Material crossSectionMaterial = null)
         {
             return Slice(obj, position, direction, new TextureRegion(0.0f, 0.0f, 1.0f, 1.0f), crossSectionMaterial);
         }
 
-        public static SlicedHull Slice(GameObject obj, Vector3 position, Vector3 direction,
+        public static SlicedMeshHull Slice(GameObject obj, Vector3 position, Vector3 direction,
             TextureRegion textureRegion, Material crossSectionMaterial = null)
         {
             Plane cuttingPlane = new Plane();
@@ -34,10 +34,10 @@ namespace EzySlice
             return Slice(obj, cuttingPlane, textureRegion, crossSectionMaterial);
         }
 
-        public static SlicedHull Slice(GameObject obj, Plane pl, TextureRegion textureRegion,
+        public static SlicedMeshHull Slice(GameObject obj, Plane pl, TextureRegion textureRegion,
             Material crossSectionMaterial = null)
         {
-            return Slicer.Slice(obj, pl, textureRegion, crossSectionMaterial);
+            return MeshSlicer.Slice(obj, pl, textureRegion, crossSectionMaterial);
         }
 
         /**
@@ -76,7 +76,7 @@ namespace EzySlice
         public static GameObject[] SliceInstantiate(GameObject obj, Plane pl, TextureRegion cuttingRegion,
             Material crossSectionMaterial = null)
         {
-            SlicedHull slice = Slicer.Slice(obj, pl, cuttingRegion, crossSectionMaterial);
+            SlicedMeshHull slice = MeshSlicer.Slice(obj, pl, cuttingRegion, crossSectionMaterial);
 
             if (slice == null)
             {
