@@ -53,9 +53,10 @@ namespace XRAccelerator.Gameplay
                 }
             };
 
+            float originalMeshVolume = MeshUtils.VolumeOfMesh(solidIngredient.GetComponent<MeshFilter>().mesh);
             SolidIngredient newSlicedIngredient = Instantiate(recipeConfig.OutputIngredient.IngredientPrefab) as SolidIngredient;
-            newSlicedIngredient.ChangeMesh(slicedHull.UpperHull, solidIngredient);
-            solidIngredient.ChangeMesh(slicedHull.LowerHull, solidIngredient);
+            newSlicedIngredient.ChangeMesh(slicedHull.UpperHull, originalMeshVolume, solidIngredient);
+            solidIngredient.ChangeMesh(slicedHull.LowerHull, originalMeshVolume, solidIngredient);
 
             colliderCutCooldown.Add(solidIngredient.GetComponent<Collider>(), cutCooldown);
             colliderCutCooldown.Add(newSlicedIngredient.GetComponent<Collider>(), cutCooldown);
