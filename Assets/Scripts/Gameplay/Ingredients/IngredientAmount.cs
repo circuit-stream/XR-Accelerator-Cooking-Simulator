@@ -4,9 +4,9 @@ using XRAccelerator.Configs;
 namespace XRAccelerator.Gameplay
 {
     [Serializable]
-    public struct IngredientAmount
+    public class IngredientAmount
     {
         public IngredientConfig Ingredient;
-        public int Amount;
+        public float Amount;
     }
 }

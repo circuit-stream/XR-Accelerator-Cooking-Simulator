@@ -7,7 +7,8 @@ namespace XRAccelerator.Gameplay
 {
     public class IngredientGraphics : MonoBehaviour
     {
-        public readonly List<IngredientAmount> CurrentIngredients = new List<IngredientAmount>();
+        [SerializeField]
+        public List<IngredientAmount> CurrentIngredients = new List<IngredientAmount>();
 
         public void OnEnterAppliance()
         {
