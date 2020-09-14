@@ -93,6 +93,7 @@ namespace EzySlice
         {
             GameObject newObject = new GameObject(name);
             newObject.AddComponent<MeshRenderer>();
+            newObject.AddComponent<MeshFilter>();
             return newObject;
         }
     }

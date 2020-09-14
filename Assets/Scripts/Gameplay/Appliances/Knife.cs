@@ -10,12 +10,13 @@ namespace XRAccelerator.Gameplay
 {
     public class Knife : Appliance
     {
-        public Rigidbody MasterRigidbody;
-        public XRGrabInteractable GrabInteractable;
-
         private const float cutCooldown = 1f;
 
+        [Header("Prefab References")]
+        [SerializeField]
         private Collider bladeCollider;
+        [SerializeField]
+        private Collider gripCollider;
 
         private Dictionary<Collider, float> colliderCutCooldown;
 
@@ -31,16 +32,15 @@ namespace XRAccelerator.Gameplay
             isApplianceEnabled = false;
         }
 
-        private void Cut(SolidIngredient solidIngredient, RecipeConfig recipeConfig)
+        private void Cut(SolidIngredient solidIngredient, RecipeConfig recipeConfig, Collision other)
         {
-            SlicedMeshHull slicedHull = MeshSlicerUtils.Slice(solidIngredient.gameObject, transform.position, transform.up);
-
+            // TODO: Check if collision normal and blade normal is too far apart
+            var bladeTransform = other.contacts[0].thisCollider.transform;
+            SlicedMeshHull slicedHull = MeshSlicerUtils.Slice(solidIngredient.gameObject, other.contacts[0].point, bladeTransform.up);
             if (slicedHull == null || slicedHull.UpperHull == null || slicedHull.LowerHull == null)
             {
                 return;
             }
-
-            SetDebug2(solidIngredient.gameObject);
 
             // TODO Arthur: Check for minimum mesh size
             // TODO Arthur: Handle multiple ingredients
@@ -61,7 +61,7 @@ namespace XRAccelerator.Gameplay
             colliderCutCooldown.Add(newSlicedIngredient.GetComponent<Collider>(), cutCooldown);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision other)
         {
             if (!isApplianceEnabled)
             {
@@ -80,12 +80,12 @@ namespace XRAccelerator.Gameplay
                 return;
             }
 
-            if (colliderCutCooldown.ContainsKey(other))
+            if (colliderCutCooldown.ContainsKey(other.collider))
             {
                 return;
             }
 
-            Cut(solidIngredient, recipe);
+            Cut(solidIngredient, recipe, other);
         }
 
         private void Update()
@@ -103,51 +103,22 @@ namespace XRAccelerator.Gameplay
         {
             base.Awake();
 
-            bladeCollider = GetComponent<Collider>();
             bladeCollider.enabled = false;
-
             colliderCutCooldown = new Dictionary<Collider, float>();
 
-#if UNITY_EDITOR
-            SetDebug();
-#endif
+            Physics.IgnoreCollision(gripCollider, bladeCollider);
         }
 
 #if UNITY_EDITOR
-        private Plane plane;
-
-        private void SetDebug()
-        {
-            plane = new Plane {trans_ref = transform};
-            plane.Compute(transform.position, transform.forward);
-            // plane.Compute(transform);
-        }
-
-        private void SetDebug2(GameObject obj)
-        {
-            Vector3 refUp = obj.transform.InverseTransformDirection(transform.up);
-            Vector3 refPt = obj.transform.InverseTransformPoint(transform.position);
-
-            plane = new Plane();
-            plane.Compute(refPt, refUp);
-            plane.trans_ref = transform;
-            // plane.Compute(transform);
-
-            MasterRigidbody.useGravity = false;
-            MasterRigidbody.velocity = Vector3.zero;
-            MasterRigidbody.angularVelocity = Vector3.zero;
-
-            Destroy(GrabInteractable);
-        }
-
         private void OnDrawGizmos()
         {
-            if (plane.normal != Vector3.zero)
-            {
-                plane = new Plane {trans_ref = transform};
-                plane.Compute(transform.position, transform.up);
-                plane.OnDebugDraw();
-            }
+            // Uncomment for slice plane debug
+            return;
+
+            var transformRef = transform;
+            var plane = new Plane {trans_ref = transformRef};
+            plane.Compute(transformRef.position, transformRef.up);
+            plane.OnDebugDraw();
         }
 #endif
     }
