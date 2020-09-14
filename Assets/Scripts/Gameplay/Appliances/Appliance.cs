@@ -26,7 +26,9 @@ namespace XRAccelerator.Gameplay
             foreach (var possibleRecipe in possibleRecipes)
             {
                 if (possibleRecipe.DoesIngredientsSatisfyRecipe(ingredients))
+                {
                     return possibleRecipe;
+                }
             }
 
             return null;

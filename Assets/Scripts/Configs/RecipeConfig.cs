@@ -27,19 +27,28 @@ namespace XRAccelerator.Configs
         public bool DoesIngredientsSatisfyRecipe(List<IngredientAmount> ingredients)
         {
             if (ingredients.Count != SourceIngredients.Count)
+            {
                 return false;
+            }
 
             foreach (var sourceIngredient in SourceIngredients)
             {
                 var ingredientAmount = ingredients.Find(possibleIngredient => possibleIngredient.Ingredient == sourceIngredient.Ingredient);
 
-                if (ingredientAmount == null ||
-                    sourceIngredient.MaxAmount < ingredientAmount.Amount ||
-                    sourceIngredient.MinAmount > ingredientAmount.Amount)
+                if (IngredientSatisfyQuantity(sourceIngredient, ingredientAmount))
+                {
                     return false;
+                }
             }
 
             return true;
+        }
+
+        private bool IngredientSatisfyQuantity(IngredientRequirement requirement, IngredientAmount ingredientAmount)
+        {
+            return ingredientAmount == null ||
+                   requirement.MaxAmount < ingredientAmount.Amount ||
+                   requirement.MinAmount > ingredientAmount.Amount;
         }
     }
 }

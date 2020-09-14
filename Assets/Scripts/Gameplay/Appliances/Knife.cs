@@ -100,7 +100,9 @@ namespace XRAccelerator.Gameplay
                 colliderCutCooldown[pair.Key] = pair.Value - Time.deltaTime;
 
                 if (colliderCutCooldown[pair.Key] <= 0)
+                {
                     colliderCutCooldown.Remove(pair.Key);
+                }
             }
         }
 
@@ -115,16 +117,14 @@ namespace XRAccelerator.Gameplay
         }
 
 #if UNITY_EDITOR
-        private void OnDrawGizmos()
-        {
-            // Uncomment for slice plane debug
-            return;
-
-            var transformRef = transform;
-            var plane = new Plane {trans_ref = transformRef};
-            plane.Compute(transformRef.position, transformRef.up);
-            plane.OnDebugDraw();
-        }
+        // Uncomment for slice plane debug
+        // private void OnDrawGizmos()
+        // {
+        //     var transformRef = transform;
+        //     var plane = new Plane {trans_ref = transformRef};
+        //     plane.Compute(transformRef.position, transformRef.up);
+        //     plane.OnDebugDraw();
+        // }
 #endif
     }
 }
