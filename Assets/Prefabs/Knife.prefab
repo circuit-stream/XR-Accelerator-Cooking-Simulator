@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8323459989434595933}
   - component: {fileID: 8323459989434595931}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BladeCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

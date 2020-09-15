@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 2666389099932310176}
   - component: {fileID: 2666389099932310183}
   - component: {fileID: 1247838803}
-  m_Layer: 10
-  m_Name: Banana
+  m_Layer: 0
+  m_Name: CookedBanana
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 19f64373938089640b279ef7b9824ec4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIngredients:
-  - Ingredient: {fileID: 11400000, guid: 9f0355d7aeab83540b583b34507830d4, type: 2}
+  - Ingredient: {fileID: 11400000, guid: a3e43e8296d90fc4c996b5d35dc72a8d, type: 2}
     Amount: 1
   slicedSectionMaterial: {fileID: 0}
 --- !u!54 &1247838803

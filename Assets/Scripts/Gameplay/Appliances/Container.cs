@@ -7,49 +7,94 @@ namespace XRAccelerator.Gameplay
 {
     public abstract class Container : Appliance
     {
-        public List<IngredientAmount> CurrentIngredients;
-        public RecipeConfig CurrentRecipeConfig;
+        protected readonly List<IngredientAmount> CurrentIngredients = new List<IngredientAmount>();
+        protected readonly List<IngredientGraphics> CurrentIngredientGraphics = new List<IngredientGraphics>();
+        protected RecipeConfig CurrentRecipeConfig;
 
         protected void SetCurrentRecipe()
         {
-            // TODO Arthur: Go through appliances recipes and find one the uses currentIngredients as source
-            throw new NotImplementedException();
+            CurrentRecipeConfig = GetRecipeForIngredients(CurrentIngredients);
         }
-        
+
         protected void Pour()
         {
             // TODO Arthur: Slowly remove liquid ingredients from current Ingredient, instantiate liquid graphics, call OnRemoveIngredient
             throw new NotImplementedException();
         }
 
-        protected void OnAddLiquidIngredient()
+        protected void AddLiquidIngredient()
         {
             // TODO Arthur: Change the container to show the liquid
             throw new NotImplementedException();
         }
 
-        protected virtual void OnAddIngredient()
+        protected virtual void OnIngredientEnter(IngredientGraphics ingredientGraphics)
         {
-            // TODO Arthur: Add to currentIngredient, possibly trigger container specific logic, Call OnAddLiquidIngredient, call SetCurrentRecipe
-            throw new NotImplementedException();
+            AddIngredients(ingredientGraphics.CurrentIngredients);
+            CurrentIngredientGraphics.Add(ingredientGraphics);
+            SetCurrentRecipe();
+
+            // TODO Arthur: Call OnAddLiquidIngredient
         }
 
-        protected virtual void OnRemoveIngredient()
+        protected virtual void OnIngredientExit(IngredientGraphics ingredientGraphics)
         {
-            // TODO Arthur: Remove from currentIngredient, possibly trigger container specific logic
-            throw new NotImplementedException();   
+            RemoveIngredients(ingredientGraphics.CurrentIngredients);
+            CurrentIngredientGraphics.Remove(ingredientGraphics);
         }
-        
+
         protected virtual void OnTriggerEnter(Collider other)
         {
-            // TODO Arthur: Check if is Ingredient and call OnAddIngredient
-            throw new NotImplementedException();
+            var ingredient = other.gameObject.GetComponent<IngredientGraphics>();
+            if (ingredient != null)
+            {
+                OnIngredientEnter(ingredient);
+            }
         }
 
         protected virtual void OnTriggerExit(Collider other)
         {
-            // TODO Arthur: Check if Ingredient and call OnRemoveIngredient
-            throw new NotImplementedException();
+            var ingredient = other.gameObject.GetComponent<IngredientGraphics>();
+            if (ingredient != null)
+            {
+                OnIngredientExit(ingredient);
+            }
+        }
+
+        private void AddIngredients(List<IngredientAmount> addedIngredients)
+        {
+            foreach (var addedIngredient in addedIngredients)
+            {
+                var oldIngredient = CurrentIngredients.Find(ingredientEntry =>
+                    ingredientEntry.Ingredient == addedIngredient.Ingredient);
+
+                if (oldIngredient != null)
+                {
+                    oldIngredient.Amount += addedIngredient.Amount;
+                    return;
+                }
+
+                var newIngredient = new IngredientAmount {Ingredient = addedIngredient.Ingredient, Amount = addedIngredient.Amount};
+                CurrentIngredients.Add(newIngredient);
+            }
+        }
+
+        private void RemoveIngredients(List<IngredientAmount> removedIngredients)
+        {
+            foreach (var removedIngredient in removedIngredients)
+            {
+                var oldIngredient = CurrentIngredients.Find(ingredientEntry =>
+                    ingredientEntry.Ingredient == removedIngredient.Ingredient);
+
+                Debug.Assert(oldIngredient != null, $"Trying to remove inexistent ingredient: {removedIngredient.Ingredient.name}");
+
+                oldIngredient.Amount -= removedIngredient.Amount;
+
+                if (oldIngredient.Amount <= 0)
+                {
+                    CurrentIngredients.Remove(oldIngredient);
+                }
+            }
         }
     }
 }
