@@ -7,18 +7,30 @@ namespace XRAccelerator.Gameplay
     {
         // TODO Arthur Optional: Heat temperature, stirring velocity, cook time per recipe
         private const float cookTime = 5;
-        private const float minStirringTime = 0;
+        private const float minStirringTime = 2;
 
         [SerializeField]
         private IngredientGraphics burntIngredientPrefab;
 
+        private bool isOverFire;
         private float applianceEnabledTime;
         private float stirringTime;
 
-        private void EnableAppliance()
+        private StirringSpoon currentStirringSpoon;
+        private bool IsStirring => currentStirringSpoon != null && currentStirringSpoon.IsStirring;
+
+        private void TryEnableAppliance()
         {
+            if (isApplianceEnabled || !isOverFire || CurrentIngredients.Count == 0)
+            {
+                return;
+            }
+
             isApplianceEnabled = true;
             applianceEnabledTime = 0;
+            stirringTime = 0;
+
+            // TODO Arthur: enabled visual feedback
         }
 
         private void DisableAppliance()
@@ -62,16 +74,40 @@ namespace XRAccelerator.Gameplay
             Instantiate(prefab, transform.position, Quaternion.identity);
         }
 
+        protected override void OnIngredientEnter(IngredientGraphics ingredientGraphics)
+        {
+            base.OnIngredientEnter(ingredientGraphics);
+
+            TryEnableAppliance();
+        }
+
+        protected override void OnIngredientExit(IngredientGraphics ingredientGraphics)
+        {
+            base.OnIngredientExit(ingredientGraphics);
+
+            if (CurrentIngredients.Count == 0)
+            {
+                DisableAppliance();
+            }
+        }
+
         protected override void OnTriggerEnter(Collider other)
         {
             var stoveFire = other.gameObject.GetComponent<StoveFire>();
             if (stoveFire != null)
             {
-                EnableAppliance();
+                isOverFire = true;
+                TryEnableAppliance();
                 return;
             }
 
-            // TODO Arthur: If spoon Enable Stirring
+            var stirringSpoon = other.gameObject.GetComponent<StirringSpoon>();
+            if (stirringSpoon != null)
+            {
+                Debug.Log("StirringSpoon");
+                currentStirringSpoon = stirringSpoon;
+                return;
+            }
 
             base.OnTriggerEnter(other);
         }
@@ -81,13 +117,20 @@ namespace XRAccelerator.Gameplay
             var stoveFire = other.gameObject.GetComponent<StoveFire>();
             if (stoveFire != null)
             {
+                isOverFire = false;
                 DisableAppliance();
                 return;
             }
 
-            base.OnTriggerExit(other);
+            var stirringSpoon = other.gameObject.GetComponent<StirringSpoon>();
+            if (stirringSpoon != null)
+            {
+                Debug.Assert(stirringSpoon == currentStirringSpoon, "Possible multiple stirring spoons");
+                currentStirringSpoon = null;
+                return;
+            }
 
-            // TODO Arthur: If spoon Disable Stirring
+            base.OnTriggerExit(other);
         }
 
         private void Update()
@@ -96,6 +139,11 @@ namespace XRAccelerator.Gameplay
                 return;
 
             applianceEnabledTime += Time.deltaTime;
+            if (IsStirring)
+            {
+                // TODO Arthur: Stirring visual feedback
+                stirringTime += Time.deltaTime;
+            }
 
             if (applianceEnabledTime > cookTime)
             {

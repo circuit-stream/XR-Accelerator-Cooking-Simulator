@@ -477,7 +477,7 @@ GameObject:
   - component: {fileID: 7116543479472819605}
   - component: {fileID: 7116543479472819604}
   - component: {fileID: 7116543479472819563}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: StewPan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
