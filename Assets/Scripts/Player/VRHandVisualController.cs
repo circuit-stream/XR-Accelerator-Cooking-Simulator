@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 using XRAccelerator.Enums;
 
@@ -18,13 +17,6 @@ namespace XRAccelerator.Player
 
         // TODO Arthur: Set ActivatingInteractableHash
         private static readonly int ActivatingInteractableHash = Animator.StringToHash("ActivatingInteractable");
-
-        private static readonly Dictionary<InputHelpers.Button, InputFeatureUsage<float>> ButtonToFeatureParser =
-            new Dictionary<InputHelpers.Button, InputFeatureUsage<float>>
-            {
-                {InputHelpers.Button.Trigger, CommonUsages.trigger},
-                {InputHelpers.Button.Grip, CommonUsages.grip},
-            };
 
         private static readonly Dictionary<VRControllerInteractionType, int> InteractionTypeToLayerIndex =
             new Dictionary<VRControllerInteractionType, int>
@@ -86,11 +78,7 @@ namespace XRAccelerator.Player
                 return 0;
             }
 
-            Debug.Assert(ButtonToFeatureParser.ContainsKey(button), "Using unsupported button for hand animation");
-
-            var featureUsage = ButtonToFeatureParser[button];
-            var gotValue = xrController.inputDevice.TryGetFeatureValue(featureUsage, out var pressValue);
-
+            var gotValue = InputDeviceUtils.GetPressValue(xrController.inputDevice, button, out var pressValue);
             return gotValue ? pressValue : 0;
         }
 
