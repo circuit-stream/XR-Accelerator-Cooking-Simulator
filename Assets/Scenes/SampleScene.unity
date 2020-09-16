@@ -191,6 +191,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b02ed099e84056971a5f391bc21a93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &511743480 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3603968399179494436, guid: 3d627a5edd43c524d8e895f0ff2c1d04,
+    type: 3}
+  m_PrefabInstance: {fileID: 3603968400892284461}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6803edce0201f574f923fd9d10e5b30a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &511743481 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3603968399179494439, guid: 3d627a5edd43c524d8e895f0ff2c1d04,
+    type: 3}
+  m_PrefabInstance: {fileID: 3603968400892284461}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae26e19cd956134bbdf3c6f65bf393a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &567146514
 GameObject:
   m_ObjectHideFlags: 0
@@ -937,6 +961,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3331190974129936555, guid: 3d627a5edd43c524d8e895f0ff2c1d04,
+        type: 3}
+      propertyPath: xrControllerInteractor
+      value: 
+      objectReference: {fileID: 3603968400892284463}
+    - target: {fileID: 3331190974129936555, guid: 3d627a5edd43c524d8e895f0ff2c1d04,
+        type: 3}
+      propertyPath: xrController
+      value: 
+      objectReference: {fileID: 3603968400892284462}
     - target: {fileID: 3603968399179494436, guid: 3d627a5edd43c524d8e895f0ff2c1d04,
         type: 3}
       propertyPath: m_InteractionManager
@@ -1007,8 +1041,42 @@ PrefabInstance:
       propertyPath: m_InteractionManager
       value: 
       objectReference: {fileID: 491704569}
+    - target: {fileID: 7886026176188035464, guid: 3d627a5edd43c524d8e895f0ff2c1d04,
+        type: 3}
+      propertyPath: xrControllerInteractor
+      value: 
+      objectReference: {fileID: 511743480}
+    - target: {fileID: 7886026176188035464, guid: 3d627a5edd43c524d8e895f0ff2c1d04,
+        type: 3}
+      propertyPath: xrController
+      value: 
+      objectReference: {fileID: 511743481}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d627a5edd43c524d8e895f0ff2c1d04, type: 3}
+--- !u!114 &3603968400892284462 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3603968400041679030, guid: 3d627a5edd43c524d8e895f0ff2c1d04,
+    type: 3}
+  m_PrefabInstance: {fileID: 3603968400892284461}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae26e19cd956134bbdf3c6f65bf393a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3603968400892284463 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3603968400041679029, guid: 3d627a5edd43c524d8e895f0ff2c1d04,
+    type: 3}
+  m_PrefabInstance: {fileID: 3603968400892284461}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4253f32900bcc4d499d675566142ded0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8323459990208001934
 PrefabInstance:
   m_ObjectHideFlags: 0
