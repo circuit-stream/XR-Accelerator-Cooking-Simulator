@@ -793,9 +793,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3603968399782402648}
   - component: {fileID: 3603968399782402649}
-  - component: {fileID: 5320847886416266388}
   - component: {fileID: 3198356629261122596}
   - component: {fileID: 6924360318085397958}
+  - component: {fileID: 4913313475106322857}
   m_Layer: 0
   m_Name: XR Rig
   m_TagString: Untagged
@@ -836,25 +836,6 @@ MonoBehaviour:
   m_TrackingOriginMode: 2
   m_TrackingSpace: 3
   m_CameraYOffset: 1.36144
---- !u!114 &5320847886416266388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3603968399782402654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32977a6c84f7481db0a82c268bce1a7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controllerStates:
-  - requestControlOnHover: 1
-    xrController: {fileID: 3603968400041679030}
-    xrControllerInteractor: {fileID: 3603968400041679029}
-  - requestControlOnHover: 0
-    xrController: {fileID: 434127914225757859}
-    xrControllerInteractor: {fileID: 7838946934496686119}
 --- !u!114 &3198356629261122596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -882,6 +863,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_System: {fileID: 3198356629261122596}
+--- !u!114 &4913313475106322857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3603968399782402654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0671a78909ca473886baff04296c822a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightController:
+    controllerStates:
+    - requestControlOnHover: 1
+      xrController: {fileID: 3603968400041679030}
+    - requestControlOnHover: 0
+      xrController: {fileID: 434127914225757859}
+  leftController:
+    controllerStates:
+    - requestControlOnHover: 1
+      xrController: {fileID: 3603968399179494439}
 --- !u!1 &3603968399962792796
 GameObject:
   m_ObjectHideFlags: 0
