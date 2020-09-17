@@ -26,12 +26,14 @@ namespace XRAccelerator.Player
         {
             xrController.hideControllerModel = false;
             xrController.enableInputActions = true;
+            xrControllerInteractor.enableInteractions = true;
         }
 
         public void ExitState()
         {
             xrController.hideControllerModel = true;
             xrController.enableInputActions = false;
+            xrControllerInteractor.enableInteractions = false;
         }
 
         private bool IsPressingSelect()
