@@ -877,13 +877,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rightController:
-    controllerStates:
+    controllerActivationPriority:
     - requestControlOnHover: 1
       xrController: {fileID: 3603968400041679030}
     - requestControlOnHover: 0
       xrController: {fileID: 434127914225757859}
   leftController:
-    controllerStates:
+    controllerActivationPriority:
     - requestControlOnHover: 1
       xrController: {fileID: 3603968399179494439}
 --- !u!114 &1249210067832313951

@@ -6,8 +6,10 @@ namespace XRAccelerator.Player
     public class VRControllersToggler : MonoBehaviour
     {
         [SerializeField]
+        [Tooltip("Right XRControllers toggle configurations.")]
         private VRControllerToggler rightController;
         [SerializeField]
+        [Tooltip("Left XRControllers toggle configurations.")]
         private VRControllerToggler leftController;
 
         private void Update()

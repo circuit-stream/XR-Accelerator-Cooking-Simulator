@@ -5,35 +5,45 @@ using UnityEngine.XR.Interaction.Toolkit;
 namespace XRAccelerator.Player
 {
     [Serializable]
-    public class ControllerState
+    public class ControllerActivationState
     {
         [SerializeField]
+        [Tooltip("If the hover event requests the activation of this controller.")]
         private bool requestControlOnHover = true;
 
         [Header("References")]
         [SerializeField]
+        [Tooltip("The controller to be activated.")]
         private XRController xrController;
-
         private XRBaseInteractor xrControllerInteractor;
-
-        public bool IsRequestingControl => (requestControlOnHover && isHovering) || IsPressingSelect();
-        public bool IsLockingControl => isSelecting;
 
         private bool isHovering;
         private bool isSelecting;
 
-        public void EnterState()
+        public bool IsRequestingControl => (requestControlOnHover && isHovering) || IsPressingSelect();
+        public bool IsLockingControl => isSelecting;
+
+        public void EnableController()
         {
             xrController.hideControllerModel = false;
             xrController.enableInputActions = true;
             xrControllerInteractor.enableInteractions = true;
         }
 
-        public void ExitState()
+        public void DisableController()
         {
             xrController.hideControllerModel = true;
             xrController.enableInputActions = false;
             xrControllerInteractor.enableInteractions = false;
+        }
+
+        public void Initialize()
+        {
+            xrControllerInteractor = xrController.GetComponent<XRBaseInteractor>();
+            xrControllerInteractor.onHoverEnter.AddListener(OnHoverEnter);
+            xrControllerInteractor.onHoverExit.AddListener(OnHoverExit);
+            xrControllerInteractor.onSelectEnter.AddListener(OnSelectEnter);
+            xrControllerInteractor.onSelectExit.AddListener(OnSelectExit);
         }
 
         private bool IsPressingSelect()
@@ -42,6 +52,8 @@ namespace XRAccelerator.Player
                 xrController.axisToPressThreshold);
             return pressed;
         }
+
+        #region XRControllerInteractor callbacks
 
         private void OnHoverEnter(XRBaseInteractable interactable)
         {
@@ -63,13 +75,6 @@ namespace XRAccelerator.Player
             isSelecting = false;
         }
 
-        public void Initialize()
-        {
-            xrControllerInteractor = xrController.GetComponent<XRBaseInteractor>();
-            xrControllerInteractor.onHoverEnter.AddListener(OnHoverEnter);
-            xrControllerInteractor.onHoverExit.AddListener(OnHoverExit);
-            xrControllerInteractor.onSelectEnter.AddListener(OnSelectEnter);
-            xrControllerInteractor.onSelectExit.AddListener(OnSelectExit);
-        }
+        #endregion
     }
 }

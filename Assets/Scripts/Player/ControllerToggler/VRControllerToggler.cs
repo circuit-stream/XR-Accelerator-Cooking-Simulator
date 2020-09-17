@@ -8,35 +8,35 @@ namespace XRAccelerator.Player
     public class VRControllerToggler
     {
         [SerializeField]
-        [Tooltip("Add states in priority order")]
-        private List<ControllerState> controllerStates;
+        [Tooltip("Add all possible XRControllers that uses the same ControllerNode; This is an ordered list, so the first entry interactions has a higher priority.")]
+        private List<ControllerActivationState> controllerActivationPriority;
 
-        private int currentControllerStateIndex;
-        private ControllerState CurrentControllerState => controllerStates[currentControllerStateIndex];
+        private int activeControllerIndex;
+        private ControllerActivationState ActiveController => controllerActivationPriority[activeControllerIndex];
 
-        private void EnterState(int newStateIndex)
+        private void ChangeActiveController(int newStateIndex)
         {
-            if (newStateIndex == currentControllerStateIndex)
+            if (newStateIndex == activeControllerIndex)
             {
                 return;
             }
 
-            CurrentControllerState.ExitState();
-            currentControllerStateIndex = newStateIndex;
-            CurrentControllerState.EnterState();
+            ActiveController.DisableController();
+            activeControllerIndex = newStateIndex;
+            ActiveController.EnableController();
         }
 
         public void Update()
         {
-            if (CurrentControllerState.IsLockingControl)
+            if (ActiveController.IsLockingControl)
                 return;
 
-            for (var index = 0; index < controllerStates.Count; index++)
+            for (var index = 0; index < controllerActivationPriority.Count; index++)
             {
-                var controllerState = controllerStates[index];
+                var controllerState = controllerActivationPriority[index];
                 if (controllerState.IsRequestingControl)
                 {
-                    EnterState(index);
+                    ChangeActiveController(index);
                     return;
                 }
             }
@@ -44,14 +44,14 @@ namespace XRAccelerator.Player
 
         public void Initialize()
         {
-            foreach (var controllerState in controllerStates)
+            foreach (var controllerState in controllerActivationPriority)
             {
                 controllerState.Initialize();
-                controllerState.ExitState();
+                controllerState.DisableController();
             }
 
-            currentControllerStateIndex = 0;
-            CurrentControllerState.EnterState();
+            activeControllerIndex = 0;
+            ActiveController.EnableController();
         }
     }
 }
