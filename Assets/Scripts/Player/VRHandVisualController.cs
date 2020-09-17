@@ -5,60 +5,17 @@ using XRAccelerator.Enums;
 
 namespace XRAccelerator.Player
 {
-    public class VRHandVisualController : MonoBehaviour
+    public class VRHandVisualController : HandVisuals
     {
-        #region constants
-
-        private static readonly int LockedPoseHash = Animator.StringToHash("LockedPose");
-        private static readonly int ControllerSelectValueHash = Animator.StringToHash("ControllerSelectValue");
-        private static readonly int ControllerActivateValueHash = Animator.StringToHash("ControllerActivateValue");
-        private static readonly int HoveringInteractableHash = Animator.StringToHash("HoveringInteractable");
-        private static readonly int SelectingInteractableHash = Animator.StringToHash("SelectingInteractable");
-
-        // TODO Arthur: Set ActivatingInteractableHash
-        private static readonly int ActivatingInteractableHash = Animator.StringToHash("ActivatingInteractable");
-
-        private static readonly Dictionary<VRControllerInteractionType, int> InteractionTypeToLayerIndex =
-            new Dictionary<VRControllerInteractionType, int>
-            {
-                {VRControllerInteractionType.DirectContact, 1},
-                {VRControllerInteractionType.Ray, 2}
-            };
-
-        #endregion
-
         [SerializeField]
-        private VRControllerInteractionType interactionType;
-
-        [Header("Prefab References")]
-        [SerializeField]
-        private Animator animator;
-        [SerializeField]
-        [Tooltip("Optional Field")]
+        [Tooltip("A reference to a XRInteractorLineVisual component that is inside the handModel, if it exists.")]
         private XRInteractorLineVisual interactorLineVisual;
         [SerializeField]
-        [Tooltip("Optional Field")]
+        [Tooltip("An optional attachPoint to replace the XRControllerInteractor when the model is instantiated.")]
         private Transform attachPoint;
 
         private XRBaseControllerInteractor xrControllerInteractor;
         private XRController xrController;
-
-        public void SetInteractionType(VRControllerInteractionType newInteractionType)
-        {
-            Debug.Assert(InteractionTypeToLayerIndex.ContainsKey(newInteractionType), "Using unsupported VRControllerInteractionType");
-
-            interactionType = newInteractionType;
-
-            foreach (var pair in InteractionTypeToLayerIndex)
-            {
-                animator.SetLayerWeight(pair.Value, pair.Key == interactionType ? 1 : 0);
-            }
-        }
-
-        public void LockPose(HandPose handPose)
-        {
-            animator.SetInteger(LockedPoseHash, (int)handPose);
-        }
 
         private void Update()
         {
@@ -89,6 +46,8 @@ namespace XRAccelerator.Player
             SetupInteractorLineVisual();
         }
 
+        // [XRToolkitWorkaround] Rerouting XRBaseInteractable <> XRInteractorLineVisual communication
+        // This is required so we can have the XRInteractorLineVisual anywhere in the hierarchy
         private void SetupInteractorLineVisual()
         {
             if (interactorLineVisual == null)
@@ -134,7 +93,7 @@ namespace XRAccelerator.Player
             Debug.Assert(xrController != null && xrControllerInteractor != null, "Missing xrController or xrControllerInteractor");
         }
 
-        // Hack so we can use an attachPoint inside newly instantiated model
+        // [XRToolkitWorkaround] Hack so we can use an attachPoint inside newly instantiated model
         private void MoveControllerAttachPoint()
         {
             if (attachPoint == null)
