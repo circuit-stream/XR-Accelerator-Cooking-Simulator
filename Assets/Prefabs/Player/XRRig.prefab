@@ -319,7 +319,7 @@ MonoBehaviour:
   m_EnableInputActions: 1
   m_PoseProvider: {fileID: 0}
   m_ControllerNode: 5
-  m_SelectUsage: 6
+  m_SelectUsage: 14
   m_ActivateUsage: 0
   m_UIPressUsage: 0
   m_AxisToPressThreshold: 0.1
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_SphereCastRadius: 0
   m_RaycastMask:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 4129
   m_RaycastTriggerInteraction: 1
   m_HoverToSelect: 0
   m_HoverTimeToSelect: 0.5
@@ -793,11 +793,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3603968399782402648}
   - component: {fileID: 3603968399782402649}
-  - component: {fileID: 5320847886416266388}
   - component: {fileID: 3198356629261122596}
   - component: {fileID: 6924360318085397958}
+  - component: {fileID: 4913313475106322857}
+  - component: {fileID: 1249210067832313951}
   m_Layer: 0
-  m_Name: XR Rig
+  m_Name: XRRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -836,25 +837,6 @@ MonoBehaviour:
   m_TrackingOriginMode: 2
   m_TrackingSpace: 3
   m_CameraYOffset: 1.36144
---- !u!114 &5320847886416266388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3603968399782402654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32977a6c84f7481db0a82c268bce1a7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controllerStates:
-  - requestControlOnHover: 1
-    xrController: {fileID: 3603968400041679030}
-    xrControllerInteractor: {fileID: 3603968400041679029}
-  - requestControlOnHover: 0
-    xrController: {fileID: 434127914225757859}
-    xrControllerInteractor: {fileID: 7838946934496686119}
 --- !u!114 &3198356629261122596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -882,6 +864,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_System: {fileID: 3198356629261122596}
+--- !u!114 &4913313475106322857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3603968399782402654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0671a78909ca473886baff04296c822a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightController:
+    controllerActivationPriority:
+    - requestControlOnHover: 1
+      xrController: {fileID: 3603968400041679030}
+    - requestControlOnHover: 0
+      xrController: {fileID: 434127914225757859}
+  leftController:
+    controllerActivationPriority:
+    - requestControlOnHover: 1
+      xrController: {fileID: 3603968399179494439}
+--- !u!114 &1249210067832313951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3603968399782402654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4f2c0214c9b494fa7eb5b8b2c02885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_System: {fileID: 3198356629261122596}
+  m_TurnUsage: 0
+  m_Controllers:
+  - {fileID: 434127914225757859}
+  - {fileID: 3603968400041679030}
+  - {fileID: 3603968399179494439}
+  m_TurnAmount: 22.5
+  m_DebounceTime: 0.5
+  m_DeadZone: 0.75
 --- !u!1 &3603968399962792796
 GameObject:
   m_ObjectHideFlags: 0

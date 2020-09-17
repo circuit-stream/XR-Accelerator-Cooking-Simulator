@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.XR;
 
 namespace XRAccelerator.Player
@@ -11,7 +12,11 @@ namespace XRAccelerator.Player
         {
             None = 0,
             Binary,
-            Axis1D
+            Axis1D,
+            Axis2DUp,
+            Axis2DDown,
+            Axis2DLeft,
+            Axis2DRight
         }
 
         private readonly struct ButtonFeatureInfo
@@ -43,6 +48,14 @@ namespace XRAccelerator.Player
                 {InputHelpers.Button.Primary2DAxisClick, new ButtonFeatureInfo("Primary2DAxisClick", ButtonReadType.Binary)},
                 {InputHelpers.Button.Secondary2DAxisTouch, new ButtonFeatureInfo("Secondary2DAxisTouch", ButtonReadType.Binary)},
                 {InputHelpers.Button.Secondary2DAxisClick, new ButtonFeatureInfo("Secondary2DAxisClick", ButtonReadType.Binary)},
+                {InputHelpers.Button.PrimaryAxis2DUp , new ButtonFeatureInfo("Primary2DAxis", ButtonReadType.Axis2DUp)},
+                {InputHelpers.Button.PrimaryAxis2DDown , new ButtonFeatureInfo("Primary2DAxis", ButtonReadType.Axis2DDown)},
+                {InputHelpers.Button.PrimaryAxis2DLeft , new ButtonFeatureInfo("Primary2DAxis", ButtonReadType.Axis2DLeft)},
+                {InputHelpers.Button.PrimaryAxis2DRight , new ButtonFeatureInfo("Primary2DAxis", ButtonReadType.Axis2DRight)},
+                {InputHelpers.Button.SecondaryAxis2DUp , new ButtonFeatureInfo("Secondary2DAxis", ButtonReadType.Axis2DUp)},
+                {InputHelpers.Button.SecondaryAxis2DDown , new ButtonFeatureInfo("Secondary2DAxis", ButtonReadType.Axis2DDown)},
+                {InputHelpers.Button.SecondaryAxis2DLeft , new ButtonFeatureInfo("Secondary2DAxis", ButtonReadType.Axis2DLeft)},
+                {InputHelpers.Button.SecondaryAxis2DRight , new ButtonFeatureInfo("Secondary2DAxis", ButtonReadType.Axis2DRight)},
         };
 
         public static bool GetPressValue(InputDevice device, InputHelpers.Button button, out float pressValue)
@@ -77,6 +90,47 @@ namespace XRAccelerator.Player
                 {
                     if (device.TryGetFeatureValue(new InputFeatureUsage<float>(info.Name), out pressValue))
                     {
+                        return true;
+                    }
+
+                    break;
+                }
+
+                case ButtonReadType.Axis2DUp:
+                {
+                    if (device.TryGetFeatureValue(new InputFeatureUsage<Vector2>(info.Name), out Vector2 value))
+                    {
+                        pressValue = value.y;
+                        return true;
+                    }
+
+                    break;
+                }
+                case ButtonReadType.Axis2DDown:
+                {
+                    if (device.TryGetFeatureValue(new InputFeatureUsage<Vector2>(info.Name), out Vector2 value))
+                    {
+                        pressValue = value.y;
+                        return true;
+                    }
+
+                    break;
+                }
+                case ButtonReadType.Axis2DLeft:
+                {
+                    if (device.TryGetFeatureValue(new InputFeatureUsage<Vector2>(info.Name), out Vector2 value))
+                    {
+                        pressValue = value.x;
+                        return true;
+                    }
+
+                    break;
+                }
+                case ButtonReadType.Axis2DRight:
+                {
+                    if (device.TryGetFeatureValue(new InputFeatureUsage<Vector2>(info.Name), out Vector2 value))
+                    {
+                        pressValue = value.x;
                         return true;
                     }
 
