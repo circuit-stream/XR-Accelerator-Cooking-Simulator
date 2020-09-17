@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 using XRAccelerator.Enums;
 
 namespace XRAccelerator.Player
 {
-    public class VRHandAnimationController : MonoBehaviour
+    public class VRHandVisualController : MonoBehaviour
     {
         #region constants
 
@@ -19,13 +18,6 @@ namespace XRAccelerator.Player
         // TODO Arthur: Set ActivatingInteractableHash
         private static readonly int ActivatingInteractableHash = Animator.StringToHash("ActivatingInteractable");
 
-        private static readonly Dictionary<InputHelpers.Button, InputFeatureUsage<float>> ButtonToFeatureParser =
-            new Dictionary<InputHelpers.Button, InputFeatureUsage<float>>
-            {
-                {InputHelpers.Button.Trigger, CommonUsages.trigger},
-                {InputHelpers.Button.Grip, CommonUsages.grip},
-            };
-
         private static readonly Dictionary<VRControllerInteractionType, int> InteractionTypeToLayerIndex =
             new Dictionary<VRControllerInteractionType, int>
             {
@@ -35,15 +27,21 @@ namespace XRAccelerator.Player
 
         #endregion
 
+        [SerializeField]
         private VRControllerInteractionType interactionType;
 
-        [SerializeField]
-        private XRBaseControllerInteractor xrControllerInteractor;
-        [SerializeField]
-        private XRController xrController;
-
+        [Header("Prefab References")]
         [SerializeField]
         private Animator animator;
+        [SerializeField]
+        [Tooltip("Optional Field")]
+        private XRInteractorLineVisual interactorLineVisual;
+        [SerializeField]
+        [Tooltip("Optional Field")]
+        private Transform attachPoint;
+
+        private XRBaseControllerInteractor xrControllerInteractor;
+        private XRController xrController;
 
         public void SetInteractionType(VRControllerInteractionType newInteractionType)
         {
@@ -70,28 +68,95 @@ namespace XRAccelerator.Player
 
         private void SetAnimatorInputValue(InputHelpers.Button button, int animationHashName)
         {
-            Debug.Assert(ButtonToFeatureParser.ContainsKey(button), "Using unsupported button for hand animation");
-
-            var featureUsage = ButtonToFeatureParser[button];
-            var gotValue = xrController.inputDevice.TryGetFeatureValue(featureUsage, out var pressValue);
-
-            if (gotValue)
-            {
-                animator.SetFloat(animationHashName, pressValue);
-            }
+            animator.SetFloat(animationHashName, GetButtonPressValue(button));
         }
 
-        private void Awake()
+        private float GetButtonPressValue(InputHelpers.Button button)
+        {
+            if (button == InputHelpers.Button.None)
+            {
+                return 0;
+            }
+
+            var gotValue = InputDeviceUtils.GetPressValue(xrController.inputDevice, button, out var pressValue);
+            return gotValue ? pressValue : 0;
+        }
+
+        private void Start()
         {
             SetInteractionType(interactionType);
+            SetupXRController();
+            SetupInteractorLineVisual();
+        }
 
+        private void SetupInteractorLineVisual()
+        {
+            if (interactorLineVisual == null)
+            {
+                return;
+            }
+
+            var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+            var field = interactorLineVisual.GetType().GetField("m_LineRenderable", flags);
+            field.SetValue(interactorLineVisual, xrControllerInteractor);
+
+            xrControllerInteractor.GetComponent<XRCustomReticleProviderProxy>().target = interactorLineVisual;
+        }
+
+        #region XRController
+
+        // Finds xrController and xrControllerInteractor component in parents
+        // then register some event callbacks
+        private void SetupXRController()
+        {
+            FindControllerComponents();
+            MoveControllerAttachPoint();
+            RegisterControllerEventCallbacks();
+        }
+
+        private void FindControllerComponents()
+        {
+            var currentTransform = transform.parent;
+
+            while (xrController == null || xrControllerInteractor == null)
+            {
+                xrController = xrController != null ? xrController : currentTransform.GetComponent<XRController>();
+                xrControllerInteractor = xrControllerInteractor != null ? xrControllerInteractor : currentTransform.GetComponent<XRBaseControllerInteractor>();
+
+                currentTransform = currentTransform.parent;
+
+                if (currentTransform == null)
+                {
+                    break;
+                }
+            }
+
+            Debug.Assert(xrController != null && xrControllerInteractor != null, "Missing xrController or xrControllerInteractor");
+        }
+
+        // Hack so we can use an attachPoint inside newly instantiated model
+        private void MoveControllerAttachPoint()
+        {
+            if (attachPoint == null)
+            {
+                return;
+            }
+
+            var attachTransform = xrControllerInteractor.attachTransform;
+            attachTransform.parent = attachPoint.parent;
+            attachTransform.localPosition = attachPoint.localPosition;
+            attachTransform.localRotation = attachPoint.localRotation;
+            attachTransform.name = attachPoint.name;
+            Destroy(attachPoint.gameObject);
+        }
+
+        private void RegisterControllerEventCallbacks()
+        {
             xrControllerInteractor.onHoverEnter.AddListener(OnXRControllerHoverEnter);
             xrControllerInteractor.onHoverExit.AddListener(OnXRControllerHoverExit);
             xrControllerInteractor.onSelectEnter.AddListener(OnXRControllerSelectEnter);
             xrControllerInteractor.onSelectExit.AddListener(OnXRControllerSelectExit);
         }
-
-        #region XRController event callbacks
 
         private void OnXRControllerHoverEnter(XRBaseInteractable interactable)
         {
