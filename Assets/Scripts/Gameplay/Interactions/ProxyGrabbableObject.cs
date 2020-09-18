@@ -7,63 +7,59 @@ namespace XRAccelerator
     public class ProxyGrabbableObject : MonoBehaviour
     {
         [SerializeField]
-        [Tooltip("How much force should break the FixedJoint thisObject <> grabbableObject")]
+        [Tooltip("How much force should break the FixedJoint proxy <> connectedBody")]
         private float breakForce;
         [SerializeField]
-        [Tooltip("How much torque should break the FixedJoint thisObject <> grabbableObject")]
+        [Tooltip("How much torque should break the FixedJoint proxy <> connectedBody")]
         private float breakTorque;
 
         [Header("Prefab References")]
         [SerializeField]
-        [Tooltip("The actual object that will be grabbed by the XRInteractor")]
-        private GameObject grabbableObject;
+        [Tooltip("The actual object that will be lifted when the user picks up this proxy")]
+        private Rigidbody connectedBody;
         [SerializeField]
         [Tooltip("A reference to a ProxyHandVisual monobehavior component.\nSet this if you want to display a geometric matched hand when the proxy is grabbed")]
         private ProxyHandVisuals proxyHandVisuals;
 
-        private Rigidbody connectedBody;
-        private Collider connectedCollider;
-        private Transform grabbableTransform;
-        private Transform grabbableTransformParent;
-        private Vector3 grabbablePosition;
-        private Quaternion grabbableRotation;
+        private Rigidbody proxyBody;
+        private Collider proxyCollider;
+        private Transform proxyTransform;
+        private Transform proxyParent;
 
-        private XRGrabInteractable xrGrabInteractable;
-        private float smoothRotationAmount;
-        private float tightenRotation;
-        private XRBaseInteractable.MovementType movementType;
+        private Vector3 initialPosition;
+        private Quaternion initialRotation;
+        private float initialSmoothRotationAmount;
+        private float initialTightenRotation;
+        private XRBaseInteractable.MovementType initialMovementType;
 
         private XRBaseInteractor currentInteractor;
         private XRController currentController;
+        private Joint currentJoint;
 
         private void Awake()
         {
-            connectedBody = grabbableObject.GetComponent<Rigidbody>();
-            connectedCollider = connectedBody.GetComponent<Collider>();
-            grabbableTransform = grabbableObject.transform;
-            grabbableTransformParent = grabbableTransform.parent;
-            grabbablePosition = grabbableTransform.localPosition;
-            grabbableRotation = grabbableTransform.localRotation;
+            proxyBody = GetComponent<Rigidbody>();
+            proxyCollider = proxyBody.GetComponent<Collider>();
+            var grabInteractable = GetComponent<XRGrabInteractable>();
 
-            var grabInteractable = grabbableObject.GetComponent<XRGrabInteractable>();
-            smoothRotationAmount = grabInteractable.smoothRotationAmount;
-            tightenRotation = grabInteractable.tightenRotation;
-            movementType = grabInteractable.movementType;
+            proxyTransform = transform;
+            proxyParent = proxyTransform.parent;
+
+            initialPosition = proxyTransform.localPosition;
+            initialRotation = proxyTransform.localRotation;
+            initialSmoothRotationAmount = grabInteractable.smoothRotationAmount;
+            initialTightenRotation = grabInteractable.tightenRotation;
+            initialMovementType = grabInteractable.movementType;
 
             grabInteractable.onSelectEnter.AddListener(OnGrab);
             grabInteractable.onSelectExit.AddListener(OnGrabRelease);
         }
 
-        private void Start()
-        {
-            StartCoroutine(ResetGrabbableTransform());
-        }
-
         private void OnJointBreak(float _)
         {
+            currentJoint = null;
+            proxyCollider.enabled = false;
             DestroyXRGrabInteractableComponent();
-
-            connectedCollider.enabled = false;
 
             StartCoroutine(ReenableGrab());
         }
@@ -95,57 +91,70 @@ namespace XRAccelerator
             currentInteractor = interactor;
             currentController = currentInteractor.GetComponent<XRController>();
 
-            CreateJoint();
+            StartCoroutine(CreateJoint());
             EnableProxyHandVisual();
         }
 
         private void OnGrabRelease(XRBaseInteractor interactor)
         {
-            Debug.Log("OnGrabRelease");
             DestroyJoint();
             DisableProxyHandVisual();
 
             currentInteractor = null;
             currentController = null;
+
+            StartCoroutine(ResetGrabbableTransform());
         }
 
         private IEnumerator ReenableGrab()
         {
-            yield return ResetGrabbableTransform();
+            yield return null;
 
-            ResetGrabbableTransform();
             CreateXRGrabInteractableComponent();
-            connectedCollider.enabled = true;
+            proxyCollider.enabled = true;
         }
 
         private IEnumerator ResetGrabbableTransform()
         {
+            proxyBody.velocity = Vector3.zero;
+            proxyBody.angularVelocity = Vector3.zero;
+
             // Reset position after joint forces are resolved
             yield return new WaitForSeconds(0.1f);
 
-            grabbableTransform.parent = grabbableTransformParent;
-            grabbableTransform.localPosition = grabbablePosition;
-            grabbableTransform.localRotation = grabbableRotation;
-            connectedBody.velocity = Vector3.zero;
-            connectedBody.angularVelocity = Vector3.zero;
+            proxyTransform.parent = proxyParent;
+            proxyTransform.localRotation = initialRotation;
+            proxyTransform.localPosition = initialPosition;
+            proxyBody.position = proxyTransform.position;
+            proxyBody.rotation = proxyTransform.rotation;
+            proxyBody.velocity = Vector3.zero;
+            proxyBody.angularVelocity = Vector3.zero;
         }
 
-        private void CreateJoint()
+        private IEnumerator CreateJoint()
         {
-            var fixedJoint = gameObject.AddComponent<FixedJoint>();
-            fixedJoint.connectedBody = connectedBody;
-            fixedJoint.breakForce = breakForce;
-            fixedJoint.breakTorque = breakTorque;
-            fixedJoint.enablePreprocessing = true;
+            // Wait from grabbable attach
+            yield return new WaitForSeconds(0.1f);
+
+            currentJoint = gameObject.AddComponent<FixedJoint>();
+            currentJoint.connectedBody = connectedBody;
+            currentJoint.breakForce = breakForce;
+            currentJoint.breakTorque = breakTorque;
+            currentJoint.enablePreprocessing = false;
         }
 
         private void DestroyJoint()
         {
-            var joint = GetComponent<FixedJoint>();
-            if (joint != null)
+            if (currentJoint != null)
             {
-                Destroy(joint);
+                Destroy(currentJoint);
+                currentJoint = null;
             }
+        }
+
+        private void Start()
+        {
+            StartCoroutine(ResetGrabbableTransform());
         }
 
         // [XRToolkitWorkaround] These functions only exist because XRToolkit provides no way to forcefully deselect a interactable
@@ -153,14 +162,15 @@ namespace XRAccelerator
 
         private void CreateXRGrabInteractableComponent()
         {
-            grabbableObject.AddComponent<XRGrabInteractable>();
-            var grabInteractable = grabbableObject.GetComponent<XRGrabInteractable>();
+            var grabInteractable = gameObject.AddComponent<XRGrabInteractable>();
 
+            grabInteractable.retainTransformParent = false; // We set this by hand
             grabInteractable.throwOnDetach = false;
             grabInteractable.smoothRotation = true;
-            grabInteractable.tightenRotation = tightenRotation;
-            grabInteractable.smoothRotationAmount = smoothRotationAmount;
-            grabInteractable.movementType = movementType;
+
+            grabInteractable.tightenRotation = initialTightenRotation;
+            grabInteractable.smoothRotationAmount = initialSmoothRotationAmount;
+            grabInteractable.movementType = initialMovementType;
 
             grabInteractable.onSelectEnter.AddListener(OnGrab);
             grabInteractable.onSelectExit.AddListener(OnGrabRelease);
@@ -168,7 +178,7 @@ namespace XRAccelerator
 
         private void DestroyXRGrabInteractableComponent()
         {
-            var interactable = grabbableObject.GetComponent<XRGrabInteractable>();
+            var interactable = GetComponent<XRGrabInteractable>();
             var interactor = currentInteractor;
 
             // calling these events like this leaves some of the XRToolkit internal logic out, but so far I got no errors
