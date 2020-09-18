@@ -35,6 +35,7 @@ namespace XRAccelerator
         private XRBaseInteractor currentInteractor;
         private XRController currentController;
         private Joint currentJoint;
+        private bool isGrabbed;
 
         private void Awake()
         {
@@ -53,6 +54,16 @@ namespace XRAccelerator
 
             grabInteractable.onSelectEnter.AddListener(OnGrab);
             grabInteractable.onSelectExit.AddListener(OnGrabRelease);
+        }
+
+        private void Update()
+        {
+            if (isGrabbed)
+            {
+                return;
+            }
+
+            ResetGrabbableTransform();
         }
 
         private void OnJointBreak(float _)
@@ -88,6 +99,7 @@ namespace XRAccelerator
 
         private void OnGrab(XRBaseInteractor interactor)
         {
+            isGrabbed = true;
             currentInteractor = interactor;
             currentController = currentInteractor.GetComponent<XRController>();
 
@@ -97,13 +109,12 @@ namespace XRAccelerator
 
         private void OnGrabRelease(XRBaseInteractor interactor)
         {
+            isGrabbed = false;
             DestroyJoint();
             DisableProxyHandVisual();
 
             currentInteractor = null;
             currentController = null;
-
-            StartCoroutine(ResetGrabbableTransform());
         }
 
         private IEnumerator ReenableGrab()
@@ -114,14 +125,8 @@ namespace XRAccelerator
             proxyCollider.enabled = true;
         }
 
-        private IEnumerator ResetGrabbableTransform()
+        private void ResetGrabbableTransform()
         {
-            proxyBody.velocity = Vector3.zero;
-            proxyBody.angularVelocity = Vector3.zero;
-
-            // Reset position after joint forces are resolved
-            yield return new WaitForSeconds(0.1f);
-
             proxyTransform.parent = proxyParent;
             proxyTransform.localRotation = initialRotation;
             proxyTransform.localPosition = initialPosition;
@@ -150,11 +155,6 @@ namespace XRAccelerator
                 Destroy(currentJoint);
                 currentJoint = null;
             }
-        }
-
-        private void Start()
-        {
-            StartCoroutine(ResetGrabbableTransform());
         }
 
         // [XRToolkitWorkaround] These functions only exist because XRToolkit provides no way to forcefully deselect a interactable
