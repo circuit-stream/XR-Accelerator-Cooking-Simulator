@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 6877864335282156499}
   - component: {fileID: 8109987202214116692}
   m_Layer: 0
-  m_Name: RightControllerVisuals
+  m_Name: ControllerVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,9 +75,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c8a4dc518f74819a22a7bc4dd191880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xrControllerInteractor: {fileID: 0}
-  xrController: {fileID: 0}
+  interactionType: 0
   animator: {fileID: 8109987202214116692}
+  interactorLineVisual: {fileID: 0}
+  attachPoint: {fileID: 831045321702066704}
 --- !u!95 &8109987202214116692
 Animator:
   serializedVersion: 3
