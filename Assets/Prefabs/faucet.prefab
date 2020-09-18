@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 36090825}
   - component: {fileID: 36090824}
   - component: {fileID: 36090826}
+  - component: {fileID: 2244655200794006869}
   m_Layer: 8
   m_Name: Grabbable
   m_TagString: Untagged
@@ -137,6 +138,22 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2244655200794006869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36090822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fca438fad0024f2d875df70025dbcb4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakForce: 50
+  breakTorque: 1
+  connectedBody: {fileID: 2270242617945461883}
+  proxyHandVisuals: {fileID: 5370682131928462959}
 --- !u!1 &719254348
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +222,6 @@ GameObject:
   - component: {fileID: 928238766}
   - component: {fileID: 423421722311157530}
   - component: {fileID: 2270242617945461883}
-  - component: {fileID: 3159542781707313688}
   m_Layer: 0
   m_Name: Effector_IK
   m_TagString: Untagged
@@ -259,22 +275,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3159542781707313688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 928238765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fca438fad0024f2d875df70025dbcb4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  breakForce: 50
-  breakTorque: 1
-  grabbableObject: {fileID: 36090822}
-  proxyHandVisuals: {fileID: 5370682131928462959}
 --- !u!1 &1033268635
 GameObject:
   m_ObjectHideFlags: 0
@@ -593,7 +593,7 @@ ConfigurableJoint:
   m_Anchor: {x: -0.105, y: 0.02, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 0
-  m_ConnectedAnchor: {x: -0.02, y: 0, z: 0}
+  m_ConnectedAnchor: {x: -0.047381017, y: -0.28062835, z: -0.000000029802322}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 0, z: 1}
   m_XMotion: 0
@@ -883,37 +883,37 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0d504288ca13342448c58ba98147c8d6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.496
+      value: 0.6956616
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d504288ca13342448c58ba98147c8d6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.617
+      value: 0.846037
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d504288ca13342448c58ba98147c8d6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.156
+      value: -1.9368954
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d504288ca13342448c58ba98147c8d6,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d504288ca13342448c58ba98147c8d6,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d504288ca13342448c58ba98147c8d6,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d504288ca13342448c58ba98147c8d6,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d504288ca13342448c58ba98147c8d6,
         type: 3}
@@ -928,7 +928,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0d504288ca13342448c58ba98147c8d6,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0d504288ca13342448c58ba98147c8d6,
         type: 3}
