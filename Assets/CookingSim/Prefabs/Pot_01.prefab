@@ -813,8 +813,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca438fad0024f2d875df70025dbcb4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  breakForce: 100
-  breakTorque: 100
+  breakForce: 300
+  breakTorque: 1e+17
   connectedBody: {fileID: 7434115144970843019}
   proxyHandVisuals: {fileID: 1461894551983791023}
 --- !u!1 &4774209446128033365
@@ -1011,8 +1011,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca438fad0024f2d875df70025dbcb4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  breakForce: 100
-  breakTorque: 100
+  breakForce: 300
+  breakTorque: 1e+17
   connectedBody: {fileID: 7434115144970843019}
   proxyHandVisuals: {fileID: 6848869940863387214}
 --- !u!1 &5130320839743389464
@@ -1079,14 +1079,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5814253282257657326}
-  m_LocalRotation: {x: -0.42234334, y: 0.49649853, z: -0.5146551, w: -0.5569968}
-  m_LocalPosition: {x: 0.02, y: -0.026, z: -0.047}
+  m_LocalRotation: {x: 0.5133156, y: 0.5210323, z: -0.38127905, w: 0.56538373}
+  m_LocalPosition: {x: -0.014708936, y: -0.040842235, z: 0.12918039}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2675218654635312555}
   m_Father: {fileID: 2312840478265396296}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 78.97301, y: 321.764, z: 53.595}
+  m_LocalEulerAnglesHint: {x: 77.893005, y: 109.478004, z: 29.654001}
 --- !u!114 &6848869940863387214
 MonoBehaviour:
   m_ObjectHideFlags: 0
