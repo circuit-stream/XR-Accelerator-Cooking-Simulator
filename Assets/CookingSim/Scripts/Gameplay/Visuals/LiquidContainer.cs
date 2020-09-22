@@ -1,0 +1,175 @@
+using System;
+using UnityEngine;
+
+namespace XRAccelerator.Gameplay
+{
+    public class LiquidContainer : MonoBehaviour
+    {
+        private static readonly int WobbleXShaderName = Shader.PropertyToID("_WobbleX");
+        private static readonly int WobbleZShaderName = Shader.PropertyToID("_WobbleZ");
+        private static readonly int FillAmountShaderName = Shader.PropertyToID("_FillAmount");
+
+        public Action<float> Spilled;
+
+        [Header("Container")]
+        [SerializeField]
+        [Tooltip("How many milliliters this container can hold")]
+        private int containerVolume = 200;
+
+        [Header("Liquid Wobble")]
+        [SerializeField]
+        [Tooltip("Wobble amplitude")]
+        private float MaxWobble = 0.01f;
+        [SerializeField]
+        [Tooltip("Wobble oscillation frequency")]
+        private float WobbleSpeed = 1f;
+        [SerializeField]
+        [Tooltip("How fast should the liquid stop wobbling")]
+        private float WobbleRecovery = 1f;
+
+        // Container Variables
+        private float containerHeight;
+        private float uprightContainerLocalHeight;
+        private float currentContainerMaxLocalHeight;
+        private float currentContainerExtraLocalHeight;
+        private float containerRadius;
+        private float containerVolumePerHeight;
+
+        private float currentLiquidHeight;
+
+        // Wobble Variables
+        private Vector3 lastPos;
+        private Vector3 lastRot;
+        private float elapsedTime;
+        private float wobbleAmountToAddX;
+        private float wobbleAmountToAddZ;
+        private float pulse;
+
+        // References
+        private Renderer _renderer;
+        private Transform _transform;
+
+        public float CurrentLiquidVolume => currentLiquidHeight * containerVolumePerHeight;
+
+        #region Container Logic
+
+        public void AddLiquid(float volume)
+        {
+            // TODO Arthur: Add liquid logic
+            throw new NotImplementedException();
+        }
+
+        private void Spill(float volumeHeightSpilled)
+        {
+            currentLiquidHeight -= volumeHeightSpilled;
+            Spilled?.Invoke(GetVolumeForHeight(volumeHeightSpilled));
+        }
+
+        private void TrySpill()
+        {
+            // TODO Arthur: Consider wobbling
+
+            var eulerAngles = _transform.eulerAngles;
+            var maxAngle = Mathf.Max(GetSignedAngle(eulerAngles.x), GetSignedAngle(eulerAngles.z));
+
+            currentContainerMaxLocalHeight = Mathf.Cos(Mathf.Deg2Rad * maxAngle) * uprightContainerLocalHeight;
+            currentContainerExtraLocalHeight = Mathf.Sin(Mathf.Deg2Rad * maxAngle) * containerRadius;
+
+            if (currentLiquidHeight > currentContainerMaxLocalHeight)
+            {
+                Spill(currentLiquidHeight - currentContainerMaxLocalHeight);
+            }
+        }
+
+        private float GetSignedAngle(float angle)
+        {
+            return Mathf.Abs(angle > 180 ? angle - 360 : angle);
+        }
+
+        private void UpdateShaderFillAmount()
+        {
+            var shaderFill = currentLiquidHeight
+                             - (currentContainerMaxLocalHeight * 0.5f) // offset from range [0, height] to [-height/2, height/2]
+                             - currentContainerExtraLocalHeight; // remove the extra height that can't hold liquid when rotated
+            _renderer.material.SetFloat(FillAmountShaderName, shaderFill) ;
+        }
+
+        private float GetVolumeForHeight(float height)
+        {
+            return height * containerVolumePerHeight;
+        }
+
+        #endregion
+
+        #region Wobble Logic
+
+        private void Wobble()
+        {
+            // TODO Arthur: Prevent Wobble when empty
+
+            // decrease wobble over elapsedTime
+            wobbleAmountToAddX = Mathf.Lerp(wobbleAmountToAddX, 0, Time.deltaTime * (WobbleRecovery));
+            wobbleAmountToAddZ = Mathf.Lerp(wobbleAmountToAddZ, 0, Time.deltaTime * (WobbleRecovery));
+
+            // make a sine wave of the decreasing wobble
+            elapsedTime += Time.deltaTime;
+            var wobbleAmountX = wobbleAmountToAddX * Mathf.Sin(pulse * elapsedTime);
+            var wobbleAmountZ = wobbleAmountToAddZ * Mathf.Sin(pulse * elapsedTime);
+
+            // send it to the shader
+            _renderer.material.SetFloat(WobbleXShaderName, wobbleAmountX);
+            _renderer.material.SetFloat(WobbleZShaderName, wobbleAmountZ);
+
+            // velocity
+            var velocity = (lastPos - _transform.position) / Time.deltaTime;
+            var angularVelocity = _transform.rotation.eulerAngles - lastRot;
+
+            // add clamped velocity to wobble
+            wobbleAmountToAddX += (velocity.x + (angularVelocity.z * 0.2f)) * MaxWobble;
+            wobbleAmountToAddX = Mathf.Clamp(wobbleAmountToAddX, -MaxWobble, MaxWobble);
+
+            wobbleAmountToAddZ += (velocity.z + (angularVelocity.x * 0.2f)) * MaxWobble;
+            wobbleAmountToAddZ = Mathf.Clamp(wobbleAmountToAddZ, -MaxWobble, MaxWobble);
+
+            // keep last position
+            lastPos = _transform.position;
+            lastRot = _transform.rotation.eulerAngles;
+        }
+
+        #endregion
+
+        private void Update()
+        {
+            Wobble();
+
+            TrySpill();
+            UpdateShaderFillAmount();
+        }
+
+        private void InitializeConstantVariables()
+        {
+            // Container Variables
+            Vector3 containerBounds = _renderer.bounds.size;
+            uprightContainerLocalHeight = containerBounds.y;
+            currentContainerMaxLocalHeight = uprightContainerLocalHeight;
+            containerHeight = uprightContainerLocalHeight / _transform.localScale.y;
+            containerRadius = containerBounds.x * 0.5f;
+
+            containerVolumePerHeight = containerVolume / containerHeight;
+
+            // Wobble Variables
+            pulse = 2 * Mathf.PI * WobbleSpeed;
+        }
+
+        private void Start()
+        {
+            _renderer = GetComponent<Renderer>();
+            _transform = transform;
+
+            InitializeConstantVariables();
+
+            currentLiquidHeight = uprightContainerLocalHeight * 0.8f;
+            UpdateShaderFillAmount();
+        }
+    }
+}
