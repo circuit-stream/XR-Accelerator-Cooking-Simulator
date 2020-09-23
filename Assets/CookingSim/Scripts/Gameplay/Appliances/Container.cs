@@ -131,6 +131,7 @@ namespace XRAccelerator.Gameplay
             liquidContainer.Spilled += Spill;
 
             ServiceLocator.GetService<ContainerCollidersProvider>().RegisterContainerCollider(liquidCollider);
+            liquidPourOrigin.TrackContainer(liquidContainer);
         }
     }
 }

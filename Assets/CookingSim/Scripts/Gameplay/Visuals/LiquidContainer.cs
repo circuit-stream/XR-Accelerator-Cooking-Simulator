@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace XRAccelerator.Gameplay
@@ -36,6 +37,9 @@ namespace XRAccelerator.Gameplay
 
         private float currentLiquidHeight;
 
+        private const int pourPointsAmount = 10;
+        private List<Transform> pourPoints;
+
         // Wobble Variables
         private Vector3 lastPos;
         private Vector3 lastRot;
@@ -49,6 +53,23 @@ namespace XRAccelerator.Gameplay
         private Transform _transform;
 
         public float CurrentLiquidVolume => currentLiquidHeight * containerVolumePerHeight;
+
+        public Transform GetCurrentPourPoint()
+        {
+            Transform lowestPoint = null;
+            float lowestHeight = Mathf.Infinity;
+
+            foreach (var point in pourPoints)
+            {
+                if (point.position.y < lowestHeight)
+                {
+                    lowestHeight = point.position.y;
+                    lowestPoint = point;
+                }
+            }
+
+            return lowestPoint;
+        }
 
         #region Container Logic
 
@@ -139,6 +160,33 @@ namespace XRAccelerator.Gameplay
             UpdateShaderFillAmount();
         }
 
+        private void CreatePourPoints()
+        {
+            pourPoints = new List<Transform>();
+            var horizontalScale = _transform.localScale.x;
+            var radius = containerRadius / horizontalScale + 0.05f;
+
+            Transform pourPointsParent = new GameObject("PourPoints").transform;
+            pourPointsParent.parent = _transform;
+            pourPointsParent.rotation = Quaternion.identity;
+            pourPointsParent.localScale = Vector3.one;
+            pourPointsParent.localPosition = new Vector3(0, 1.05f, 0);
+
+            for (int index = 0; index < pourPointsAmount; index++)
+            {
+                Transform newObject = new GameObject($"PourPoint{index}").transform;
+                newObject.parent = pourPointsParent;
+                newObject.rotation = Quaternion.identity;
+                newObject.localScale = Vector3.one;
+
+                var x = radius * Mathf.Sin((2 * Mathf.PI * index) / pourPointsAmount);
+                var z = radius * Mathf.Cos((2 * Mathf.PI * index) / pourPointsAmount);
+                newObject.localPosition = new Vector3(x, 0, z);
+
+                pourPoints.Add(newObject);
+            }
+        }
+
         private void InitializeConstantVariables()
         {
             // Container Variables
@@ -148,6 +196,8 @@ namespace XRAccelerator.Gameplay
             containerRadius = containerBounds.x * 0.5f;
 
             containerVolumePerHeight = containerVolume / uprightContainerLocalHeight;
+
+            CreatePourPoints();
 
             // Wobble Variables
             pulse = 2 * Mathf.PI * WobbleSpeed;

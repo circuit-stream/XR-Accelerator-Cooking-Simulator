@@ -27,6 +27,9 @@ namespace XRAccelerator.Gameplay
         private ParticleSystem.Particle[] particles;
         private HashSet<uint> aliveParticles;
 
+        private LiquidContainer trackedLiquidContainer;
+        private Transform _transform;
+
         public void AddIngredientsToPour(List<IngredientAmount> newIngredientsToPour)
         {
             IngredientAmount.AddToIngredientsList(pouringIngredients, newIngredientsToPour);
@@ -48,6 +51,11 @@ namespace XRAccelerator.Gameplay
         {
             emission.rateOverTime = 0;
             isPouringActive = false;
+        }
+
+        public void TrackContainer(LiquidContainer liquidContainer)
+        {
+            trackedLiquidContainer = liquidContainer;
         }
 
         private List<IngredientAmount> GetIngredientsForVolume(float liquidVolume)
@@ -137,6 +145,25 @@ namespace XRAccelerator.Gameplay
             return -1;
         }
 
+        private void TrackContainer()
+        {
+            if (trackedLiquidContainer == null)
+            {
+                return;
+            }
+
+            var newParent = trackedLiquidContainer.GetCurrentPourPoint();
+            if (newParent == _transform.parent)
+            {
+                return;
+            }
+
+            _transform.parent = newParent;
+            _transform.localPosition = Vector3.zero;
+            _transform.localScale = Vector3.one;
+            _transform.localRotation = Quaternion.identity;
+        }
+
         private void Update()
         {
             if (!_particleSystem.isPlaying)
@@ -157,10 +184,12 @@ namespace XRAccelerator.Gameplay
             particlesRemovedFromCollision = Mathf.Max(particlesRemovedFromCollision - newlyRemoved, 0);
 
             particlesRemainingToSpawn -= newlyAdded;
-            if (particlesRemainingToSpawn <= 0)
+            if (particlesRemainingToSpawn <= 0 && isPouringActive)
             {
                 EndPour();
             }
+
+            TrackContainer();
         }
 
         void OnParticleTrigger()
@@ -203,12 +232,11 @@ namespace XRAccelerator.Gameplay
 
         private void Start()
         {
-            // todo register colliders
-            var a = ServiceLocator.GetService<ContainerCollidersProvider>().registeredColliders;
-            for (var index = 0; index < a.Count; index++)
+            var registeredColliders = ServiceLocator.GetService<ContainerCollidersProvider>().registeredColliders;
+            for (var index = 0; index < registeredColliders.Count; index++)
             {
-                var collider1 = a[index];
-                _particleSystem.trigger.SetCollider(index, collider1);
+                var newCollider = registeredColliders[index];
+                _particleSystem.trigger.SetCollider(index, newCollider);
             }
         }
 
@@ -216,6 +244,7 @@ namespace XRAccelerator.Gameplay
         {
             pouringIngredients = new List<IngredientAmount>();
 
+            _transform = transform;
             _particleSystem = GetComponent<ParticleSystem>();
             emission = _particleSystem.emission;
             emissionPerTime = emission.rateOverTime;
