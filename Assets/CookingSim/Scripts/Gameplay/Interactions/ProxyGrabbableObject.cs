@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-namespace XRAccelerator
+namespace XRAccelerator.Gameplay
 {
     public class ProxyGrabbableObject : MonoBehaviour
     {

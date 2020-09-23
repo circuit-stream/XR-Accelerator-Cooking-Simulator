@@ -5,7 +5,7 @@ using UnityEngine;
 using XRAccelerator.Configs;
 using XRAccelerator.Gameplay;
 
-namespace XRAccelerator
+namespace XRAccelerator.Gameplay
 {
     public class LiquidPourOrigin : MonoBehaviour
     {
@@ -19,7 +19,6 @@ namespace XRAccelerator
         private List<IngredientAmount> pouringIngredients;
         private float currentLiquidVolume;
         private float particlesRemovedFromCollision;
-        // private float currentLiquidVolume => totalLiquidVolume - volumeRemovedFromCollision;
 
         private int particlesRemainingToSpawn;
         private bool isPouringActive;
@@ -51,7 +50,6 @@ namespace XRAccelerator
 
         private void EndPour()
         {
-            var emission = _particleSystem.emission;
             emission.rateOverTime = 0;
             isPouringActive = false;
         }

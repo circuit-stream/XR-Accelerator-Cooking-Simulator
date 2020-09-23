@@ -1,7 +1,7 @@
 using UnityEngine;
 using XRAccelerator.Enums;
 
-namespace XRAccelerator
+namespace XRAccelerator.Gameplay
 {
     public class ProxyHandVisuals : HandVisuals
     {
