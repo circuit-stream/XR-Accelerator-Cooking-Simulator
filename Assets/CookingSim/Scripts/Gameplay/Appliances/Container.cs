@@ -11,6 +11,11 @@ namespace XRAccelerator.Gameplay
         protected readonly List<IngredientGraphics> CurrentIngredientGraphics = new List<IngredientGraphics>();
         protected RecipeConfig CurrentRecipeConfig;
 
+        public void AddIngredients(List<IngredientAmount> addedIngredients)
+        {
+            IngredientAmount.AddToIngredientsList(CurrentIngredients, addedIngredients);
+        }
+
         protected void SetCurrentRecipe()
         {
             CurrentRecipeConfig = GetRecipeForIngredients(CurrentIngredients);
@@ -58,24 +63,6 @@ namespace XRAccelerator.Gameplay
             if (ingredient != null)
             {
                 OnIngredientExit(ingredient);
-            }
-        }
-
-        private void AddIngredients(List<IngredientAmount> addedIngredients)
-        {
-            foreach (var addedIngredient in addedIngredients)
-            {
-                var oldIngredient = CurrentIngredients.Find(ingredientEntry =>
-                    ingredientEntry.Ingredient == addedIngredient.Ingredient);
-
-                if (oldIngredient != null)
-                {
-                    oldIngredient.Amount += addedIngredient.Amount;
-                    return;
-                }
-
-                var newIngredient = new IngredientAmount {Ingredient = addedIngredient.Ingredient, Amount = addedIngredient.Amount};
-                CurrentIngredients.Add(newIngredient);
             }
         }
 
