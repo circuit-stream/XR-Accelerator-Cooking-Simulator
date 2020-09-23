@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using XRAccelerator.Configs;
-using XRAccelerator.Gameplay;
+using XRAccelerator.Services;
 
 namespace XRAccelerator.Gameplay
 {
@@ -29,7 +27,7 @@ namespace XRAccelerator.Gameplay
         private ParticleSystem.Particle[] particles;
         private HashSet<uint> aliveParticles;
 
-        public void StartPour(List<IngredientAmount> newIngredientsToPour)
+        public void AddIngredientsToPour(List<IngredientAmount> newIngredientsToPour)
         {
             IngredientAmount.AddToIngredientsList(pouringIngredients, newIngredientsToPour);
             var addedLiquidVolume = newIngredientsToPour.Select(a => a.Amount).Sum();
@@ -46,7 +44,7 @@ namespace XRAccelerator.Gameplay
             }
         }
 
-        private void EndPour()
+        public void EndPour()
         {
             emission.rateOverTime = 0;
             isPouringActive = false;
@@ -139,22 +137,8 @@ namespace XRAccelerator.Gameplay
             return -1;
         }
 
-        // TODO Arthur: Remove
-        private IngredientConfig config1;
-        private IngredientConfig config2;
-
         private void Update()
         {
-            // TODO Arthur: Remove
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                StartPour(new List<IngredientAmount>
-                {
-                    new IngredientAmount { Ingredient = config1, Amount = 200},
-                    new IngredientAmount { Ingredient = config2, Amount = 50},
-                });
-            }
-
             if (!_particleSystem.isPlaying)
             {
                 return;
@@ -217,6 +201,17 @@ namespace XRAccelerator.Gameplay
             }
         }
 
+        private void Start()
+        {
+            // todo register colliders
+            var a = ServiceLocator.GetService<ContainerCollidersProvider>().registeredColliders;
+            for (var index = 0; index < a.Count; index++)
+            {
+                var collider1 = a[index];
+                _particleSystem.trigger.SetCollider(index, collider1);
+            }
+        }
+
         private void Awake()
         {
             pouringIngredients = new List<IngredientAmount>();
@@ -230,12 +225,6 @@ namespace XRAccelerator.Gameplay
 
             particles = new ParticleSystem.Particle[_particleSystem.main.maxParticles];
             aliveParticles = new HashSet<uint>();
-
-            // TODO Arthur: Remove
-            config1 = ScriptableObject.CreateInstance<IngredientConfig>();
-            config1.name = "TestIngredient 1";
-            config2 = ScriptableObject.CreateInstance<IngredientConfig>();
-            config2.name = "TestIngredient 2";
         }
     }
 }

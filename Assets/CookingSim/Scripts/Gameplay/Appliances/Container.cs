@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using XRAccelerator.Configs;
+using XRAccelerator.Services;
 
 namespace XRAccelerator.Gameplay
 {
@@ -16,6 +17,9 @@ namespace XRAccelerator.Gameplay
         [SerializeField]
         [Tooltip("LiquidPourOrigin component reference, responsible for the liquid pouring visuals")]
         private LiquidPourOrigin liquidPourOrigin;
+        [SerializeField]
+        [Tooltip("The collider that detects liquid collision and adds it to the container.\nMust be a trigger collider and on Container layer")]
+        private Collider liquidCollider;
 
         protected readonly List<IngredientAmount> CurrentIngredients = new List<IngredientAmount>();
         protected readonly List<IngredientGraphics> CurrentIngredientGraphics = new List<IngredientGraphics>();
@@ -70,7 +74,7 @@ namespace XRAccelerator.Gameplay
             List<IngredientAmount> spilledIngredients = GetLiquidIngredientsForVolume(volumeSpilled);
             RemoveIngredients(spilledIngredients);
 
-            liquidPourOrigin.StartPour(spilledIngredients);
+            liquidPourOrigin.AddIngredientsToPour(spilledIngredients);
         }
 
         private List<IngredientAmount> GetLiquidIngredientsForVolume(float liquidVolume)
@@ -126,6 +130,7 @@ namespace XRAccelerator.Gameplay
 
             liquidContainer.Spilled += Spill;
 
+            ServiceLocator.GetService<ContainerCollidersProvider>().RegisterContainerCollider(liquidCollider);
         }
     }
 }

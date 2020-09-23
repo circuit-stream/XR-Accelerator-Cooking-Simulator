@@ -13,6 +13,7 @@ namespace XRAccelerator.Gameplay
         private void Awake()
         {
             ServiceLocator.RegisterService(new ConfigsProvider());
+            ServiceLocator.RegisterService(new ContainerCollidersProvider());
 
             // TODO Arthur: gestureInteractor might need `DontDestroyOnLoad`
             ServiceLocator.RegisterService(gestureInteractor);

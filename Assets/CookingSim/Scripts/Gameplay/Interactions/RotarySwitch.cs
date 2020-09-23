@@ -32,9 +32,8 @@ namespace XRAccelerator.Gameplay
         [Tooltip("The speed at which the rotation settles")]
         private RotationAxis rotationAxis;
 
-        [SerializeField]
-        [Tooltip("Event triggered when the switch changes state, called with the state index")]
-        public UnityEvent<int> StateChanged = null;
+        [NonSerialized]
+        public Action<int> StateChanged;
 
         private Quaternion? startingControllerRotation;
         private Quaternion? startingRotation;
