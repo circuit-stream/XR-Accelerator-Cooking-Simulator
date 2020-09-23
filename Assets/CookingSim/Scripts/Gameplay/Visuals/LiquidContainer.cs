@@ -28,7 +28,6 @@ namespace XRAccelerator.Gameplay
         private float WobbleRecovery = 1f;
 
         // Container Variables
-        private float containerHeight;
         private float uprightContainerLocalHeight;
         private float currentContainerMaxLocalHeight;
         private float currentContainerExtraLocalHeight;
@@ -55,14 +54,13 @@ namespace XRAccelerator.Gameplay
 
         public void AddLiquid(float volume)
         {
-            // TODO Arthur: Add liquid logic
-            throw new NotImplementedException();
+            currentLiquidHeight += volume / containerVolumePerHeight;
         }
 
         private void Spill(float volumeHeightSpilled)
         {
             currentLiquidHeight -= volumeHeightSpilled;
-            Spilled?.Invoke(GetVolumeForHeight(volumeHeightSpilled));
+            Spilled?.Invoke(volumeHeightSpilled * containerVolumePerHeight);
         }
 
         private void TrySpill()
@@ -92,11 +90,6 @@ namespace XRAccelerator.Gameplay
                              - (currentContainerMaxLocalHeight * 0.5f) // offset from range [0, height] to [-height/2, height/2]
                              - currentContainerExtraLocalHeight; // remove the extra height that can't hold liquid when rotated
             _renderer.material.SetFloat(FillAmountShaderName, shaderFill) ;
-        }
-
-        private float GetVolumeForHeight(float height)
-        {
-            return height * containerVolumePerHeight;
         }
 
         #endregion
@@ -152,10 +145,9 @@ namespace XRAccelerator.Gameplay
             Vector3 containerBounds = _renderer.bounds.size;
             uprightContainerLocalHeight = containerBounds.y;
             currentContainerMaxLocalHeight = uprightContainerLocalHeight;
-            containerHeight = uprightContainerLocalHeight / _transform.localScale.y;
             containerRadius = containerBounds.x * 0.5f;
 
-            containerVolumePerHeight = containerVolume / containerHeight;
+            containerVolumePerHeight = containerVolume / uprightContainerLocalHeight;
 
             // Wobble Variables
             pulse = 2 * Mathf.PI * WobbleSpeed;
@@ -167,8 +159,6 @@ namespace XRAccelerator.Gameplay
             _transform = transform;
 
             InitializeConstantVariables();
-
-            currentLiquidHeight = uprightContainerLocalHeight * 0.8f;
             UpdateShaderFillAmount();
         }
     }

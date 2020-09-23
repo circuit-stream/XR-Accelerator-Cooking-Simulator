@@ -11,9 +11,6 @@ namespace XRAccelerator.Gameplay
     {
         [SerializeField]
         [Tooltip("The container from where the liquid will pour")]
-        private Container container;
-        [SerializeField]
-        [Tooltip("The container from where the liquid will pour")]
         private float liquidVolumePerParticle = 20;
 
         private List<IngredientAmount> pouringIngredients;
@@ -27,7 +24,8 @@ namespace XRAccelerator.Gameplay
         private ParticleSystem.EmissionModule emission;
         private ParticleSystem.MinMaxCurve emissionPerTime;
 
-        private List<ParticleCollisionEvent> collisionEvents;
+        private readonly Collider[] sphereCastColliders = new Collider[30];
+        private readonly List<ParticleSystem.Particle> triggerEnterParticles = new List<ParticleSystem.Particle>();
         private ParticleSystem.Particle[] particles;
         private HashSet<uint> aliveParticles;
 
@@ -163,9 +161,7 @@ namespace XRAccelerator.Gameplay
             }
 
             // TODO Arthur: Position particle system on lowest container edge
-
             int numParticlesAlive = _particleSystem.GetParticles(particles);
-
             var newlyAdded = AddNewlyInstantiatedParticles(numParticlesAlive);
 
             // Remove particles that ended their lifetime
@@ -183,22 +179,42 @@ namespace XRAccelerator.Gameplay
             }
         }
 
-        private void OnParticleCollision(GameObject other)
+        void OnParticleTrigger()
         {
-            var otherContainer = other.GetComponent<Container>();
-            if (otherContainer == null)
+            int numEnter = _particleSystem.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, triggerEnterParticles);
+            var containerCollisions = new Dictionary<Container, int>();
+
+            // Get containers that were hit
+            for (int i = 0; i < numEnter; i++)
             {
-                return;
+                ParticleSystem.Particle particle = triggerEnterParticles[i];
+                particle.remainingLifetime = 0;
+                triggerEnterParticles[i] = particle;
+
+                // TODO Arthur: Get the particle collider radius and substitute the 0.1f
+                var layerMask = LayerMask.GetMask("Container");
+                var size = Physics.OverlapSphereNonAlloc(particle.position, 0.1f, sphereCastColliders, layerMask, QueryTriggerInteraction.Collide);
+                Debug.Assert(size == 1, $"Particle collided but OverlapSphere got {size} hits");
+
+                var container = sphereCastColliders[0].GetComponentInParent<Container>();
+                Debug.Assert(container != null, "LiquidContainer has no Container Component");
+
+                containerCollisions[container] =
+                    containerCollisions.ContainsKey(container) ? containerCollisions[container] + 1 : 1;
             }
 
-            int numCollisionEvents = _particleSystem.GetCollisionEvents(other, collisionEvents);
+            _particleSystem.SetTriggerParticles(ParticleSystemTriggerEventType.Enter, triggerEnterParticles);
 
-            var volumeRemoved = Mathf.Min(numCollisionEvents * liquidVolumePerParticle, currentLiquidVolume);
-            var ingredients = GetIngredientsForVolume(volumeRemoved);
-            RemoveLiquidVolume(volumeRemoved);
-            particlesRemovedFromCollision += numCollisionEvents;
+            // Add ingredients to hit containers
+            foreach (var entry in containerCollisions)
+            {
+                var volumeRemoved = Mathf.Min(entry.Value * liquidVolumePerParticle, currentLiquidVolume);
+                var ingredients = GetIngredientsForVolume(volumeRemoved);
+                RemoveLiquidVolume(volumeRemoved);
+                particlesRemovedFromCollision += entry.Value;
 
-            otherContainer.AddIngredients(ingredients);
+                entry.Key.AddLiquidIngredient(ingredients);
+            }
         }
 
         private void Awake()
@@ -212,7 +228,6 @@ namespace XRAccelerator.Gameplay
             EndPour();
             _particleSystem.Stop();
 
-            collisionEvents = new List<ParticleCollisionEvent>();
             particles = new ParticleSystem.Particle[_particleSystem.main.maxParticles];
             aliveParticles = new HashSet<uint>();
 
