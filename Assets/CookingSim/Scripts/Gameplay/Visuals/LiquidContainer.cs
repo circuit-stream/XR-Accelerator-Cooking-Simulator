@@ -68,6 +68,12 @@ namespace XRAccelerator.Gameplay
             currentLiquidHeight += volume / containerVolumePerHeight;
         }
 
+        public void Empty()
+        {
+            currentLiquidHeight = 0;
+            currentLiquidVolume = 0;
+        }
+
         private Transform GetLowestPoint(List<Transform> points)
         {
             Transform lowestPoint = null;

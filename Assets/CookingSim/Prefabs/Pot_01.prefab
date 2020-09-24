@@ -1269,6 +1269,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5812721878071114985, guid: 5c70c19ea7f83a44ba3ff73b11cdfe02,
+        type: 3}
+      propertyPath: liquidVolumePerParticle
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8972539843485402239, guid: 5c70c19ea7f83a44ba3ff73b11cdfe02,
         type: 3}
       propertyPath: m_Name

@@ -34,7 +34,7 @@ namespace XRAccelerator.Gameplay
         public void AddIngredientsToPour(List<IngredientAmount> newIngredientsToPour)
         {
             IngredientAmount.AddToIngredientsList(pouringIngredients, newIngredientsToPour);
-            var addedLiquidVolume = newIngredientsToPour.Select(a => a.Amount).Sum();
+            var addedLiquidVolume = IngredientAmount.TotalListAmount(newIngredientsToPour);
             currentLiquidVolume += addedLiquidVolume;
             particlesRemainingToSpawn = Mathf.CeilToInt((currentLiquidVolume / liquidVolumePerParticle) - aliveParticles.Count);
 

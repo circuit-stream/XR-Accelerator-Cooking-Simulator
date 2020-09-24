@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using XRAccelerator.Configs;
 
 namespace XRAccelerator.Gameplay
 {
@@ -10,9 +8,16 @@ namespace XRAccelerator.Gameplay
         [SerializeField]
         public List<IngredientAmount> CurrentIngredients = new List<IngredientAmount>();
 
-        public void OnEnterAppliance()
+        protected float CurrentIngredientsAmount => IngredientAmount.TotalListAmount(CurrentIngredients);
+
+        public void SetCurrentIngredientAmount(float newAmount)
         {
-            throw new NotImplementedException();
+            var factor = newAmount / CurrentIngredientsAmount;
+
+            foreach (var ingredientAmount in CurrentIngredients)
+            {
+                ingredientAmount.Amount *= factor;
+            }
         }
     }
 }

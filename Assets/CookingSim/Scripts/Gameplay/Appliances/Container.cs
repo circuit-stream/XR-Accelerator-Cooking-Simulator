@@ -1,14 +1,10 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using XRAccelerator.Configs;
 using XRAccelerator.Services;
 
 namespace XRAccelerator.Gameplay
 {
-    [RequireComponent(typeof(LiquidContainer))]
-    [RequireComponent(typeof(LiquidPourOrigin))]
     public abstract class Container : Appliance
     {
         [SerializeField]
@@ -20,6 +16,9 @@ namespace XRAccelerator.Gameplay
         [SerializeField]
         [Tooltip("The collider that detects liquid collision and adds it to the container.\nMust be a trigger collider and on Container layer")]
         private Collider liquidCollider;
+        [SerializeField]
+        [Tooltip("What ingredient to create on a failed activation")]
+        private IngredientConfig failedRecipeIngredient;
 
         protected readonly List<IngredientAmount> CurrentIngredients = new List<IngredientAmount>();
         protected readonly List<IngredientGraphics> CurrentIngredientGraphics = new List<IngredientGraphics>();
@@ -29,11 +28,82 @@ namespace XRAccelerator.Gameplay
 
         public void AddLiquidIngredient(List<IngredientAmount> addedIngredients)
         {
-            var newlyAddedVolume = addedIngredients.Select(entry => entry.Amount).Sum();
+            var newlyAddedVolume = IngredientAmount.TotalListAmount(addedIngredients);
             currentLiquidVolume += newlyAddedVolume;
 
             OnIngredientsEnter(addedIngredients);
             liquidContainer.AddLiquid(newlyAddedVolume);
+        }
+
+        protected virtual void ExecuteRecipe()
+        {
+            var currentAmount = IngredientAmount.TotalListAmount(CurrentIngredients);
+            if (currentAmount == 0)
+            {
+                return;
+            }
+
+            DestroyCurrentIngredients();
+            CreateRecipeIngredient(currentAmount);
+        }
+
+        private void CreateRecipeIngredient(float amount)
+        {
+            IngredientConfig newIngredientConfig = GetOutputIngredientConfig();
+
+            if (newIngredientConfig is LiquidIngredientConfig)
+            {
+                CreateLiquidIngredient((LiquidIngredientConfig)newIngredientConfig, amount);
+            }
+            else
+            {
+                CreateIngredientGraphics(newIngredientConfig.IngredientPrefab, amount);
+            }
+        }
+
+        private void CreateLiquidIngredient(LiquidIngredientConfig config, float amount)
+        {
+            AddLiquidIngredient(new List<IngredientAmount>
+            {
+                new IngredientAmount {Ingredient = config, Amount = amount}
+            });
+        }
+
+        private void CreateIngredientGraphics(IngredientGraphics prefab, float amount)
+        {
+            var ingredientGraphics = Instantiate(prefab, transform.position, Quaternion.identity);
+            ingredientGraphics.SetCurrentIngredientAmount(amount);
+        }
+
+        protected virtual bool WasRecipeSuccessful()
+        {
+            return CurrentRecipeConfig != null;
+        }
+
+        private IngredientConfig GetOutputIngredientConfig()
+        {
+            if (!WasRecipeSuccessful())
+            {
+                return failedRecipeIngredient;
+            }
+
+            return CurrentRecipeConfig.OutputIngredient;
+        }
+
+        private void DestroyCurrentIngredients()
+        {
+            // Destroy solids
+            foreach (var ingredientGraphics in CurrentIngredientGraphics)
+            {
+                Destroy(ingredientGraphics.gameObject);
+            }
+
+            // Empty container
+            currentLiquidVolume = 0;
+            liquidContainer.Empty();
+
+            CurrentIngredientGraphics.Clear();
+            CurrentIngredients.Clear();
         }
 
         protected virtual void OnIngredientsEnter(List<IngredientAmount> addedIngredients)
@@ -78,24 +148,6 @@ namespace XRAccelerator.Gameplay
             liquidPourOrigin.AddIngredientsToPour(spilledIngredients);
         }
 
-        private List<IngredientAmount> GetLiquidIngredientsForVolume(float liquidVolume)
-        {
-            var newList = new List<IngredientAmount>();
-
-            foreach (var ingredient in CurrentIngredients)
-            {
-                if (ingredient.Ingredient is LiquidIngredientConfig)
-                {
-                    newList.Add(new IngredientAmount
-                    {
-                        Ingredient = ingredient.Ingredient,
-                        Amount = ingredient.Amount * liquidVolume / currentLiquidVolume
-                    });
-                }
-            }
-
-            return newList;
-        }
         private void AddIngredients(List<IngredientAmount> addedIngredients)
         {
             IngredientAmount.AddToIngredientsList(CurrentIngredients, addedIngredients);

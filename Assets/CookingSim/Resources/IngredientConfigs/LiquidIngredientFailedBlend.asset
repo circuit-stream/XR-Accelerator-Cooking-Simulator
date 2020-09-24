@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7be88e72818c4d2d81ebd523f812371d, type: 3}
-  m_Name: LiquidIngredientWater
+  m_Name: LiquidIngredientFailedBlend
   m_EditorClassIdentifier: 
-  IngredientTypes: 090000000a000000
+  IngredientTypes: 09000000
   IngredientPrefab: {fileID: 0}
-  liquidInsideContainerMaterial: {fileID: 2100000, guid: bd1b6fc856b4ae944933ba07c317247d,
+  liquidInsideContainerMaterial: {fileID: 2100000, guid: f531f66761eeb5245935c077ba8b4320,
     type: 2}

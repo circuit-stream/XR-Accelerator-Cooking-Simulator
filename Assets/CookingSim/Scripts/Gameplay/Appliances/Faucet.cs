@@ -39,7 +39,7 @@ namespace CookingSim.Scripts.Gameplay.Appliances
             isApplianceEnabled = false;
         }
 
-        private void OnStateChange(int index)
+        private void OnSwitchStateChange(int index)
         {
             Debug.Assert(index < 2 && index >= 0, "Faucet rotary switch has more states that the faucet handles", gameObject);
 
@@ -62,7 +62,7 @@ namespace CookingSim.Scripts.Gameplay.Appliances
         {
             base.Awake();
 
-            faucetSwitch.StateChanged += OnStateChange;
+            faucetSwitch.StateChanged += OnSwitchStateChange;
         }
     }
 }

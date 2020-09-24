@@ -16,7 +16,7 @@ namespace XRAccelerator.Configs
         {
             if (currentLiquidVolume < 0)
             {
-                currentLiquidVolume = list.Select(entry => entry.Amount).Sum();
+                currentLiquidVolume = IngredientAmount.TotalListAmount(list);
             }
 
             var newList = new List<IngredientAmount>();
