@@ -53,6 +53,11 @@ namespace CookingSim.Scripts.Gameplay.Appliances
             }
         }
 
+        private void Start()
+        {
+            liquidPourOrigin.RegisterParticleColliders();
+        }
+
         protected override void Awake()
         {
             base.Awake();

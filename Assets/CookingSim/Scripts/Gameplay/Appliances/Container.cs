@@ -71,7 +71,8 @@ namespace XRAccelerator.Gameplay
 
         private void Spill(float volumeSpilled)
         {
-            List<IngredientAmount> spilledIngredients = GetLiquidIngredientsForVolume(volumeSpilled);
+            List<IngredientAmount> spilledIngredients =
+                LiquidIngredientConfig.GetLiquidIngredientsForVolume(CurrentIngredients, volumeSpilled, currentLiquidVolume);
             RemoveIngredients(spilledIngredients);
 
             liquidPourOrigin.AddIngredientsToPour(spilledIngredients);
@@ -95,7 +96,6 @@ namespace XRAccelerator.Gameplay
 
             return newList;
         }
-
         private void AddIngredients(List<IngredientAmount> addedIngredients)
         {
             IngredientAmount.AddToIngredientsList(CurrentIngredients, addedIngredients);
@@ -112,6 +112,11 @@ namespace XRAccelerator.Gameplay
 
                 oldIngredient.Amount -= removedIngredient.Amount;
 
+                if (oldIngredient.Ingredient is LiquidIngredientConfig)
+                {
+                    currentLiquidVolume -= removedIngredient.Amount;
+                }
+
                 if (oldIngredient.Amount <= 0)
                 {
                     CurrentIngredients.Remove(oldIngredient);
@@ -124,6 +129,12 @@ namespace XRAccelerator.Gameplay
             CurrentRecipeConfig = GetRecipeForIngredients(CurrentIngredients);
         }
 
+        private void Start()
+        {
+            liquidPourOrigin.RegisterParticleColliders(liquidCollider);
+            liquidPourOrigin.TrackContainer(liquidContainer);
+        }
+
         protected override void Awake()
         {
             base.Awake();
@@ -131,7 +142,6 @@ namespace XRAccelerator.Gameplay
             liquidContainer.Spilled += Spill;
 
             ServiceLocator.GetService<ContainerCollidersProvider>().RegisterContainerCollider(liquidCollider);
-            liquidPourOrigin.TrackContainer(liquidContainer);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using XRAccelerator.Configs;
 using XRAccelerator.Services;
 
 namespace XRAccelerator.Gameplay
@@ -58,20 +59,21 @@ namespace XRAccelerator.Gameplay
             trackedLiquidContainer = liquidContainer;
         }
 
-        private List<IngredientAmount> GetIngredientsForVolume(float liquidVolume)
+        public void RegisterParticleColliders(Collider selfCollider = null)
         {
-            var newList = new List<IngredientAmount>();
-
-            foreach (var pouringIngredient in pouringIngredients)
+            var registeredColliders = ServiceLocator.GetService<ContainerCollidersProvider>().registeredColliders;
+            var skippedColliderOffset = 0;
+            for (var index = 0; index < registeredColliders.Count; index++)
             {
-                newList.Add(new IngredientAmount
+                var newCollider = registeredColliders[index];
+                if (newCollider == selfCollider)
                 {
-                    Ingredient = pouringIngredient.Ingredient,
-                    Amount = pouringIngredient.Amount * liquidVolume / currentLiquidVolume
-                });
-            }
+                    skippedColliderOffset = -1;
+                    continue;
+                }
 
-            return newList;
+                _particleSystem.trigger.SetCollider(index + skippedColliderOffset, newCollider);
+            }
         }
 
         private void RemoveLiquidVolume(float liquidVolume)
@@ -192,7 +194,7 @@ namespace XRAccelerator.Gameplay
             TrackContainer();
         }
 
-        void OnParticleTrigger()
+        private void OnParticleTrigger()
         {
             int numEnter = _particleSystem.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, triggerEnterParticles);
             var containerCollisions = new Dictionary<Container, int>();
@@ -222,21 +224,11 @@ namespace XRAccelerator.Gameplay
             foreach (var entry in containerCollisions)
             {
                 var volumeRemoved = Mathf.Min(entry.Value * liquidVolumePerParticle, currentLiquidVolume);
-                var ingredients = GetIngredientsForVolume(volumeRemoved);
+                var ingredients = LiquidIngredientConfig.GetLiquidIngredientsForVolume(pouringIngredients, volumeRemoved, currentLiquidVolume);
                 RemoveLiquidVolume(volumeRemoved);
                 particlesRemovedFromCollision += entry.Value;
 
                 entry.Key.AddLiquidIngredient(ingredients);
-            }
-        }
-
-        private void Start()
-        {
-            var registeredColliders = ServiceLocator.GetService<ContainerCollidersProvider>().registeredColliders;
-            for (var index = 0; index < registeredColliders.Count; index++)
-            {
-                var newCollider = registeredColliders[index];
-                _particleSystem.trigger.SetCollider(index, newCollider);
             }
         }
 

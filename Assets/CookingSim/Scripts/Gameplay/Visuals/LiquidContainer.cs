@@ -29,16 +29,21 @@ namespace XRAccelerator.Gameplay
         private float WobbleRecovery = 1f;
 
         // Container Variables
-        private float uprightContainerLocalHeight;
-        private float currentContainerMaxLocalHeight;
-        private float currentContainerExtraLocalHeight;
-        private float containerRadius;
-        private float containerVolumePerHeight;
-
-        private float currentLiquidHeight;
-
         private const int pourPointsAmount = 10;
         private List<Transform> pourPoints;
+        private List<Transform> basePoints;
+
+        private float availableLocalHeight;
+        private float extraLocalHeight;
+
+        private float containerRadius;
+        private float radiusLocalScale;
+
+        private float containerVolumePerHeight;
+        private float currentLiquidHeight;
+        public float currentLiquidVolume;
+
+        private float CurrentCalculatedLiquidVolume => currentLiquidHeight * containerVolumePerHeight;
 
         // Wobble Variables
         private Vector3 lastPos;
@@ -52,14 +57,25 @@ namespace XRAccelerator.Gameplay
         private Renderer _renderer;
         private Transform _transform;
 
-        public float CurrentLiquidVolume => currentLiquidHeight * containerVolumePerHeight;
-
         public Transform GetCurrentPourPoint()
+        {
+            return GetLowestPoint(pourPoints);
+        }
+
+        #region Container Logic
+
+        public void AddLiquid(float volume)
+        {
+            currentLiquidVolume += volume;
+            currentLiquidHeight += volume / containerVolumePerHeight;
+        }
+
+        private Transform GetLowestPoint(List<Transform> points)
         {
             Transform lowestPoint = null;
             float lowestHeight = Mathf.Infinity;
 
-            foreach (var point in pourPoints)
+            foreach (var point in points)
             {
                 if (point.position.y < lowestHeight)
                 {
@@ -71,45 +87,66 @@ namespace XRAccelerator.Gameplay
             return lowestPoint;
         }
 
-        #region Container Logic
-
-        public void AddLiquid(float volume)
+        private Transform GetHighestPoint(List<Transform> points)
         {
-            currentLiquidHeight += volume / containerVolumePerHeight;
+            Transform highestPoint = null;
+            float highestHeight = Mathf.NegativeInfinity;
+
+            foreach (var point in points)
+            {
+                if (point.position.y > highestHeight)
+                {
+                    highestHeight = point.position.y;
+                    highestPoint = point;
+                }
+            }
+
+            return highestPoint;
         }
 
         private void Spill(float volumeHeightSpilled)
         {
-            currentLiquidHeight -= volumeHeightSpilled;
-            Spilled?.Invoke(volumeHeightSpilled * containerVolumePerHeight);
+            if (currentLiquidHeight <= 0)
+            {
+                return;
+            }
+
+            var previousHeight = currentLiquidHeight;
+            currentLiquidHeight = Mathf.Max(0,currentLiquidHeight - volumeHeightSpilled);
+            var volumeSpilled = (1 - (currentLiquidHeight / previousHeight)) * currentLiquidVolume;
+            currentLiquidVolume -= volumeSpilled;
+
+            Spilled?.Invoke(volumeSpilled);
         }
 
         private void TrySpill()
         {
-            // TODO Arthur: Consider wobbling
+            var highestPourPoint = GetHighestPoint(pourPoints);
+            var pourPoint = GetCurrentPourPoint();
+            var basePoint = GetLowestPoint(basePoints);
 
-            var eulerAngles = _transform.eulerAngles;
-            var maxAngle = Mathf.Max(GetSignedAngle(eulerAngles.x), GetSignedAngle(eulerAngles.z));
+            var pourYPosition = pourPoint.position.y;
+            availableLocalHeight = (pourYPosition - basePoint.position.y);
+            extraLocalHeight = (highestPourPoint.position.y - pourYPosition) * 0.5f;
+            containerVolumePerHeight = containerVolume / (Mathf.Abs(availableLocalHeight) + extraLocalHeight);
 
-            currentContainerMaxLocalHeight = Mathf.Cos(Mathf.Deg2Rad * maxAngle) * uprightContainerLocalHeight;
-            currentContainerExtraLocalHeight = Mathf.Sin(Mathf.Deg2Rad * maxAngle) * containerRadius;
-
-            if (currentLiquidHeight > currentContainerMaxLocalHeight)
+            if (currentLiquidHeight > availableLocalHeight)
             {
-                Spill(currentLiquidHeight - currentContainerMaxLocalHeight);
+                Spill(currentLiquidHeight - availableLocalHeight);
             }
-        }
-
-        private float GetSignedAngle(float angle)
-        {
-            return Mathf.Abs(angle > 180 ? angle - 360 : angle);
         }
 
         private void UpdateShaderFillAmount()
         {
             var shaderFill = currentLiquidHeight
-                             - (currentContainerMaxLocalHeight * 0.5f) // offset from range [0, height] to [-height/2, height/2]
-                             - currentContainerExtraLocalHeight; // remove the extra height that can't hold liquid when rotated
+                             - (availableLocalHeight * 0.5f) // offset from range [0, height] to [-height/2, height/2]
+                             - extraLocalHeight; // remove the extra height that can't hold liquid when rotated
+
+            if (currentLiquidHeight <= 0)
+            {
+                shaderFill = -500;
+            }
+
             _renderer.material.SetFloat(FillAmountShaderName, shaderFill) ;
         }
 
@@ -160,30 +197,28 @@ namespace XRAccelerator.Gameplay
             UpdateShaderFillAmount();
         }
 
-        private void CreatePourPoints()
+        private void CreatePoints(List<Transform> points, float verticalOffset, string groupName, float horizontalOffset = 0)
         {
-            pourPoints = new List<Transform>();
-            var horizontalScale = _transform.localScale.x;
-            var radius = containerRadius / horizontalScale + 0.05f;
+            var radius = containerRadius / radiusLocalScale + horizontalOffset;
 
-            Transform pourPointsParent = new GameObject("PourPoints").transform;
-            pourPointsParent.parent = _transform;
-            pourPointsParent.rotation = Quaternion.identity;
-            pourPointsParent.localScale = Vector3.one;
-            pourPointsParent.localPosition = new Vector3(0, 1.05f, 0);
+            Transform pointsParent = new GameObject(groupName).transform;
+            pointsParent.parent = _transform;
+            pointsParent.rotation = Quaternion.identity;
+            pointsParent.localScale = Vector3.one;
+            pointsParent.localPosition = new Vector3(0, verticalOffset, 0);
 
             for (int index = 0; index < pourPointsAmount; index++)
             {
-                Transform newObject = new GameObject($"PourPoint{index}").transform;
-                newObject.parent = pourPointsParent;
-                newObject.rotation = Quaternion.identity;
-                newObject.localScale = Vector3.one;
+                Transform newPoint = new GameObject($"Point{index}").transform;
+                newPoint.parent = pointsParent;
+                newPoint.rotation = Quaternion.identity;
+                newPoint.localScale = Vector3.one;
 
                 var x = radius * Mathf.Sin((2 * Mathf.PI * index) / pourPointsAmount);
                 var z = radius * Mathf.Cos((2 * Mathf.PI * index) / pourPointsAmount);
-                newObject.localPosition = new Vector3(x, 0, z);
+                newPoint.localPosition = new Vector3(x, 0, z);
 
-                pourPoints.Add(newObject);
+                points.Add(newPoint);
             }
         }
 
@@ -191,13 +226,17 @@ namespace XRAccelerator.Gameplay
         {
             // Container Variables
             Vector3 containerBounds = _renderer.bounds.size;
-            uprightContainerLocalHeight = containerBounds.y;
-            currentContainerMaxLocalHeight = uprightContainerLocalHeight;
+            availableLocalHeight = containerBounds.y;
+            containerVolumePerHeight = containerVolume / (availableLocalHeight + extraLocalHeight);
+
             containerRadius = containerBounds.x * 0.5f;
+            radiusLocalScale = _transform.localScale.x;
 
-            containerVolumePerHeight = containerVolume / uprightContainerLocalHeight;
+            pourPoints = new List<Transform>();
+            CreatePoints(pourPoints, 1.05f, "PourPoints");
 
-            CreatePourPoints();
+            basePoints = new List<Transform>();
+            CreatePoints(basePoints, -1f, "BasePoints");
 
             // Wobble Variables
             pulse = 2 * Mathf.PI * WobbleSpeed;
