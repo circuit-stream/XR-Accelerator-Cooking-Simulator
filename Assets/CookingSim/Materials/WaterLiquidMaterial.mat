@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LiquidTestMaterial
+  m_Name: WaterLiquidMaterial
   m_Shader: {fileID: -6465566751694194690, guid: 36e072f1285b70f4d8c2fb68ab7dd1b8,
     type: 3}
   m_ShaderKeywords: 
@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_EB06CFCE:
+        m_Texture: {fileID: 2800000, guid: 8b54edcccdece264f9a1ac967e904260, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -56,7 +60,7 @@ Material:
     - _Cutoff: 0.5
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _FillAmount: 1
+    - _FillAmount: 0
     - _FoamColor: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
@@ -77,12 +81,12 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BottomColor: {r: 0, g: 0.6226397, b: 1, a: 1}
+    - _BottomColor: {r: 0, g: 0.6627451, b: 1, a: 0.23529412}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 1, g: 0, b: 0.8916426, a: 0}
+    - _FoamColor: {r: 0, g: 0.6627451, b: 1, a: 0.23529412}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _TopColor: {r: 0.5372549, g: 0.0627451, b: 0.0627451, a: 1}
+    - _TopColor: {r: 0, g: 0.6627451, b: 1, a: 0.23529412}
 --- !u!114 &6127170826230790400
 MonoBehaviour:
   m_ObjectHideFlags: 11
