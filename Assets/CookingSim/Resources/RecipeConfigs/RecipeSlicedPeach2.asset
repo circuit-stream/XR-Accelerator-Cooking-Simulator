@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2954b2d30cd342c29d7c322499fc2293, type: 3}
+  m_Name: RecipeSlicedPeach2
+  m_EditorClassIdentifier: 
+  SourceIngredients:
+  - IngredientTypes: 
+    Ingredients:
+    - {fileID: 11400000, guid: 5daeb322d465ac14285db507e3ff102c, type: 2}
+    - {fileID: 11400000, guid: 03ec08ff46ba00943ba14488576fae5e, type: 2}
+    MinAmount: 0.01
+    MaxAmount: 1
+  ApplianceType: 2
+  OutputIngredient: {fileID: 11400000, guid: 03ec08ff46ba00943ba14488576fae5e, type: 2}
