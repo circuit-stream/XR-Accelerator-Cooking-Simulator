@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace XRAccelerator.Gameplay
@@ -74,16 +75,16 @@ namespace XRAccelerator.Gameplay
             Instantiate(prefab, transform.position, Quaternion.identity);
         }
 
-        protected override void OnIngredientEnter(IngredientGraphics ingredientGraphics)
+        protected override void OnIngredientsEnter(List<IngredientAmount> addedIngredients)
         {
-            base.OnIngredientEnter(ingredientGraphics);
+            base.OnIngredientsEnter(addedIngredients);
 
             TryEnableAppliance();
         }
 
-        protected override void OnIngredientExit(IngredientGraphics ingredientGraphics)
+        protected override void OnIngredientsExit(List<IngredientAmount> removedIngredients)
         {
-            base.OnIngredientExit(ingredientGraphics);
+            base.OnIngredientsExit(removedIngredients);
 
             if (CurrentIngredients.Count == 0)
             {

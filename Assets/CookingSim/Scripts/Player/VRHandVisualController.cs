@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-using XRAccelerator.Enums;
+using XRAccelerator.Gameplay;
 
 namespace XRAccelerator.Player
 {

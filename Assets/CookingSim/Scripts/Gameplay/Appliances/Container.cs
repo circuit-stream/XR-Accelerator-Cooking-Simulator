@@ -1,82 +1,104 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using XRAccelerator.Configs;
+using XRAccelerator.Services;
 
 namespace XRAccelerator.Gameplay
 {
+    [RequireComponent(typeof(LiquidContainer))]
+    [RequireComponent(typeof(LiquidPourOrigin))]
     public abstract class Container : Appliance
     {
+        [SerializeField]
+        [Tooltip("LiquidContainer component reference, responsible for the liquid visuals")]
+        private LiquidContainer liquidContainer;
+        [SerializeField]
+        [Tooltip("LiquidPourOrigin component reference, responsible for the liquid pouring visuals")]
+        private LiquidPourOrigin liquidPourOrigin;
+        [SerializeField]
+        [Tooltip("The collider that detects liquid collision and adds it to the container.\nMust be a trigger collider and on Container layer")]
+        private Collider liquidCollider;
+
         protected readonly List<IngredientAmount> CurrentIngredients = new List<IngredientAmount>();
         protected readonly List<IngredientGraphics> CurrentIngredientGraphics = new List<IngredientGraphics>();
         protected RecipeConfig CurrentRecipeConfig;
 
-        protected void SetCurrentRecipe()
+        private float currentLiquidVolume;
+
+        public void AddLiquidIngredient(List<IngredientAmount> addedIngredients)
         {
-            CurrentRecipeConfig = GetRecipeForIngredients(CurrentIngredients);
+            var newlyAddedVolume = addedIngredients.Select(entry => entry.Amount).Sum();
+            currentLiquidVolume += newlyAddedVolume;
+
+            OnIngredientsEnter(addedIngredients);
+            liquidContainer.AddLiquid(newlyAddedVolume);
         }
 
-        protected void Pour()
+        protected virtual void OnIngredientsEnter(List<IngredientAmount> addedIngredients)
         {
-            // TODO Arthur: Slowly remove liquid ingredients from current Ingredient, instantiate liquid graphics, call OnRemoveIngredient
-            throw new NotImplementedException();
-        }
+            // TODO Arthur: Change container weight
 
-        protected void AddLiquidIngredient()
-        {
-            // TODO Arthur: Change the container to show the liquid
-            throw new NotImplementedException();
-        }
-
-        protected virtual void OnIngredientEnter(IngredientGraphics ingredientGraphics)
-        {
-            AddIngredients(ingredientGraphics.CurrentIngredients);
-            CurrentIngredientGraphics.Add(ingredientGraphics);
+            AddIngredients(addedIngredients);
             SetCurrentRecipe();
-
-            // TODO Arthur: Call OnAddLiquidIngredient
         }
 
-        protected virtual void OnIngredientExit(IngredientGraphics ingredientGraphics)
+        protected virtual void OnIngredientsExit(List<IngredientAmount> removedIngredients)
         {
-            RemoveIngredients(ingredientGraphics.CurrentIngredients);
-            CurrentIngredientGraphics.Remove(ingredientGraphics);
+            RemoveIngredients(removedIngredients);
         }
 
         protected virtual void OnTriggerEnter(Collider other)
         {
-            var ingredient = other.gameObject.GetComponent<IngredientGraphics>();
-            if (ingredient != null)
+            var ingredientGraphics = other.gameObject.GetComponent<IngredientGraphics>();
+            if (ingredientGraphics != null)
             {
-                OnIngredientEnter(ingredient);
+                CurrentIngredientGraphics.Add(ingredientGraphics);
+                OnIngredientsEnter(ingredientGraphics.CurrentIngredients);
             }
         }
 
         protected virtual void OnTriggerExit(Collider other)
         {
-            var ingredient = other.gameObject.GetComponent<IngredientGraphics>();
-            if (ingredient != null)
+            var ingredientGraphics = other.gameObject.GetComponent<IngredientGraphics>();
+            if (ingredientGraphics != null)
             {
-                OnIngredientExit(ingredient);
+                CurrentIngredientGraphics.Remove(ingredientGraphics);
+                OnIngredientsExit(ingredientGraphics.CurrentIngredients);
             }
         }
 
+        private void Spill(float volumeSpilled)
+        {
+            List<IngredientAmount> spilledIngredients =
+                LiquidIngredientConfig.GetLiquidIngredientsForVolume(CurrentIngredients, volumeSpilled, currentLiquidVolume);
+            RemoveIngredients(spilledIngredients);
+
+            liquidPourOrigin.AddIngredientsToPour(spilledIngredients);
+        }
+
+        private List<IngredientAmount> GetLiquidIngredientsForVolume(float liquidVolume)
+        {
+            var newList = new List<IngredientAmount>();
+
+            foreach (var ingredient in CurrentIngredients)
+            {
+                if (ingredient.Ingredient is LiquidIngredientConfig)
+                {
+                    newList.Add(new IngredientAmount
+                    {
+                        Ingredient = ingredient.Ingredient,
+                        Amount = ingredient.Amount * liquidVolume / currentLiquidVolume
+                    });
+                }
+            }
+
+            return newList;
+        }
         private void AddIngredients(List<IngredientAmount> addedIngredients)
         {
-            foreach (var addedIngredient in addedIngredients)
-            {
-                var oldIngredient = CurrentIngredients.Find(ingredientEntry =>
-                    ingredientEntry.Ingredient == addedIngredient.Ingredient);
-
-                if (oldIngredient != null)
-                {
-                    oldIngredient.Amount += addedIngredient.Amount;
-                    return;
-                }
-
-                var newIngredient = new IngredientAmount {Ingredient = addedIngredient.Ingredient, Amount = addedIngredient.Amount};
-                CurrentIngredients.Add(newIngredient);
-            }
+            IngredientAmount.AddToIngredientsList(CurrentIngredients, addedIngredients);
         }
 
         private void RemoveIngredients(List<IngredientAmount> removedIngredients)
@@ -90,11 +112,36 @@ namespace XRAccelerator.Gameplay
 
                 oldIngredient.Amount -= removedIngredient.Amount;
 
+                if (oldIngredient.Ingredient is LiquidIngredientConfig)
+                {
+                    currentLiquidVolume -= removedIngredient.Amount;
+                }
+
                 if (oldIngredient.Amount <= 0)
                 {
                     CurrentIngredients.Remove(oldIngredient);
                 }
             }
+        }
+
+        private void SetCurrentRecipe()
+        {
+            CurrentRecipeConfig = GetRecipeForIngredients(CurrentIngredients);
+        }
+
+        private void Start()
+        {
+            liquidPourOrigin.RegisterParticleColliders(liquidCollider);
+            liquidPourOrigin.TrackContainer(liquidContainer);
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            liquidContainer.Spilled += Spill;
+
+            ServiceLocator.GetService<ContainerCollidersProvider>().RegisterContainerCollider(liquidCollider);
         }
     }
 }
