@@ -41,9 +41,7 @@ namespace XRAccelerator.Gameplay
 
         private float containerVolumePerHeight;
         private float currentLiquidHeight;
-        public float currentLiquidVolume;
-
-        private float CurrentCalculatedLiquidVolume => currentLiquidHeight * containerVolumePerHeight;
+        private float currentLiquidVolume;
 
         // Wobble Variables
         private Vector3 lastPos;

@@ -23,6 +23,7 @@ namespace XRAccelerator.Gameplay
             ).ToList();
 
             SlicedMeshHull.AddHullToGameObject(gameObject, originalIngredient.gameObject, newMesh, slicedSectionMaterial);
+            GetComponent<MeshCollider>().sharedMesh = newMesh;
         }
 
         private float GetNewMeshSizePercentage(Mesh originalMesh, Mesh newMesh)
