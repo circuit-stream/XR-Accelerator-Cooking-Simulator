@@ -103,6 +103,9 @@ namespace XRAccelerator.Gameplay
             // Destroy solids
             foreach (var ingredientGraphics in CurrentIngredientGraphics)
             {
+                // [XRToolkitWorkaround] XRDirectInteractor for some reason is keeping a reference to the XRGrabInteractable
+                // this way we can kill the object and prevent missing references from the colliders access.
+                ingredientGraphics.GetComponent<XRGrabInteractable>().colliders.Clear();
                 Destroy(ingredientGraphics.gameObject);
             }
 
