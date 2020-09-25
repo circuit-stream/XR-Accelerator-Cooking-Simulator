@@ -16,6 +16,9 @@ namespace XRAccelerator.Gameplay
         [SerializeField]
         [Tooltip("How many milliliters this container can hold")]
         private int containerVolume = 200;
+        [SerializeField]
+        [Tooltip("Reference to the liquid meshRenderer")]
+        private MeshRenderer meshRenderer;
 
         [Header("Liquid Wobble")]
         [SerializeField]
@@ -62,10 +65,11 @@ namespace XRAccelerator.Gameplay
 
         #region Container Logic
 
-        public void AddLiquid(float volume)
+        public void AddLiquid(float volume, Material newMaterial)
         {
             currentLiquidVolume += volume;
             currentLiquidHeight += volume / containerVolumePerHeight;
+            meshRenderer.material = newMaterial;
         }
 
         public void Empty()

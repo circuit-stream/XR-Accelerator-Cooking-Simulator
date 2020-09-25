@@ -61,7 +61,7 @@ namespace XRAccelerator.Gameplay
 
         public void RegisterParticleColliders(Collider selfCollider = null)
         {
-            var registeredColliders = ServiceLocator.GetService<ContainerCollidersProvider>().registeredColliders;
+            var registeredColliders = ServiceLocator.GetService<ComponentReferencesProvider>().registeredColliders;
             var skippedColliderOffset = 0;
             for (var index = 0; index < registeredColliders.Count; index++)
             {

@@ -77,7 +77,7 @@ namespace XRAccelerator.Gameplay
         /// </summary>
         /// <param name="index"></param>
         /// <param name="triggerEvents"></param>
-        public void JumpToIndex(int index, bool triggerEvents = true)
+        public void JumpToIndex(int index, bool triggerEvents = false)
         {
             ChangeState(index, triggerEvents);
         }
@@ -265,7 +265,7 @@ namespace XRAccelerator.Gameplay
             Debug.Assert(angleBetweenStates > 0f, "Rotary Switch angle between states must be greater than 0", gameObject);
             Debug.Assert(numberOfStates > indexOfStartingState, "Rotary Switch starting state must be less than number of states", gameObject);
 
-            JumpToIndex(indexOfStartingState - 1, false);
+            JumpToIndex(indexOfStartingState - 1);
             _transform = transform;
 
             onSelectEnter.AddListener(OnBeginInteraction);

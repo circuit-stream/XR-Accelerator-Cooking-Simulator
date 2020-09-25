@@ -101,6 +101,9 @@ MonoBehaviour:
   liquidContainer: {fileID: 8849016690113667553}
   liquidPourOrigin: {fileID: 6848566019266467790}
   liquidCollider: {fileID: 2478925852139877161}
+  failedRecipeIngredient: {fileID: 11400000, guid: 9e9f82b3c9dfb5f4f9f15fefc6b6bf35,
+    type: 2}
+  grabInteractable: {fileID: 0}
   burntIngredientPrefab: {fileID: 7872947307633934621, guid: a76b26c9a348f4a40bc57a1ec4b2c266,
     type: 3}
 --- !u!54 &7434115144970843019
@@ -1204,6 +1207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   containerVolume: 2000
+  meshRenderer: {fileID: 0}
   MaxWobble: 0.01
   WobbleSpeed: 1
   WobbleRecovery: 1
