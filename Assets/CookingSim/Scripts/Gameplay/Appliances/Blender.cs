@@ -28,7 +28,9 @@ namespace CookingSim.Scripts.Gameplay.Appliances
         private void Update()
         {
             if (!isApplianceEnabled)
+            {
                 return;
+            }
 
             applianceEnabledTime += Time.deltaTime;
 
