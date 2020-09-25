@@ -11,7 +11,7 @@ namespace XRAccelerator.Gameplay
     {
         [SerializeField]
         [Tooltip("LiquidContainer component reference, responsible for the liquid visuals")]
-        private LiquidContainer liquidContainer;
+        protected LiquidContainer liquidContainer;
         [SerializeField]
         [Tooltip("LiquidPourOrigin component reference, responsible for the liquid pouring visuals")]
         private LiquidPourOrigin liquidPourOrigin;
@@ -29,7 +29,7 @@ namespace XRAccelerator.Gameplay
         protected readonly List<IngredientGraphics> CurrentIngredientGraphics = new List<IngredientGraphics>();
         protected RecipeConfig CurrentRecipeConfig;
 
-        private float currentLiquidVolume;
+        protected float currentLiquidVolume;
         private bool isBeingGrabbed;
 
         public void AddLiquidIngredient(List<IngredientAmount> addedIngredients)

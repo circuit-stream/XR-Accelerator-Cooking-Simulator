@@ -154,7 +154,7 @@ namespace XRAccelerator.Gameplay
                 return;
             }
 
-            var newParent = trackedLiquidContainer.GetCurrentPourPoint();
+            var newParent = trackedLiquidContainer.GetCurrentPourPoint;
             if (newParent == _transform.parent)
             {
                 return;
