@@ -39,40 +39,17 @@ namespace XRAccelerator.Gameplay
             isApplianceEnabled = false;
         }
 
-        private void ExecuteRecipe()
+        protected override void ExecuteRecipe()
         {
-            DestroyCurrentIngredients();
-            CreateIngredient(GetOutputIngredient());
+            base.ExecuteRecipe();
 
             applianceEnabledTime = 0;
             stirringTime = 0;
         }
 
-        private IngredientGraphics GetOutputIngredient()
+        protected override bool WasRecipeSuccessful()
         {
-            if (stirringTime < minStirringTime || CurrentRecipeConfig == null)
-            {
-                // TODO Arthur Optional: Have different prefab for burnt / wrong ingredients
-                return burntIngredientPrefab;
-            }
-
-            return CurrentRecipeConfig.OutputIngredient.IngredientPrefab;
-        }
-
-        private void DestroyCurrentIngredients()
-        {
-            foreach (var ingredientGraphics in CurrentIngredientGraphics)
-            {
-                Destroy(ingredientGraphics.gameObject);
-            }
-
-            CurrentIngredientGraphics.Clear();
-            CurrentIngredients.Clear();
-        }
-
-        private void CreateIngredient(IngredientGraphics prefab)
-        {
-            Instantiate(prefab, transform.position, Quaternion.identity);
+            return base.WasRecipeSuccessful() && stirringTime < minStirringTime;
         }
 
         protected override void OnIngredientsEnter(List<IngredientAmount> addedIngredients)

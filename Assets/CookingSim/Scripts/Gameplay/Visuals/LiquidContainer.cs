@@ -41,9 +41,7 @@ namespace XRAccelerator.Gameplay
 
         private float containerVolumePerHeight;
         private float currentLiquidHeight;
-        public float currentLiquidVolume;
-
-        private float CurrentCalculatedLiquidVolume => currentLiquidHeight * containerVolumePerHeight;
+        private float currentLiquidVolume;
 
         // Wobble Variables
         private Vector3 lastPos;
@@ -68,6 +66,12 @@ namespace XRAccelerator.Gameplay
         {
             currentLiquidVolume += volume;
             currentLiquidHeight += volume / containerVolumePerHeight;
+        }
+
+        public void Empty()
+        {
+            currentLiquidHeight = 0;
+            currentLiquidVolume = 0;
         }
 
         private Transform GetLowestPoint(List<Transform> points)

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using EzySlice;
@@ -14,19 +15,26 @@ namespace XRAccelerator.Gameplay
 
         [Header("Prefab References")]
         [SerializeField]
+        [Tooltip("Reference to the blade collider")]
         private Collider bladeCollider;
+
         [SerializeField]
+        [Tooltip("Reference to the grip collider")]
         private Collider gripCollider;
+
+        [SerializeField]
+        [Tooltip("XR GrabInteractable component reference")]
+        private XRGrabInteractable grabInteractable;
 
         private Dictionary<Collider, float> colliderCutCooldown;
 
-        public void OnGrab()
+        public void OnGrab(XRBaseInteractor interactor)
         {
             bladeCollider.enabled = true;
             isApplianceEnabled = true;
         }
 
-        public void OnReleaseGrab()
+        public void OnReleaseGrab(XRBaseInteractor interactor)
         {
             bladeCollider.enabled = false;
             isApplianceEnabled = false;
@@ -44,6 +52,7 @@ namespace XRAccelerator.Gameplay
 
             // TODO Arthur: Check for minimum mesh size
             // TODO Arthur: Handle multiple ingredients
+            // TODO Arthur: Detect chop gesture along the blade cut plane
 
             solidIngredient.CurrentIngredients = new List<IngredientAmount>
             {
@@ -56,7 +65,9 @@ namespace XRAccelerator.Gameplay
 
             CreateSlicedIngredient(recipeConfig.OutputIngredient.IngredientPrefab, slicedHull.UpperHull, solidIngredient);
             CreateSlicedIngredient(recipeConfig.OutputIngredient.IngredientPrefab, slicedHull.LowerHull, solidIngredient);
-            Destroy(solidIngredient.gameObject);
+
+            // For some reason I can't destroy it without XRGrabInteractable going bonkers
+            solidIngredient.gameObject.SetActive(false);
         }
 
         private void CreateSlicedIngredient(IngredientGraphics prefab, Mesh newMesh, SolidIngredient originalIngredient)
@@ -110,6 +121,9 @@ namespace XRAccelerator.Gameplay
         {
             base.Awake();
 
+            grabInteractable.onSelectEnter.AddListener(OnGrab);
+            grabInteractable.onSelectExit.AddListener(OnReleaseGrab);
+
             bladeCollider.enabled = false;
             colliderCutCooldown = new Dictionary<Collider, float>();
 
@@ -118,13 +132,13 @@ namespace XRAccelerator.Gameplay
 
 #if UNITY_EDITOR
         // Uncomment for slice plane debug
-        // private void OnDrawGizmos()
-        // {
-        //     var transformRef = transform;
-        //     var plane = new Plane {trans_ref = transformRef};
-        //     plane.Compute(transformRef.position, transformRef.up);
-        //     plane.OnDebugDraw();
-        // }
+        private void OnDrawGizmosSelected()
+        {
+            var transformRef = transform;
+            var plane = new Plane {trans_ref = transformRef};
+            plane.Compute(transformRef.position, transformRef.up);
+            plane.OnDebugDraw();
+        }
 #endif
     }
 }

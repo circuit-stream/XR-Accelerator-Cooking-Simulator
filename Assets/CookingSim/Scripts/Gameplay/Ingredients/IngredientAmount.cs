@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using XRAccelerator.Configs;
 
 namespace XRAccelerator.Gameplay
@@ -27,6 +28,11 @@ namespace XRAccelerator.Gameplay
                     ingredients.Add(newIngredient);
                 }
             }
+        }
+
+        public static float TotalListAmount(List<IngredientAmount> list)
+        {
+            return list.Select(entry => entry.Amount).Sum();
         }
     }
 }

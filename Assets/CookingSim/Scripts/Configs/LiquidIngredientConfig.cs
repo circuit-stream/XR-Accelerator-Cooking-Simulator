@@ -8,11 +8,15 @@ namespace XRAccelerator.Configs
     [CreateAssetMenu(fileName = "new Liquid Ingredient Config", menuName = "Configs/Liquid Ingredient", order = 0)]
     public class LiquidIngredientConfig : IngredientConfig
     {
+        [SerializeField]
+        [Tooltip("The material used by the liquid whilst inside a container.")]
+        private Material liquidInsideContainerMaterial;
+
         public static List<IngredientAmount> GetLiquidIngredientsForVolume(List<IngredientAmount> list, float liquidVolume, float currentLiquidVolume = -1)
         {
             if (currentLiquidVolume < 0)
             {
-                currentLiquidVolume = list.Select(entry => entry.Amount).Sum();
+                currentLiquidVolume = IngredientAmount.TotalListAmount(list);
             }
 
             var newList = new List<IngredientAmount>();
