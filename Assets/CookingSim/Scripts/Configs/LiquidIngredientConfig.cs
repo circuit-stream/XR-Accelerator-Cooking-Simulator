@@ -10,7 +10,7 @@ namespace XRAccelerator.Configs
     {
         [SerializeField]
         [Tooltip("The material used by the liquid whilst inside a container.")]
-        private Material liquidInsideContainerMaterial;
+        public Material liquidInsideContainerMaterial;
 
         public static List<IngredientAmount> GetLiquidIngredientsForVolume(List<IngredientAmount> list, float liquidVolume, float currentLiquidVolume = -1)
         {
@@ -34,6 +34,26 @@ namespace XRAccelerator.Configs
             }
 
             return newList;
+        }
+
+        public static LiquidIngredientConfig GetLiquidWithMostVolume(List<IngredientAmount> list)
+        {
+            LiquidIngredientConfig ingredientWithMostLiquid = null;
+            float maxVolume = Mathf.NegativeInfinity;
+
+            foreach (var ingredientAmount in list)
+            {
+                if (ingredientAmount.Ingredient is LiquidIngredientConfig)
+                {
+                    if (ingredientAmount.Amount > maxVolume)
+                    {
+                        maxVolume = ingredientAmount.Amount;
+                        ingredientWithMostLiquid = (LiquidIngredientConfig)ingredientAmount.Ingredient;
+                    }
+                }
+            }
+
+            return ingredientWithMostLiquid;
         }
     }
 }

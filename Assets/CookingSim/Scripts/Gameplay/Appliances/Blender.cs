@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 using XRAccelerator.Gameplay;
 
 namespace CookingSim.Scripts.Gameplay.Appliances
@@ -8,6 +9,7 @@ namespace CookingSim.Scripts.Gameplay.Appliances
         // TODO Arthur Optional: blend time per recipe
         private const float blendTime = 5;
 
+        [Header("Blender Specific")]
         [SerializeField]
         [Tooltip("The switch that will enable the faucet")]
         private RotarySwitch blenderSwitch;
@@ -15,6 +17,14 @@ namespace CookingSim.Scripts.Gameplay.Appliances
         [SerializeField]
         [Tooltip("Reference to the blender animator")]
         private Animator animator;
+
+        [SerializeField]
+        [Tooltip("Reference to the lid socket")]
+        private GrabInteractableSocket lidSocket;
+        [SerializeField]
+
+        [Tooltip("Reference to the glass socket")]
+        private GrabInteractableSocket glassSocket;
 
         private float applianceEnabledTime;
 
@@ -42,12 +52,16 @@ namespace CookingSim.Scripts.Gameplay.Appliances
 
         private void EnableAppliance()
         {
-            // TODO: Check if lid and glass is in place
+            if (!lidSocket.IsInteractableAttached || !glassSocket.IsInteractableAttached)
+            {
+                // TODO Arthur: Visual feedback
+                return;
+            }
 
             isApplianceEnabled = true;
             applianceEnabledTime = 0;
 
-            // TODO: animator / timer
+            // TODO Arthur: animator / timer
         }
 
         private void DisableAppliance()
@@ -68,11 +82,27 @@ namespace CookingSim.Scripts.Gameplay.Appliances
             }
         }
 
+        private void OnSwitchGrabRelease(XRBaseInteractor interactor)
+        {
+            if (!isApplianceEnabled && blenderSwitch.CurrentStateIndex > 0)
+            {
+                blenderSwitch.JumpToIndex(0);
+            }
+        }
+
+        private void OnGlassAttach()
+        {
+            ForceIngredientsStayInContainer();
+            StartCoroutine(DisableForceIngredientsStayInContainer());
+        }
+
         protected override void Awake()
         {
             base.Awake();
 
             blenderSwitch.StateChanged += OnSwitchStateChange;
+            blenderSwitch.onSelectEnter.AddListener(OnSwitchGrabRelease);
+            glassSocket.OnAttach += OnGlassAttach;
         }
     }
 }

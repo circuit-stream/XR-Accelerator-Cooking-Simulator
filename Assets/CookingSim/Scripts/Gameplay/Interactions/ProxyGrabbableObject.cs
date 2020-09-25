@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using XRAccelerator.Services;
 
 namespace XRAccelerator.Gameplay
 {
@@ -35,36 +36,7 @@ namespace XRAccelerator.Gameplay
         private XRBaseInteractor currentInteractor;
         private XRController currentController;
         private Joint currentJoint;
-        private bool isGrabbed;
-
-        private void Awake()
-        {
-            proxyBody = GetComponent<Rigidbody>();
-            proxyCollider = proxyBody.GetComponent<Collider>();
-            var grabInteractable = GetComponent<XRGrabInteractable>();
-
-            proxyTransform = transform;
-            proxyParent = proxyTransform.parent;
-
-            initialPosition = proxyTransform.localPosition;
-            initialRotation = proxyTransform.localRotation;
-            initialSmoothRotationAmount = grabInteractable.smoothRotationAmount;
-            initialTightenRotation = grabInteractable.tightenRotation;
-            initialMovementType = grabInteractable.movementType;
-
-            grabInteractable.onSelectEnter.AddListener(OnGrab);
-            grabInteractable.onSelectExit.AddListener(OnGrabRelease);
-        }
-
-        private void Update()
-        {
-            if (isGrabbed)
-            {
-                return;
-            }
-
-            ResetGrabbableTransform();
-        }
+        private bool isBeingGrabbed;
 
         private void OnJointBreak(float _)
         {
@@ -99,7 +71,7 @@ namespace XRAccelerator.Gameplay
 
         private void OnGrab(XRBaseInteractor interactor)
         {
-            isGrabbed = true;
+            isBeingGrabbed = true;
             currentInteractor = interactor;
             currentController = currentInteractor.GetComponent<XRController>();
 
@@ -109,7 +81,7 @@ namespace XRAccelerator.Gameplay
 
         private void OnGrabRelease(XRBaseInteractor interactor)
         {
-            isGrabbed = false;
+            isBeingGrabbed = false;
             DestroyJoint();
             DisableProxyHandVisual();
 
@@ -154,6 +126,56 @@ namespace XRAccelerator.Gameplay
             {
                 Destroy(currentJoint);
                 currentJoint = null;
+            }
+        }
+
+        private void OnRigStartLocomotion(LocomotionSystem locomotionSystem)
+        {
+            if (isBeingGrabbed)
+            {
+                proxyCollider.enabled = false;
+                DestroyXRGrabInteractableComponent();
+                StartCoroutine(ReenableGrab());
+            }
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                DestroyJoint();
+            }
+
+            if (isBeingGrabbed)
+            {
+                return;
+            }
+
+            ResetGrabbableTransform();
+        }
+
+        private void Awake()
+        {
+            proxyBody = GetComponent<Rigidbody>();
+            proxyCollider = proxyBody.GetComponent<Collider>();
+            var grabInteractable = GetComponent<XRGrabInteractable>();
+
+            proxyTransform = transform;
+            proxyParent = proxyTransform.parent;
+
+            initialPosition = proxyTransform.localPosition;
+            initialRotation = proxyTransform.localRotation;
+            initialSmoothRotationAmount = grabInteractable.smoothRotationAmount;
+            initialTightenRotation = grabInteractable.tightenRotation;
+            initialMovementType = grabInteractable.movementType;
+
+            grabInteractable.onSelectEnter.AddListener(OnGrab);
+            grabInteractable.onSelectExit.AddListener(OnGrabRelease);
+
+            var referencesProvider = ServiceLocator.GetService<ComponentReferencesProvider>();
+            foreach (var locomotionProvider in referencesProvider.registeredLocomotionProviders)
+            {
+                locomotionProvider.startLocomotion += OnRigStartLocomotion;
             }
         }
 

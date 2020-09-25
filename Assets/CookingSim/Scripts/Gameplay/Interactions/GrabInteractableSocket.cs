@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -10,6 +11,8 @@ namespace XRAccelerator.Gameplay
         [Tooltip("The grabInteractable that occupies this socket")]
         private XRGrabInteractable grabInteractable;
 
+        public Action OnAttach;
+
         private bool isInsideTrigger;
         private bool isInteracting;
 
@@ -20,14 +23,16 @@ namespace XRAccelerator.Gameplay
         private Transform interactableTransform;
         private Rigidbody interactableRigidbody;
 
+        public bool IsInteractableAttached { get; private set; } = true;
+
         private void Attach()
         {
-            interactableTransform.parent = initialParent;
-            interactableTransform.localPosition = initialPosition;
-            interactableTransform.localRotation = initialRotation;
-            interactableTransform.localScale = initialScale;
+            OnAttach?.Invoke();
 
-            interactableRigidbody.isKinematic = true;
+            interactableTransform.parent = initialParent;
+            ResetInteractableTransform();
+
+            IsInteractableAttached = true;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -58,6 +63,7 @@ namespace XRAccelerator.Gameplay
         private void OnGrab(XRBaseInteractor interactor)
         {
             isInteracting = true;
+            IsInteractableAttached = false;
         }
 
         private void OnGrabRelease(XRBaseInteractor interactor)
@@ -70,6 +76,22 @@ namespace XRAccelerator.Gameplay
             }
         }
 
+        private void ResetInteractableTransform()
+        {
+            interactableTransform.localRotation = initialRotation;
+            interactableTransform.localPosition = initialPosition;
+            interactableRigidbody.position = interactableTransform.position;
+            interactableRigidbody.rotation = interactableTransform.rotation;
+        }
+
+        private void Update()
+        {
+            if (IsInteractableAttached)
+            {
+                ResetInteractableTransform();
+            }
+        }
+
         private void Awake()
         {
             interactableTransform = grabInteractable.transform;
@@ -79,8 +101,6 @@ namespace XRAccelerator.Gameplay
             initialRotation = interactableTransform.localRotation;
             initialScale = interactableTransform.localScale;
             initialParent = interactableTransform.parent;
-
-            interactableRigidbody.isKinematic = true;
 
             grabInteractable.onSelectEnter.AddListener(OnGrab);
             grabInteractable.onSelectExit.AddListener(OnGrabRelease);

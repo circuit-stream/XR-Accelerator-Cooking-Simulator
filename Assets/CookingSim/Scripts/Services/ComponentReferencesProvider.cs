@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace XRAccelerator.Services
 {
-    public class ContainerCollidersProvider
+    public class ComponentReferencesProvider
     {
         public readonly List<Collider> registeredColliders;
+        public readonly List<LocomotionProvider> registeredLocomotionProviders;
 
         public void RegisterContainerCollider(Collider collider)
         {
@@ -23,9 +25,18 @@ namespace XRAccelerator.Services
             registeredColliders.Remove(collider);
         }
 
-        public ContainerCollidersProvider()
+        public void RegisterLocomotionProviders(GameObject locomotionProviderHost)
+        {
+            foreach (var locomotionProvider in locomotionProviderHost.GetComponents<LocomotionProvider>())
+            {
+                registeredLocomotionProviders.Add(locomotionProvider);
+            }
+        }
+
+        public ComponentReferencesProvider()
         {
             registeredColliders = new List<Collider>();
+            registeredLocomotionProviders = new List<LocomotionProvider>();
         }
     }
 }

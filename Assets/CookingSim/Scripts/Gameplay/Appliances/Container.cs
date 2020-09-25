@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 using XRAccelerator.Configs;
 using XRAccelerator.Services;
 
@@ -19,12 +21,16 @@ namespace XRAccelerator.Gameplay
         [SerializeField]
         [Tooltip("What ingredient to create on a failed activation")]
         private IngredientConfig failedRecipeIngredient;
+        [SerializeField]
+        [Tooltip("Reference to the grabInteractable component of this container")]
+        private XRGrabInteractable grabInteractable;
 
         protected readonly List<IngredientAmount> CurrentIngredients = new List<IngredientAmount>();
         protected readonly List<IngredientGraphics> CurrentIngredientGraphics = new List<IngredientGraphics>();
         protected RecipeConfig CurrentRecipeConfig;
 
         private float currentLiquidVolume;
+        private bool isBeingGrabbed;
 
         public void AddLiquidIngredient(List<IngredientAmount> addedIngredients)
         {
@@ -32,7 +38,9 @@ namespace XRAccelerator.Gameplay
             currentLiquidVolume += newlyAddedVolume;
 
             OnIngredientsEnter(addedIngredients);
-            liquidContainer.AddLiquid(newlyAddedVolume);
+
+            var ingredientWithMostLiquid = LiquidIngredientConfig.GetLiquidWithMostVolume(CurrentIngredients);
+            liquidContainer.AddLiquid(newlyAddedVolume, ingredientWithMostLiquid.liquidInsideContainerMaterial);
         }
 
         protected virtual void ExecuteRecipe()
@@ -176,6 +184,58 @@ namespace XRAccelerator.Gameplay
             }
         }
 
+        protected void ForceIngredientsStayInContainer()
+        {
+            var transformRef = transform;
+            foreach (var ingredientGraphic in CurrentIngredientGraphics)
+            {
+                ingredientGraphic.transform.parent = transformRef;
+                ingredientGraphic.GetComponent<Rigidbody>().isKinematic = true;
+            }
+        }
+
+        protected IEnumerator DisableForceIngredientsStayInContainer(float waitTime = 0.1f)
+        {
+            // Wait reposition or whatever finish before disabling
+            yield return new WaitForSeconds(waitTime);
+
+            foreach (var ingredientGraphic in CurrentIngredientGraphics)
+            {
+                ingredientGraphic.transform.parent = null;
+                var body = ingredientGraphic.GetComponent<Rigidbody>();
+                body.position = transform.position;
+                body.isKinematic = false;
+            }
+        }
+
+        private void OnRigStartLocomotion(LocomotionSystem locomotionSystem)
+        {
+            if (isBeingGrabbed)
+            {
+                ForceIngredientsStayInContainer();
+            }
+        }
+
+        private void OnRigEndLocomotion(LocomotionSystem locomotionSystem)
+        {
+            if (isBeingGrabbed)
+            {
+                StartCoroutine(DisableForceIngredientsStayInContainer());
+            }
+        }
+
+        private void OnGrab(XRBaseInteractor interactor)
+        {
+            isBeingGrabbed = true;
+            ForceIngredientsStayInContainer();
+            StartCoroutine(DisableForceIngredientsStayInContainer());
+        }
+
+        private void OnGrabRelease(XRBaseInteractor interactor)
+        {
+            isBeingGrabbed = false;
+        }
+
         private void SetCurrentRecipe()
         {
             CurrentRecipeConfig = GetRecipeForIngredients(CurrentIngredients);
@@ -193,7 +253,20 @@ namespace XRAccelerator.Gameplay
 
             liquidContainer.Spilled += Spill;
 
-            ServiceLocator.GetService<ContainerCollidersProvider>().RegisterContainerCollider(liquidCollider);
+            ServiceLocator.GetService<ComponentReferencesProvider>().RegisterContainerCollider(liquidCollider);
+
+            var referencesProvider = ServiceLocator.GetService<ComponentReferencesProvider>();
+            foreach (var locomotionProvider in referencesProvider.registeredLocomotionProviders)
+            {
+                locomotionProvider.startLocomotion += OnRigStartLocomotion;
+                locomotionProvider.endLocomotion += OnRigEndLocomotion;
+            }
+
+            if (grabInteractable != null)
+            {
+                grabInteractable.onSelectEnter.AddListener(OnGrab);
+                grabInteractable.onSelectExit.AddListener(OnGrabRelease);
+            }
         }
     }
 }
