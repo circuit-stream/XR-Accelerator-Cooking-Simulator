@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 889469694404238366}
   - component: {fileID: 6896888653685880416}
   - component: {fileID: 5020809367897835532}
+  - component: {fileID: 6264255140348380865}
   m_Layer: 0
   m_Name: islandTop
   m_TagString: Untagged
@@ -318,6 +319,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &6264255140348380865
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4643918751523605671}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0286998, y: 0.03449974, z: 2.0764499}
+  m_Center: {x: 0.5143499, y: 0.01724987, z: -1.0382249}
 --- !u!1 &5278884160957170859
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,7 +342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4758490063849496081}
   m_Layer: 0
-  m_Name: kitchenIsland
+  m_Name: KitchenIsland
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
