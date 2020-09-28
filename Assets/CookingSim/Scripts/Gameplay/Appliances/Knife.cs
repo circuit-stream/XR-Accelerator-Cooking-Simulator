@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using EzySlice;
@@ -11,7 +10,8 @@ namespace XRAccelerator.Gameplay
 {
     public class Knife : Appliance
     {
-        private const float cutCooldown = 1f;
+        private const float cutCooldown = 0.2f;
+        private const float bladeCooldown = 0.2f;
 
         [Header("Prefab References")]
         [SerializeField]
@@ -26,23 +26,25 @@ namespace XRAccelerator.Gameplay
         [Tooltip("XR GrabInteractable component reference")]
         private XRGrabInteractable grabInteractable;
 
+        [SerializeField]
+        [Tooltip("Reference to the audioSouce component for cutting sound feedback")]
+        private AudioSource audioSource;
+
         private Dictionary<Collider, float> colliderCutCooldown;
+        private float currentBladeCooldown;
 
         public void OnGrab(XRBaseInteractor interactor)
         {
-            bladeCollider.enabled = true;
             isApplianceEnabled = true;
         }
 
         public void OnReleaseGrab(XRBaseInteractor interactor)
         {
-            bladeCollider.enabled = false;
             isApplianceEnabled = false;
         }
 
         private void Cut(SolidIngredient solidIngredient, RecipeConfig recipeConfig, Collision other)
         {
-            // TODO: Check if collision normal and blade normal is too far apart
             var bladeTransform = other.contacts[0].thisCollider.transform;
             SlicedMeshHull slicedHull = MeshSlicerUtils.Slice(solidIngredient.gameObject, other.contacts[0].point, bladeTransform.up);
             if (slicedHull == null || slicedHull.UpperHull == null || slicedHull.LowerHull == null)
@@ -50,9 +52,14 @@ namespace XRAccelerator.Gameplay
                 return;
             }
 
+            currentBladeCooldown = bladeCooldown;
+            bladeCollider.enabled = false;
+
+
             // TODO Arthur: Check for minimum mesh size
             // TODO Arthur: Handle multiple ingredients
             // TODO Arthur: Detect chop gesture along the blade cut plane
+            // TODO Arthur: Check if collision normal and blade normal is too far apart
 
             solidIngredient.CurrentIngredients = new List<IngredientAmount>
             {
@@ -65,9 +72,17 @@ namespace XRAccelerator.Gameplay
 
             CreateSlicedIngredient(recipeConfig.OutputIngredient.IngredientPrefab, slicedHull.UpperHull, solidIngredient);
             CreateSlicedIngredient(recipeConfig.OutputIngredient.IngredientPrefab, slicedHull.LowerHull, solidIngredient);
+            KillIngredient(solidIngredient);
 
-            // For some reason I can't destroy it without XRGrabInteractable going bonkers
-            solidIngredient.gameObject.SetActive(false);
+            audioSource.Play();
+        }
+
+        private void KillIngredient(SolidIngredient solidIngredient)
+        {
+            // [XRToolkitWorkaround] XRDirectInteractor for some reason is keeping a reference to the XRGrabInteractable
+            // this way we can kill the object and prevent missing references from the colliders access.
+            solidIngredient.GetComponent<XRGrabInteractable>().colliders.Clear();
+            Destroy(solidIngredient.gameObject);
         }
 
         private void CreateSlicedIngredient(IngredientGraphics prefab, Mesh newMesh, SolidIngredient originalIngredient)
@@ -79,7 +94,13 @@ namespace XRAccelerator.Gameplay
 
         private void OnCollisionEnter(Collision other)
         {
+            Debug.Log($"Collision velocity: {GetComponent<Rigidbody>().velocity}");
             if (!isApplianceEnabled)
+            {
+                return;
+            }
+
+            if (colliderCutCooldown.ContainsKey(other.collider) || currentBladeCooldown > 0)
             {
                 return;
             }
@@ -96,16 +117,17 @@ namespace XRAccelerator.Gameplay
                 return;
             }
 
-            if (colliderCutCooldown.ContainsKey(other.collider))
-            {
-                return;
-            }
-
             Cut(solidIngredient, recipe, other);
         }
 
         private void Update()
         {
+            currentBladeCooldown -= Time.deltaTime;
+            if (currentBladeCooldown < 0)
+            {
+                bladeCollider.enabled = true;
+            }
+
             foreach (var pair in colliderCutCooldown.ToList())
             {
                 colliderCutCooldown[pair.Key] = pair.Value - Time.deltaTime;
@@ -124,7 +146,6 @@ namespace XRAccelerator.Gameplay
             grabInteractable.onSelectEnter.AddListener(OnGrab);
             grabInteractable.onSelectExit.AddListener(OnReleaseGrab);
 
-            bladeCollider.enabled = false;
             colliderCutCooldown = new Dictionary<Collider, float>();
 
             Physics.IgnoreCollision(gripCollider, bladeCollider);

@@ -19,6 +19,9 @@ namespace XRAccelerator.Gameplay
         [SerializeField]
         [Tooltip("Reference to the liquid meshRenderer")]
         private MeshRenderer meshRenderer;
+        [SerializeField]
+        [Tooltip("[Optional] Reference to a particle system to indicate the liquid is rotating")]
+        private ParticleSystem stirringParticleSystem;
 
         [Header("Liquid Wobble")]
         [SerializeField]
@@ -46,6 +49,10 @@ namespace XRAccelerator.Gameplay
         private float currentLiquidHeight;
         private float currentLiquidVolume;
 
+        private Transform lowestPourPoint;
+        private Transform highestPourPoint;
+        private Transform lowestBasePoint;
+
         // Wobble Variables
         private Vector3 lastPos;
         private Vector3 lastRot;
@@ -58,12 +65,7 @@ namespace XRAccelerator.Gameplay
         private Renderer _renderer;
         private Transform _transform;
 
-        public Transform GetCurrentPourPoint()
-        {
-            return GetLowestPoint(pourPoints);
-        }
-
-        #region Container Logic
+        public Transform GetCurrentPourPoint => lowestPourPoint;
 
         public void AddLiquid(float volume, Material newMaterial)
         {
@@ -77,6 +79,21 @@ namespace XRAccelerator.Gameplay
             currentLiquidHeight = 0;
             currentLiquidVolume = 0;
         }
+
+        public void StartStirring()
+        {
+            if (currentLiquidVolume > 0)
+            {
+                stirringParticleSystem.Play();
+            }
+        }
+
+        public void StopStirring()
+        {
+            stirringParticleSystem.Stop();
+        }
+
+        #region Container Logic
 
         private Transform GetLowestPoint(List<Transform> points)
         {
@@ -112,6 +129,13 @@ namespace XRAccelerator.Gameplay
             return highestPoint;
         }
 
+        private float GetLiquidLocalHeight()
+        {
+            return currentLiquidHeight
+                 - (availableLocalHeight * 0.5f) // offset from range [0, height] to [-height/2, height/2]
+                 - extraLocalHeight; // remove the extra height that can't hold liquid when rotated
+        }
+
         private void Spill(float volumeHeightSpilled)
         {
             if (currentLiquidHeight <= 0)
@@ -129,12 +153,8 @@ namespace XRAccelerator.Gameplay
 
         private void TrySpill()
         {
-            var highestPourPoint = GetHighestPoint(pourPoints);
-            var pourPoint = GetCurrentPourPoint();
-            var basePoint = GetLowestPoint(basePoints);
-
-            var pourYPosition = pourPoint.position.y;
-            availableLocalHeight = (pourYPosition - basePoint.position.y);
+            var pourYPosition = lowestPourPoint.position.y;
+            availableLocalHeight = (pourYPosition - lowestBasePoint.position.y);
             extraLocalHeight = (highestPourPoint.position.y - pourYPosition) * 0.5f;
             containerVolumePerHeight = containerVolume / (Mathf.Abs(availableLocalHeight) + extraLocalHeight);
 
@@ -146,15 +166,7 @@ namespace XRAccelerator.Gameplay
 
         private void UpdateShaderFillAmount()
         {
-            var shaderFill = currentLiquidHeight
-                             - (availableLocalHeight * 0.5f) // offset from range [0, height] to [-height/2, height/2]
-                             - extraLocalHeight; // remove the extra height that can't hold liquid when rotated
-
-            if (currentLiquidHeight <= 0)
-            {
-                shaderFill = -500;
-            }
-
+            float shaderFill = currentLiquidHeight <= 0 ? -500 : GetLiquidLocalHeight();
             _renderer.material.SetFloat(FillAmountShaderName, shaderFill) ;
         }
 
@@ -199,6 +211,10 @@ namespace XRAccelerator.Gameplay
 
         private void Update()
         {
+            lowestPourPoint = GetLowestPoint(pourPoints);
+            highestPourPoint = GetHighestPoint(pourPoints);
+            lowestBasePoint = GetLowestPoint(basePoints);
+
             Wobble();
 
             TrySpill();

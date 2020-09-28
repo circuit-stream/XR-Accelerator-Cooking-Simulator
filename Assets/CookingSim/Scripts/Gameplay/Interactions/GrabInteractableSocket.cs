@@ -11,6 +11,10 @@ namespace XRAccelerator.Gameplay
         [Tooltip("The grabInteractable that occupies this socket")]
         private XRGrabInteractable grabInteractable;
 
+        [SerializeField]
+        [Tooltip("List of all interactable non trigger colliders")]
+        public Collider[] interactableColliders;
+
         public Action OnAttach;
 
         private bool isInsideTrigger;
@@ -24,6 +28,17 @@ namespace XRAccelerator.Gameplay
         private Rigidbody interactableRigidbody;
 
         public bool IsInteractableAttached { get; private set; } = true;
+
+        public void IgnoreCollisionWith(Collider[] ignoreColliders)
+        {
+            foreach (var interactableCollider in interactableColliders)
+            {
+                foreach (var ignoreCollider in ignoreColliders)
+                {
+                    Physics.IgnoreCollision(interactableCollider, ignoreCollider);
+                }
+            }
+        }
 
         private void Attach()
         {

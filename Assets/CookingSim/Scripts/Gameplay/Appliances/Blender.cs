@@ -8,23 +8,25 @@ namespace CookingSim.Scripts.Gameplay.Appliances
     {
         // TODO Arthur Optional: blend time per recipe
         private const float blendTime = 5;
+        private static readonly int BlendingHashName = Animator.StringToHash("Blending");
 
         [Header("Blender Specific")]
         [SerializeField]
         [Tooltip("The switch that will enable the faucet")]
         private RotarySwitch blenderSwitch;
-
-        [SerializeField]
-        [Tooltip("Reference to the blender animator")]
-        private Animator animator;
-
         [SerializeField]
         [Tooltip("Reference to the lid socket")]
         private GrabInteractableSocket lidSocket;
         [SerializeField]
-
         [Tooltip("Reference to the glass socket")]
         private GrabInteractableSocket glassSocket;
+
+        [SerializeField]
+        [Tooltip("Reference to the blender animator")]
+        private Animator animator;
+        [SerializeField]
+        [Tooltip("Reference to the audioSource component")]
+        private AudioSource audioSource;
 
         private float applianceEnabledTime;
 
@@ -52,6 +54,11 @@ namespace CookingSim.Scripts.Gameplay.Appliances
 
         private void EnableAppliance()
         {
+            if (isApplianceEnabled)
+            {
+                return;
+            }
+
             if (!lidSocket.IsInteractableAttached || !glassSocket.IsInteractableAttached)
             {
                 // TODO Arthur: Visual feedback
@@ -61,12 +68,19 @@ namespace CookingSim.Scripts.Gameplay.Appliances
             isApplianceEnabled = true;
             applianceEnabledTime = 0;
 
-            // TODO Arthur: animator / timer
+            // TODO Arthur Optional: Move these to a timeline
+            liquidContainer.StartStirring();
+            audioSource.Play();
+            animator.SetBool(BlendingHashName, true);
         }
 
         private void DisableAppliance()
         {
             isApplianceEnabled = false;
+
+            liquidContainer.StopStirring();
+            audioSource.Stop();
+            animator.SetBool(BlendingHashName, false);
         }
 
         private void OnSwitchStateChange(int index)
@@ -101,8 +115,9 @@ namespace CookingSim.Scripts.Gameplay.Appliances
             base.Awake();
 
             blenderSwitch.StateChanged += OnSwitchStateChange;
-            blenderSwitch.onSelectEnter.AddListener(OnSwitchGrabRelease);
+            blenderSwitch.onSelectExit.AddListener(OnSwitchGrabRelease);
             glassSocket.OnAttach += OnGlassAttach;
+            glassSocket.IgnoreCollisionWith(lidSocket.interactableColliders);
         }
     }
 }
