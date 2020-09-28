@@ -5,7 +5,7 @@ namespace XRAccelerator.Enums
         Plate,
         Faucet,
         Knife,
-        StewPan,
+        SoupPot,
         Blender
     }
 }

@@ -82,7 +82,7 @@ namespace XRAccelerator.Gameplay
 
         public void StartStirring()
         {
-            if (currentLiquidVolume > 0)
+            if (currentLiquidVolume > 0 && !stirringParticleSystem.isPlaying)
             {
                 stirringParticleSystem.Play();
             }

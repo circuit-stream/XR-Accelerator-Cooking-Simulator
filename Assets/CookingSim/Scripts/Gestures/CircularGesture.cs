@@ -5,13 +5,13 @@ namespace XRAccelerator.Gestures
 {
     public class CircularGesture : Gesture<CircularGesture>
     {
-        public const int AllowedJitter = 10;
-        
+        public const int AllowedJitter = 20;
+
         private struct CircularGestureKeyframe
         {
-            // angle between vector.up and vector previousKeyframePos -> currentKeyframePos 
+            // angle between vector.up and vector previousKeyframePos -> currentKeyframePos
             public float Angle;
-            
+
             // Difference between previous keyframe angle and current keyframe angle
             public float DeltaAngle;
 
@@ -20,7 +20,7 @@ namespace XRAccelerator.Gestures
 
             public GestureKeyframe GestureKeyframe;
         }
-        
+
         public float AngularVelocity => circularKeyframesDeltaAngleSum / circularKeyframes.Count;
         public bool IsMovingCircularly;
 
@@ -33,7 +33,7 @@ namespace XRAccelerator.Gestures
         {
             circularKeyframes = new LinkedList<CircularGestureKeyframe>();
         }
-        
+
         protected override bool CanStart()
         {
             SetIsMovingCircularly();
@@ -46,7 +46,7 @@ namespace XRAccelerator.Gestures
 
             if (!IsMovingCircularly)
                 Finish();
-            
+
             return IsMovingCircularly;
         }
 
@@ -54,7 +54,7 @@ namespace XRAccelerator.Gestures
         {
             var newKeyframe = circularKeyframes.Count == 0 ? CreateEmptyKeyframe(gestureKeyframe) : CreateKeyframeFromPrevious(gestureKeyframe);
             circularKeyframes.AddLast(newKeyframe);
-        
+
             circularKeyframesDeltaAngleSum += newKeyframe.DeltaAngle;
             circularKeyframesRotationDirectionSum += newKeyframe.RotationDirection;
         }
@@ -63,7 +63,7 @@ namespace XRAccelerator.Gestures
         {
             var removedKeyframe = circularKeyframes.First.Value;
             Debug.Assert(removedKeyframe.GestureKeyframe == gestureKeyframe, "Removed circular keyframe doesn't match the gestureKeyframe");
-            
+
             circularKeyframes.RemoveFirst();
 
             circularKeyframesDeltaAngleSum -= removedKeyframe.DeltaAngle;
@@ -83,7 +83,7 @@ namespace XRAccelerator.Gestures
                 GestureKeyframe = gestureKeyframe
             };
         }
-        
+
         private CircularGestureKeyframe CreateEmptyKeyframe(GestureKeyframe gestureKeyframe)
         {
             return new CircularGestureKeyframe()
@@ -93,7 +93,7 @@ namespace XRAccelerator.Gestures
                 GestureKeyframe = gestureKeyframe
             };
         }
-        
+
         private float GetDeltaAngle(float newAngle, float previousAngle)
         {
             if (previousAngle > 270 && newAngle < 90)
@@ -104,10 +104,10 @@ namespace XRAccelerator.Gestures
 
             return newAngle - previousAngle;
         }
-        
+
         private void SetIsMovingCircularly()
         {
-            IsMovingCircularly = Mathf.Abs(circularKeyframesRotationDirectionSum) > 
+            IsMovingCircularly = Mathf.Abs(circularKeyframesRotationDirectionSum) >
                                  gestureKeyframeTracker.SampleSize - AllowedJitter;
         }
     }

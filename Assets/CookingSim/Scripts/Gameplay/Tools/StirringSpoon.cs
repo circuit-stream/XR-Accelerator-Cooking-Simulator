@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 using XRAccelerator.Gestures;
 using XRAccelerator.Services;
 
@@ -11,21 +12,16 @@ namespace XRAccelerator.Gameplay
         private GestureInteractor GestureInteractor => ServiceLocator.GetService<GestureInteractor>();
         private CircularGesture circularGesture;
 
-        // TODO Arthur: Remove when we have visual feedback
         [SerializeField]
-        private MeshRenderer meshRenderer;
+        [Tooltip("Reference to the XRGrabInteractor component")]
+        private XRGrabInteractable grabInteractable;
 
-        private void Update()
-        {
-            meshRenderer.material.color = IsStirring ? Color.red : Color.white;
-        }
-
-        public void OnGrab()
+        public void OnGrab(XRBaseInteractor interactor)
         {
             GestureInteractor.TrackGestures(transform);
         }
 
-        public void OnRelease()
+        public void OnGrabRelease(XRBaseInteractor interactor)
         {
             GestureInteractor.StopTrackingGestures(transform);
         }
@@ -55,6 +51,8 @@ namespace XRAccelerator.Gameplay
         private void Start()
         {
             GestureInteractor.circularGestureRecognizer.OnGestureStarted += OnGestureStart;
+            grabInteractable.onSelectEnter.AddListener(OnGrab);
+            grabInteractable.onSelectExit.AddListener(OnGrabRelease);
         }
     }
 }

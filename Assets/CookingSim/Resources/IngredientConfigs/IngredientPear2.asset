@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a62f7c307c478abd6b4f133fec3e3f, type: 3}
   m_Name: IngredientPear2
   m_EditorClassIdentifier: 
-  IngredientTypes: 0000000001000000
+  IngredientTypes: 0000000002000000
   IngredientPrefab: {fileID: 4875987501106513021, guid: bc4d3a69a7687844cbf058c1db736915,
     type: 3}
