@@ -21,6 +21,7 @@ namespace XRAccelerator.Player
         {
             public SupportedVRControllers vrController;
             public Transform offset;
+            public Vector3 colliderOffset;
         }
 
         [SerializeField]
@@ -30,14 +31,18 @@ namespace XRAccelerator.Player
         private Transform modelAttachPoint;
 
         [SerializeField]
+        [Tooltip("[Optional] Reference to the collider used by a directInteractor")]
+        private SphereCollider controllerCollider;
+
+        [SerializeField]
         private List<ModelOffset> customModelsOffsets;
 
         private void Awake()
         {
-            InputDevices.deviceConnected += TryApplyHandOffset;
+            InputDevices.deviceConnected += TryApplyOffsets;
         }
 
-        private void TryApplyHandOffset(InputDevice inputDevice)
+        private void TryApplyOffsets(InputDevice inputDevice)
         {
             if (xrController.inputDevice != inputDevice)
             {
@@ -47,13 +52,13 @@ namespace XRAccelerator.Player
             var currentController = GetConnectedController();
             var modelOffset = customModelsOffsets.Find(entry => entry.vrController == currentController);
 
-            ApplyHandOffset(modelOffset);
+            ApplyOffsets(modelOffset);
 
-            InputDevices.deviceConnected -= TryApplyHandOffset;
+            InputDevices.deviceConnected -= TryApplyOffsets;
             Destroy(gameObject);
         }
 
-        private void ApplyHandOffset(ModelOffset modelOffset)
+        private void ApplyOffsets(ModelOffset modelOffset)
         {
             if (modelOffset == null)
             {
@@ -62,6 +67,11 @@ namespace XRAccelerator.Player
 
             modelAttachPoint.localPosition = modelOffset.offset.localPosition;
             modelAttachPoint.localRotation = modelOffset.offset.localRotation;
+
+            if (controllerCollider != null)
+            {
+                controllerCollider.center = modelOffset.colliderOffset;
+            }
         }
 
         private SupportedVRControllers GetConnectedController()

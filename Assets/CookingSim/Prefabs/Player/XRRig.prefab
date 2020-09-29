@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1473601133}
   m_LocalRotation: {x: 0.12278779, y: -0.12278779, z: 0.6963643, w: 0.6963643}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2006524875}
@@ -107,9 +107,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xrController: {fileID: 3603968400041679030}
   modelAttachPoint: {fileID: 1574985782}
+  controllerCollider: {fileID: 0}
   customModelsOffsets:
   - vrController: 2
     offset: {fileID: 1473601134}
+    colliderOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &251082207526534994
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,9 +158,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xrController: {fileID: 3603968400041679030}
   modelAttachPoint: {fileID: 6780010364333212457}
+  controllerCollider: {fileID: 0}
   customModelsOffsets:
   - vrController: 2
     offset: {fileID: 8475425414472500515}
+    colliderOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &665028060846402754
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,9 +209,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xrController: {fileID: 3603968400041679030}
   modelAttachPoint: {fileID: 3603968398999599217}
+  controllerCollider: {fileID: 3603968400041679028}
   customModelsOffsets:
   - vrController: 2
     offset: {fileID: 1472949021281702295}
+    colliderOffset: {x: -0.04, y: 0.025, z: -0.08}
 --- !u!1 &863969138490613773
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,9 +352,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xrController: {fileID: 3603968400041679030}
   modelAttachPoint: {fileID: 2318394076519534889}
+  controllerCollider: {fileID: 0}
   customModelsOffsets:
   - vrController: 2
     offset: {fileID: 2241744533183970782}
+    colliderOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1945692590235693664
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +412,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3263782043034185866}
   m_LocalRotation: {x: 0.12278779, y: -0.12278779, z: 0.6963643, w: 0.6963643}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7125966434045270427}
@@ -578,7 +586,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3438378620224968159}
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 0, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5839795127439577226}
@@ -1268,9 +1276,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xrController: {fileID: 3603968400041679030}
   modelAttachPoint: {fileID: 6233975073978291789}
+  controllerCollider: {fileID: 0}
   customModelsOffsets:
   - vrController: 2
     offset: {fileID: 8405781294271361265}
+    colliderOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &4610299843341036632
 GameObject:
   m_ObjectHideFlags: 0
@@ -1491,9 +1501,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xrController: {fileID: 3603968400041679030}
   modelAttachPoint: {fileID: 5514964690951192012}
+  controllerCollider: {fileID: 6479230657695787108}
   customModelsOffsets:
   - vrController: 2
     offset: {fileID: 2222252271524689568}
+    colliderOffset: {x: 0.04, y: 0.025, z: -0.08}
 --- !u!1 &6465321694212081433
 GameObject:
   m_ObjectHideFlags: 0
