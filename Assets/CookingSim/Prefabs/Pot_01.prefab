@@ -104,8 +104,6 @@ MonoBehaviour:
   failedRecipeIngredient: {fileID: 11400000, guid: 9e9f82b3c9dfb5f4f9f15fefc6b6bf35,
     type: 2}
   grabInteractable: {fileID: 0}
-  burntIngredientPrefab: {fileID: 7872947307633934621, guid: a76b26c9a348f4a40bc57a1ec4b2c266,
-    type: 3}
 --- !u!54 &7434115144970843019
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -600,14 +598,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3445149719745669478}
-  m_LocalRotation: {x: -0.42234334, y: 0.49649853, z: -0.5146551, w: -0.5569968}
-  m_LocalPosition: {x: -0.02, y: -0.026, z: -0.047}
+  m_LocalRotation: {x: -0.42021498, y: 0.5060425, z: -0.50871766, w: -0.55546993}
+  m_LocalPosition: {x: -0.0359, y: 0.0316, z: 0.0004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2775392903681453189}
   m_Father: {fileID: 140604860593404348}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 78.97301, y: 321.764, z: 53.595}
+  m_LocalEulerAnglesHint: {x: 79.022, y: 315.008, z: 47.258003}
 --- !u!114 &1461894551983791023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,9 +620,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionType: 0
   animator: {fileID: 1013813285060129744}
-  defaultPose: 2
+  defaultPose: 22
   rotatableTransform: {fileID: 2775392903681453189}
-  limitRotation: 0
+  limitRotation: 1
   maxXRotation: 0
   minXRotation: 0
 --- !u!1 &3777787291314933523
@@ -5840,14 +5838,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5814253282257657326}
-  m_LocalRotation: {x: 0.5133156, y: 0.5210323, z: -0.38127905, w: 0.56538373}
-  m_LocalPosition: {x: -0.014708936, y: -0.040842235, z: 0.12918039}
+  m_LocalRotation: {x: 0.45526016, y: 0.5860311, z: -0.4636148, w: 0.48411477}
+  m_LocalPosition: {x: 0.049, y: 0.057, z: 0.059}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2675218654635312555}
   m_Father: {fileID: 2312840478265396296}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 77.893005, y: 109.478004, z: 29.654001}
+  m_LocalEulerAnglesHint: {x: 79.795006, y: 124.91, z: 28.564001}
 --- !u!114 &6848869940863387214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5862,9 +5860,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionType: 0
   animator: {fileID: 4530428836090371454}
-  defaultPose: 2
+  defaultPose: 22
   rotatableTransform: {fileID: 2675218654635312555}
-  limitRotation: 0
+  limitRotation: 1
   maxXRotation: 0
   minXRotation: 0
 --- !u!1 &7284062171014745620

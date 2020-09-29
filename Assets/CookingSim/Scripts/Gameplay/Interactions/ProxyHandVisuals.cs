@@ -23,10 +23,11 @@ namespace XRAccelerator.Gameplay
 
         private Transform trackedController;
 
-        public void Enable(Transform trackedController)
+        public void Enable(Transform controller)
         {
-            this.trackedController = trackedController;
+            trackedController = controller;
             gameObject.SetActive(true);
+            LockPose(defaultPose);
         }
 
         public void Disable()
@@ -53,11 +54,6 @@ namespace XRAccelerator.Gameplay
 
             rotatableTransform.rotation = trackedController.rotation;
             ClampRotation();
-        }
-
-        private void Awake()
-        {
-            LockPose(defaultPose);
         }
     }
 }
