@@ -235,7 +235,7 @@ PrefabInstance:
     - target: {fileID: 1645759528102768112, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: m_Name
-      value: RightHandTeleportControllerVisuals
+      value: RightHandRayControllerVisuals
       objectReference: {fileID: 0}
     - target: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}

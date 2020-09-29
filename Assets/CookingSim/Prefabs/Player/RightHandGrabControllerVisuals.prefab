@@ -120,7 +120,7 @@ PrefabInstance:
         type: 3}
       propertyPath: attachPoint
       value: 
-      objectReference: {fileID: 1132356202520643218}
+      objectReference: {fileID: 2009085218541536574}
     - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: animator
@@ -180,7 +180,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3bc53aa9822f9304c8d6f5a71068d53b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3bc53aa9822f9304c8d6f5a71068d53b,
         type: 3}
@@ -210,9 +210,9 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3730198922412308130}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1132356202520643218 stripped
+--- !u!4 &2009085218541536574 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4355750358045831216, guid: 3bc53aa9822f9304c8d6f5a71068d53b,
+  m_CorrespondingSourceObject: {fileID: 2892965127047754652, guid: 3bc53aa9822f9304c8d6f5a71068d53b,
     type: 3}
   m_PrefabInstance: {fileID: 3730198922412308130}
   m_PrefabAsset: {fileID: 0}
