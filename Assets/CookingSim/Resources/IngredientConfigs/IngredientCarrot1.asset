@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: IngredientCarrot1
   m_EditorClassIdentifier: 
   IngredientTypes: 3200000034000000
-  IngredientPrefab: {fileID: 947844180444654515, guid: 6dc0a3dc99ebdf646aff8a8aeceb37a2,
+  IngredientPrefab: {fileID: 917435161217710031, guid: 10c7adc4037220a42901e80d1434a638,
     type: 3}

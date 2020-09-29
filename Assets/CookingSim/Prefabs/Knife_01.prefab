@@ -146,7 +146,7 @@ MonoBehaviour:
   m_CustomReticle: {fileID: 0}
   m_AttachTransform: {fileID: 9116790604026522002}
   m_AttachEaseInTime: 0.15
-  m_MovementType: 1
+  m_MovementType: 2
   m_TrackPosition: 1
   m_SmoothPosition: 0
   m_SmoothPositionAmount: 5
@@ -313,7 +313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9116790604026522002}
   m_Layer: 0
-  m_Name: GripAttachTransform
+  m_Name: AttachPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -326,13 +326,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1986973296725668771}
-  m_LocalRotation: {x: 0.9961947, y: -0, z: 0.08715578, w: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0.7071068, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4305506692382912}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 180, y: -10, z: 0}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: -90}
 --- !u!1 &8529923185614514910
 GameObject:
   m_ObjectHideFlags: 0

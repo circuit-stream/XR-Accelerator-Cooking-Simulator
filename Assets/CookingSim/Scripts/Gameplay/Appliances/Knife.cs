@@ -10,8 +10,8 @@ namespace XRAccelerator.Gameplay
 {
     public class Knife : Appliance
     {
-        private const float cutCooldown = 0.2f;
-        private const float bladeCooldown = 0.2f;
+        private const float cutCooldown = 0.5f;
+        private const float bladeCooldown = 0.3f;
 
         [Header("Prefab References")]
         [SerializeField]
