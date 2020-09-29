@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -39,9 +40,13 @@ namespace XRAccelerator.Player
             return gotValue ? pressValue : 0;
         }
 
-        private void Start()
+        private void OnEnable()
         {
             SetInteractionType(interactionType);
+        }
+
+        private void Start()
+        {
             SetupXRController();
             SetupInteractorLineVisual();
         }
