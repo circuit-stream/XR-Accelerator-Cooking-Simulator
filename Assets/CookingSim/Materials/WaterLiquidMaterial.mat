@@ -60,7 +60,7 @@ Material:
     - _Cutoff: 0.5
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _FillAmount: 0
+    - _FillAmount: 100
     - _FoamColor: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
