@@ -9,18 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2954b2d30cd342c29d7c322499fc2293, type: 3}
-  m_Name: RecipeSmoothie
+  m_Script: {fileID: 11500000, guid: c83f8cae9e1f4912864f2af383d5215d, type: 3}
+  m_Name: PotRecipeBoliingWater
   m_EditorClassIdentifier: 
   SourceIngredients:
-  - IngredientTypes: 01000000
-    Ingredients: []
-    MinAmount: 0.01
-    MaxAmount: 100000
   - IngredientTypes: 
     Ingredients:
     - {fileID: 11400000, guid: 3837917e9eb63b643bae83118ccfc691, type: 2}
+    - {fileID: 11400000, guid: 2f9ff4cc09b618441af7d5731a1b3b99, type: 2}
     MinAmount: 0.01
-    MaxAmount: 100000
-  ApplianceType: 4
-  OutputIngredient: {fileID: 11400000, guid: 4b05f380793320d489a0c2e4373efd2a, type: 2}
+    MaxAmount: 100000000
+  ApplianceType: 3
+  OutputIngredient: {fileID: 11400000, guid: 2f9ff4cc09b618441af7d5731a1b3b99, type: 2}
+  StirringTime: 0
+  CookTime: 3

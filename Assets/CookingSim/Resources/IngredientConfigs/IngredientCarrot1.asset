@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17a62f7c307c478abd6b4f133fec3e3f, type: 3}
-  m_Name: IngredientOrange3
+  m_Name: IngredientCarrot1
   m_EditorClassIdentifier: 
-  IngredientTypes: 0000000003000000
-  IngredientPrefab: {fileID: 4045222644862922202, guid: 79642c1a82b308f43a96f327928a794f,
+  IngredientTypes: 3200000034000000
+  IngredientPrefab: {fileID: 947844180444654515, guid: 6dc0a3dc99ebdf646aff8a8aeceb37a2,
     type: 3}

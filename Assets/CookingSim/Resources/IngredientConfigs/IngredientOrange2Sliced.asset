@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a62f7c307c478abd6b4f133fec3e3f, type: 3}
   m_Name: IngredientOrange2Sliced
   m_EditorClassIdentifier: 
-  IngredientTypes: 0400000002000000
+  IngredientTypes: 0100000003000000
   IngredientPrefab: {fileID: 4702981769303495422, guid: bafb6cd9e97fde940854bb5b1df4bf92,
     type: 3}

@@ -10,17 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2954b2d30cd342c29d7c322499fc2293, type: 3}
-  m_Name: RecipeSmoothie
+  m_Name: RecipeSlicedCarrot1
   m_EditorClassIdentifier: 
   SourceIngredients:
-  - IngredientTypes: 01000000
-    Ingredients: []
-    MinAmount: 0.01
-    MaxAmount: 100000
   - IngredientTypes: 
     Ingredients:
-    - {fileID: 11400000, guid: 3837917e9eb63b643bae83118ccfc691, type: 2}
+    - {fileID: 11400000, guid: c7fed514f1dc38d49a0bc2e0c7aa0959, type: 2}
+    - {fileID: 11400000, guid: f5160903061c37c4a97296b254fa492c, type: 2}
     MinAmount: 0.01
-    MaxAmount: 100000
-  ApplianceType: 4
-  OutputIngredient: {fileID: 11400000, guid: 4b05f380793320d489a0c2e4373efd2a, type: 2}
+    MaxAmount: 1
+  ApplianceType: 2
+  OutputIngredient: {fileID: 11400000, guid: f5160903061c37c4a97296b254fa492c, type: 2}

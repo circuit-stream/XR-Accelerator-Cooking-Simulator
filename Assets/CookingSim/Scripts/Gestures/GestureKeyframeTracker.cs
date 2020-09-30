@@ -8,7 +8,7 @@ namespace XRAccelerator.Gestures
     {
         public event Action<GestureKeyframe> OnAddedKeyframe;
         public event Action<GestureKeyframe> OnRemovedKeyframe;
-        
+
         public readonly Transform TrackedTransform;
         public readonly int SampleSize;
         private readonly float tickTime;
@@ -19,7 +19,7 @@ namespace XRAccelerator.Gestures
         private void AddKeyframe()
         {
             var newKeyframe = new GestureKeyframe {TrackedPosition = TrackedTransform.position};
-            
+
             keyframes.AddLast(newKeyframe);
             OnAddedKeyframe?.Invoke(newKeyframe);
 
@@ -30,15 +30,15 @@ namespace XRAccelerator.Gestures
                 OnRemovedKeyframe?.Invoke(removedKeyframe);
             }
         }
-        
-        public GestureKeyframeTracker(Transform transform, int sampleSize = 50, float tickTime = 0.05f)
+
+        public GestureKeyframeTracker(Transform transform, int sampleSize = 40, float tickTime = 0.05f)
         {
             keyframes = new LinkedList<GestureKeyframe>();
 
             TrackedTransform = transform;
             SampleSize = sampleSize;
             this.tickTime = tickTime;
-            
+
             // This way the next update will immediately a addKeyframe
             // and gesture recognizers will have the time to register for the callbacks
             currentTickTime = tickTime;

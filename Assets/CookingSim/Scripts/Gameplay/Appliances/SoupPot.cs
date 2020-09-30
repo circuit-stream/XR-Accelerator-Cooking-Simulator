@@ -1,18 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using XRAccelerator.Configs;
 
 namespace XRAccelerator.Gameplay
 {
-    public class StewPan : Container
+    public class SoupPot : Container
     {
-        // TODO Arthur Optional: Heat temperature, stirring velocity, cook time per recipe
-        private const float cookTime = 5;
-        private const float minStirringTime = 2;
-
-        [SerializeField]
-        private IngredientGraphics burntIngredientPrefab;
-
+        // TODO Arthur Optional: Heat temperature, stirring velocity
         private bool isOverFire;
         private float applianceEnabledTime;
         private float stirringTime;
@@ -20,16 +15,21 @@ namespace XRAccelerator.Gameplay
         private StirringSpoon currentStirringSpoon;
         private bool IsStirring => currentStirringSpoon != null && currentStirringSpoon.IsStirring;
 
+        private PotRecipeConfig CurrentPotRecipeConfig => (PotRecipeConfig) CurrentRecipeConfig;
+        private float cookTime => CurrentPotRecipeConfig == null ? 10 : CurrentPotRecipeConfig.CookTime;
+        private float requiredStirringTime => CurrentPotRecipeConfig == null ? 0 : CurrentPotRecipeConfig.StirringTime;
+
         private void TryEnableAppliance()
         {
+            applianceEnabledTime = 0;
+            stirringTime = 0;
+
             if (isApplianceEnabled || !isOverFire || CurrentIngredients.Count == 0)
             {
                 return;
             }
 
             isApplianceEnabled = true;
-            applianceEnabledTime = 0;
-            stirringTime = 0;
 
             // TODO Arthur: enabled visual feedback
         }
@@ -49,7 +49,12 @@ namespace XRAccelerator.Gameplay
 
         protected override bool WasRecipeSuccessful()
         {
-            return base.WasRecipeSuccessful() && stirringTime < minStirringTime;
+            return base.WasRecipeSuccessful() && WasStirringSuccessful();
+        }
+
+        private bool WasStirringSuccessful()
+        {
+            return stirringTime >= requiredStirringTime;
         }
 
         protected override void OnIngredientsEnter(List<IngredientAmount> addedIngredients)
@@ -82,7 +87,6 @@ namespace XRAccelerator.Gameplay
             var stirringSpoon = other.gameObject.GetComponent<StirringSpoon>();
             if (stirringSpoon != null)
             {
-                Debug.Log("StirringSpoon");
                 currentStirringSpoon = stirringSpoon;
                 return;
             }
@@ -113,6 +117,15 @@ namespace XRAccelerator.Gameplay
 
         private void Update()
         {
+            if (IsStirring)
+            {
+                liquidContainer.StartStirring();
+            }
+            else
+            {
+                liquidContainer.StopStirring();
+            }
+
             if (!isApplianceEnabled)
                 return;
 

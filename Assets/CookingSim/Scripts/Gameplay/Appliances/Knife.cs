@@ -94,7 +94,6 @@ namespace XRAccelerator.Gameplay
 
         private void OnCollisionEnter(Collision other)
         {
-            Debug.Log($"Collision velocity: {GetComponent<Rigidbody>().velocity}");
             if (!isApplianceEnabled)
             {
                 return;
