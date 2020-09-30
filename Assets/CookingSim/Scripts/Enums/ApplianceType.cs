@@ -2,7 +2,7 @@ namespace XRAccelerator.Enums
 {
     public enum ApplianceType
     {
-        Plate,
+        Container,
         Faucet,
         Knife,
         SoupPot,

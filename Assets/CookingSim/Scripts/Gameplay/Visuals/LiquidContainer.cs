@@ -17,6 +17,9 @@ namespace XRAccelerator.Gameplay
         [Tooltip("How many milliliters this container can hold")]
         private int containerVolume = 200;
         [SerializeField]
+        [Tooltip("TooltipText")] // TODO Arthur
+        private bool isMeshOriginOnCenter;
+        [SerializeField]
         [Tooltip("Reference to the liquid meshRenderer")]
         private MeshRenderer meshRenderer;
         [SerializeField]
@@ -41,9 +44,7 @@ namespace XRAccelerator.Gameplay
 
         private float availableLocalHeight;
         private float extraLocalHeight;
-
         private float containerRadius;
-        private float radiusLocalScale;
 
         private float containerVolumePerHeight;
         private float currentLiquidHeight;
@@ -131,8 +132,11 @@ namespace XRAccelerator.Gameplay
 
         private float GetLiquidLocalHeight()
         {
+            // offset from range [0, height] to [-height/2, height/2] if the origin is in the center
+            var offsetHeight = availableLocalHeight * (isMeshOriginOnCenter ? 0.5f : 0);
+
             return currentLiquidHeight
-                 - (availableLocalHeight * 0.5f) // offset from range [0, height] to [-height/2, height/2]
+                 - offsetHeight
                  - extraLocalHeight; // remove the extra height that can't hold liquid when rotated
         }
 
@@ -223,8 +227,6 @@ namespace XRAccelerator.Gameplay
 
         private void CreatePoints(List<Transform> points, float verticalOffset, string groupName, float horizontalOffset = 0)
         {
-            var radius = containerRadius / radiusLocalScale + horizontalOffset;
-
             Transform pointsParent = new GameObject(groupName).transform;
             pointsParent.parent = _transform;
             pointsParent.rotation = Quaternion.identity;
@@ -238,8 +240,8 @@ namespace XRAccelerator.Gameplay
                 newPoint.rotation = Quaternion.identity;
                 newPoint.localScale = Vector3.one;
 
-                var x = radius * Mathf.Sin((2 * Mathf.PI * index) / pourPointsAmount);
-                var z = radius * Mathf.Cos((2 * Mathf.PI * index) / pourPointsAmount);
+                var x = containerRadius * Mathf.Sin((2 * Mathf.PI * index) / pourPointsAmount);
+                var z = containerRadius * Mathf.Cos((2 * Mathf.PI * index) / pourPointsAmount);
                 newPoint.localPosition = new Vector3(x, 0, z);
 
                 points.Add(newPoint);
@@ -249,18 +251,23 @@ namespace XRAccelerator.Gameplay
         private void InitializeConstantVariables()
         {
             // Container Variables
-            Vector3 containerBounds = _renderer.bounds.size;
-            availableLocalHeight = containerBounds.y;
+            var bounds = _renderer.bounds;
+            var localScale = _transform.localScale;
+
+            Vector3 containerSize = bounds.size;
+            availableLocalHeight = containerSize.y / localScale.y;
             containerVolumePerHeight = containerVolume / (availableLocalHeight + extraLocalHeight);
 
-            containerRadius = containerBounds.x * 0.5f;
-            radiusLocalScale = _transform.localScale.x;
+            containerRadius = containerSize.x * 0.5f / localScale.x;
+
+            var maxPoint = _transform.InverseTransformPoint(bounds.max);
+            var minPoint = _transform.InverseTransformPoint(bounds.min);
 
             pourPoints = new List<Transform>();
-            CreatePoints(pourPoints, 1.05f, "PourPoints");
+            CreatePoints(pourPoints, maxPoint.y, "PourPoints");
 
             basePoints = new List<Transform>();
-            CreatePoints(basePoints, -1f, "BasePoints");
+            CreatePoints(basePoints, minPoint.y, "BasePoints");
 
             // Wobble Variables
             pulse = 2 * Mathf.PI * WobbleSpeed;

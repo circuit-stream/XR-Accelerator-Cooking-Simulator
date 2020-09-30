@@ -7,7 +7,7 @@ using XRAccelerator.Services;
 
 namespace XRAccelerator.Gameplay
 {
-    public abstract class Container : Appliance
+    public class Container : Appliance
     {
         [SerializeField]
         [Tooltip("LiquidContainer component reference, responsible for the liquid visuals")]
