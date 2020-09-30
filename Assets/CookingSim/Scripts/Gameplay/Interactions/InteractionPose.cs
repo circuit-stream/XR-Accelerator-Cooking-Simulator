@@ -20,7 +20,7 @@ namespace XRAccelerator.Gameplay
             interactor.GetComponentInChildren<HandVisuals>().UnlockPose();
         }
 
-        private void Awake()
+        private void Start()
         {
             var component = GetComponent<XRBaseInteractable>();
             component.onSelectEnter.AddListener(OnGrab);
