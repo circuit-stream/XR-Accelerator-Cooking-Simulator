@@ -136,7 +136,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2244655200794006869
 MonoBehaviour:
@@ -908,14 +908,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3265654817121037860}
-  m_LocalRotation: {x: -0.1592472, y: -0.69798064, z: 0.6889415, w: 0.1132385}
-  m_LocalPosition: {x: -0.5419291, y: -0.6013749, z: -1.3159934}
+  m_LocalRotation: {x: -0.09875879, y: -0.69953644, z: 0.7053215, w: -0.05845513}
+  m_LocalPosition: {x: -0.78, y: -2.43, z: -0.4}
   m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children:
   - {fileID: 3888695858447408918}
   m_Father: {fileID: 928238766}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 67.770004, y: -93.8, z: 90.00001}
+  m_LocalEulerAnglesHint: {x: 86.700005, y: -88.217, z: 104.553}
 --- !u!114 &5370682131928462959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,9 +930,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionType: 0
   animator: {fileID: 8787398480914422711}
-  defaultPose: 2
+  defaultPose: 21
   rotatableTransform: {fileID: 3888695858447408918}
-  limitRotation: 0
+  limitRotation: 1
   maxXRotation: 0
   minXRotation: 0
 --- !u!95 &8787398480914422711
@@ -944,7 +944,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4520695844163945900}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: ad88555b58172164a8f1e46d93f7d3f6, type: 3}
   m_Controller: {fileID: 9100000, guid: bca139cf1c1bfe847a3a9a470ad88ef8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0

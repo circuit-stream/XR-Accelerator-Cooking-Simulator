@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!95 &6409845259980757454
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4770210377153078287}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 5c1de8af9ca6d6a41a57465b4dd695b1, type: 3}
+  m_Controller: {fileID: 22100000, guid: 7135774cc2411714da07e24a512bccc7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!120 &257482598208753665
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -18,7 +37,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 074d6f740e9de1f42aae959e543e3af7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -145,7 +164,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ValidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.2, g: 1, b: 0, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -216,7 +235,7 @@ PrefabInstance:
     - target: {fileID: 1645759528102768112, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: m_Name
-      value: LeftHandTeleportControllerVisuals
+      value: LeftHandRayControllerVisuals
       objectReference: {fileID: 0}
     - target: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
@@ -282,12 +301,17 @@ PrefabInstance:
         type: 3}
       propertyPath: attachPoint
       value: 
-      objectReference: {fileID: 5516005963285499235}
+      objectReference: {fileID: 0}
     - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: interactionType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 6409845259980757454}
     - target: {fileID: 8109987202214116692, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: m_Controller
@@ -305,12 +329,6 @@ GameObject:
 --- !u!4 &5895868259577326215 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
-    type: 3}
-  m_PrefabInstance: {fileID: 5117423313741465459}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5516005963285499235 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 831045321702066704, guid: b9a25253dc530104d9064bb02aa4ce7b,
     type: 3}
   m_PrefabInstance: {fileID: 5117423313741465459}
   m_PrefabAsset: {fileID: 0}
@@ -359,7 +377,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 81a40f51c0f4acb49b8245bde3ec2913,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81a40f51c0f4acb49b8245bde3ec2913,
         type: 3}
@@ -383,3 +401,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81a40f51c0f4acb49b8245bde3ec2913, type: 3}
+--- !u!1 &4770210377153078287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 81a40f51c0f4acb49b8245bde3ec2913,
+    type: 3}
+  m_PrefabInstance: {fileID: 5688706867926817118}
+  m_PrefabAsset: {fileID: 0}

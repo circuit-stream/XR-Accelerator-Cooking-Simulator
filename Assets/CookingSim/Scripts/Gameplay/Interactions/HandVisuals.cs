@@ -33,7 +33,17 @@ namespace XRAccelerator.Gameplay
         [Tooltip("The hand animator")]
         protected Animator animator;
 
-        public void SetInteractionType(VRControllerInteractionType newInteractionType)
+        public void LockPose(HandPose handPose)
+        {
+            animator.SetInteger(LockedPoseHash, (int)handPose);
+        }
+
+        public void UnlockPose()
+        {
+            LockPose(HandPose.NoPose);
+        }
+
+        protected void SetInteractionType(VRControllerInteractionType newInteractionType)
         {
             Debug.Assert(InteractionTypeToLayerIndex.ContainsKey(newInteractionType), "Using unsupported VRControllerInteractionType");
 
@@ -43,11 +53,6 @@ namespace XRAccelerator.Gameplay
             {
                 animator.SetLayerWeight(pair.Value, pair.Key == interactionType ? 1 : 0);
             }
-        }
-
-        public void LockPose(HandPose handPose)
-        {
-            animator.SetInteger(LockedPoseHash, (int)handPose);
         }
     }
 }

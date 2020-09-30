@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!120 &900890928635477713
+--- !u!120 &7507810562619952327
 LineRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18,7 +18,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 074d6f740e9de1f42aae959e543e3af7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104,7 +104,7 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &6245597623475952766
+--- !u!114 &5775566239162620510
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,7 +145,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ValidColorGradient:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
+    key0: {r: 0.2, g: 1, b: 0, a: 1}
     key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
@@ -206,6 +206,25 @@ MonoBehaviour:
   m_SnapThresholdDistance: 10
   m_Reticle: {fileID: 0}
   m_StopLineAtFirstRaycastHit: 1
+--- !u!95 &7337438801278536615
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9150509919633120865}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: ad88555b58172164a8f1e46d93f7d3f6, type: 3}
+  m_Controller: {fileID: 9100000, guid: bca139cf1c1bfe847a3a9a470ad88ef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1642059711203139127
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -216,7 +235,7 @@ PrefabInstance:
     - target: {fileID: 1645759528102768112, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: m_Name
-      value: RightHandTeleportControllerVisuals
+      value: RightHandRayControllerVisuals
       objectReference: {fileID: 0}
     - target: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
@@ -277,17 +296,22 @@ PrefabInstance:
         type: 3}
       propertyPath: attachPoint
       value: 
-      objectReference: {fileID: 2108163782134141991}
+      objectReference: {fileID: 0}
     - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: interactorLineVisual
       value: 
-      objectReference: {fileID: 6245597623475952766}
+      objectReference: {fileID: 5775566239162620510}
     - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: interactionType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 7337438801278536615}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9a25253dc530104d9064bb02aa4ce7b, type: 3}
 --- !u!1 &8775242037720007 stripped
@@ -299,12 +323,6 @@ GameObject:
 --- !u!4 &8775242037720003 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1642059711203139127}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2108163782134141991 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 831045321702066704, guid: b9a25253dc530104d9064bb02aa4ce7b,
     type: 3}
   m_PrefabInstance: {fileID: 1642059711203139127}
   m_PrefabAsset: {fileID: 0}
@@ -353,7 +371,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3bc53aa9822f9304c8d6f5a71068d53b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3bc53aa9822f9304c8d6f5a71068d53b,
         type: 3}
@@ -377,3 +395,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bc53aa9822f9304c8d6f5a71068d53b, type: 3}
+--- !u!1 &9150509919633120865 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3bc53aa9822f9304c8d6f5a71068d53b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8231539550219313968}
+  m_PrefabAsset: {fileID: 0}
