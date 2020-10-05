@@ -80,13 +80,11 @@ namespace XRAccelerator.Player
 
         private void OnSelectEnter(XRBaseInteractable interactable)
         {
-            Debug.Log($"OnSelectEnter: {xrController}");
             isSelecting = true;
         }
 
         private async void OnSelectExit(XRBaseInteractable interactable)
         {
-            Debug.Log($"OnSelectExit: {xrController}");
             await Task.Delay(100);
 
             isSelecting = false;
