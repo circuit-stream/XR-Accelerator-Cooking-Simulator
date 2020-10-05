@@ -6029,6 +6029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   containerVolume: 2000
+  isMeshOriginOnCenter: 0
   meshRenderer: {fileID: 8362722299602265423}
   stirringParticleSystem: {fileID: 6387247726723699290}
   MaxWobble: 0.01
