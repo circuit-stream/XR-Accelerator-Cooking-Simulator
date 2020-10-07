@@ -7,12 +7,12 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2020
-		Month: 9
-		Day: 24
-		Hour: 12
-		Minute: 46
-		Second: 54
-		Millisecond: 698
+		Month: 10
+		Day: 7
+		Hour: 9
+		Minute: 50
+		Second: 59
+		Millisecond: 421
 	}
 	Creator: "FBX SDK/FBX Plugins version 2020.0.1"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -28,21 +28,20 @@ FBXHeaderExtension:  {
 			Comment: ""
 		}
 		Properties70:  {
-			P: "DocumentUrl", "KString", "Url", "", "C:\Users\Brad\Documents\maya\projects\kitchen\scenes\cup_internalVolume.fbx"
-			P: "SrcDocumentUrl", "KString", "Url", "", "C:\Users\Brad\Documents\maya\projects\kitchen\scenes\cup_internalVolume.fbx"
+			P: "DocumentUrl", "KString", "Url", "", "S:\cookingSim\XR-Accelerator-Cooking-Simulator\Assets\CookingSim\Models\InternalVolumes\cup_internalVolume.fbx"
+			P: "SrcDocumentUrl", "KString", "Url", "", "S:\cookingSim\XR-Accelerator-Cooking-Simulator\Assets\CookingSim\Models\InternalVolumes\cup_internalVolume.fbx"
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "Original|ApplicationName", "KString", "", "", "Maya"
 			P: "Original|ApplicationVersion", "KString", "", "", "202002"
-			P: "Original|DateTime_GMT", "DateTime", "", "", "24/09/2020 19:46:54.695"
-			P: "Original|FileName", "KString", "", "", "C:\Users\Brad\Documents\maya\projects\kitchen\scenes\cup_internalVolume.fbx"
+			P: "Original|DateTime_GMT", "DateTime", "", "", "07/10/2020 16:50:59.419"
+			P: "Original|FileName", "KString", "", "", "S:\cookingSim\XR-Accelerator-Cooking-Simulator\Assets\CookingSim\Models\InternalVolumes\cup_internalVolume.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Maya"
 			P: "LastSaved|ApplicationVersion", "KString", "", "", "202002"
-			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "24/09/2020 19:46:54.695"
-			P: "Original|ApplicationActiveProject", "KString", "", "", "C:\Users\Brad\Documents\maya\projects\kitchen\scenes"
-			P: "Original|ApplicationNativeFile", "KString", "", "", "C:\Users\Brad\Documents\maya\projects\kitchen\scenes\cup.ma"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "07/10/2020 16:50:59.419"
+			P: "Original|ApplicationActiveProject", "KString", "", "", "S:\cookingSim\XR-Accelerator-Cooking-Simulator\Assets\CookingSim\Models\InternalVolumes"
 		}
 	}
 }
@@ -77,7 +76,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 3092444188272, "", "Scene" {
+	Document: 2870223446064, "", "Scene" {
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
 			P: "ActiveAnimStackName", "KString", "", "", "Take 001"
@@ -222,7 +221,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 3092450519920, "Geometry::", "Mesh" {
+	Geometry: 2870317292096, "Geometry::", "Mesh" {
 		Vertices: *144 {
 			a: 0.861821532249451,1.07368063926697,-3.21641159057617,2.35456323623657,1.07368099689484,-2.35457682609558,3.21639800071716,1.07368123531342,-0.861834943294525,3.32986068725586,1.07368135452271,-1.05075841361213e-07,3.21639800071716,1.07368159294128,0.861834526062012,2.35456323623657,1.07368159294128,2.35457634925842,0.861821532249451,1.07368195056915,3.21641159057617,-1.32984851006768e-05,1.07368195056915,3.32987380027771,-0.861848056316376,1.07368195056915,3.21641159057617,-2.35458970069885,1.07368159294128,2.35457634925842,-3.2164249420166,1.07368159294128,0.861834526062012,-3.3298876285553,1.07368135452271,-1.05075841361213e-07,-3.2164249420166,1.07368123531342,-0.861834943294525,-2.35458970069885,1.07368099689484,-2.35457682609558,-0.861848056316376,1.07368063926697,-3.21641159057617,1.66492366790771,1.07368087768555,-2.88375568389893,2.88374280929565,1.07368099689484,-1.66493725776672,2.88374280929565,1.07368159294128,1.66493690013885,1.66492366790771,1.07368183135986,2.88375568389893,-1.66495013237,1.07368183135986,2.88375568389893,-2.88376927375793,1.07368159294128,1.66493690013885,-2.88376927375793,1.07368099689484,-1.66493725776672,-1.66495013237,1.07368087768555,-2.88375568389893,-1.32984851006768e-05,1.07368063926697,-3.32987380027771,2.8799901008606,8.0443811416626,-1.66277074813843,3.21221280097961,8.0443811416626,-0.8607137799263,3.32552719116211,8.0443811416626,-9.09082928046701e-07,3.21221280097961,8.0443811416626,0.860712110996246,2.8799901008606,8.0443811416626,1.66276860237122,2.35149955749512,8.0443811416626,2.3515100479126,1.662757396698,8.0443811416626,2.8800003528595,0.860700666904449,8.0443811416626,3.21222352981567,-1.22235051094322e-05,8.0443811416626,3.32553791999817,-0.860725164413452,8.0443811416626,3.21222352981567,-1.66278195381165,8.0443811416626,2.8800003528595,-2.35152363777161,8.0443811416626,2.3515100479126,-2.88001394271851,8.0443811416626,1.66276824474335,-3.2122368812561,8.0443811416626,0.860711574554443,-3.32555150985718,8.0443811416626,-1.42182079798658e-06,
 -3.2122368812561,8.0443811416626,-0.860714375972748,-2.88001346588135,8.0443811416626,-1.66277098655701,-2.35152363777161,8.04438018798828,-2.35151314735413,-1.6627813577652,8.04438018798828,-2.88000297546387,-0.860724687576294,8.04438018798828,-3.21222591400146,-1.17107647383818e-05,8.04438018798828,-3.32554078102112,0.860701203346252,8.04438018798828,-3.21222591400146,1.66275823116302,8.04438018798828,-2.88000297546387,2.3514997959137,8.04438018798828,-2.35151243209839
@@ -231,7 +230,7 @@ Objects:  {
 			a: 6,7,-9,2,16,24,-26,3,2,25,-27,4,3,26,-28,17,4,27,-29,5,17,28,-30,18,5,29,-31,6,18,30,-32,7,6,31,-33,8,7,32,-34,19,8,33,-35,9,19,34,-36,20,9,35,-37,10,20,36,-38,11,10,37,-39,12,11,38,-40,21,12,39,-41,13,21,40,-42,22,13,41,-43,14,22,42,-44,23,14,43,-45,45,0,23,-45,15,0,45,-47,1,15,46,-48,16,1,47,-25,26,38,37,-28,24,47,41,-41,37,36,28,-28,36,35,29,-29,35,34,30,-30,34,33,31,-31,33,32,-32,26,25,39,-39,25,24,40,-40,47,46,42,-42,46,45,43,-43,45,44,-44,2,3,11,-13,16,2,12,-22,1,16,21,-14,15,1,13,-23,14,0,15,-23,14,23,-1,3,4,10,-12,4,17,20,-11,17,5,9,-21,5,18,19,-10,18,6,8,-20
 		} 
 		Edges: *94 {
-			a: 42,39,10,7,54,51,47,94,91,87,58,55,14,11,62,59,22,19,15,70,67,63,30,27,23,78,75,71,34,0,82,79,1,84,3,43,95,4,6,5,9,13,18,17,21,26,25,29,33,38,37,41,46,45,50,49,53,57,61,66,65,69,74,73,77,81,83,86,90,89,93,97,99,101,108,112,116,120,127,106,104,135,139,146,148,152,156,160,161,169,173,177,181,2
+			a: 0,1,2,3,4,5,6,7,9,10,11,13,14,15,17,18,19,21,22,23,25,26,27,29,30,33,34,37,38,39,41,42,43,45,46,47,49,50,51,53,54,55,57,58,59,61,62,63,65,66,67,69,70,71,73,74,75,77,78,79,81,82,83,84,86,87,89,90,91,93,94,95,97,99,101,104,106,108,112,116,120,127,135,139,146,148,152,156,160,161,169,173,177,181
 		} 
 		GeometryVersion: 124
 		LayerElementNormal: 0 {
@@ -267,9 +266,11 @@ Objects:  {
 			}
 		}
 	}
-	Model: 3092404935536, "Model::cup_internalVolume", "Mesh" {
+	Model: 2870400721952, "Model::cup_internalVolume", "Mesh" {
 		Version: 232
 		Properties70:  {
+			P: "RotationPivot", "Vector3D", "Vector", "",0,1.07368159294128,0
+			P: "ScalingPivot", "Vector3D", "Vector", "",0,1.07368159294128,0
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
@@ -279,7 +280,7 @@ Objects:  {
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Material: 3092416751808, "Material::lambert1", "" {
+	Material: 2870221204832, "Material::lambert2", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -302,11 +303,11 @@ Objects:  {
 Connections:  {
 	
 	;Model::cup_internalVolume, Model::RootNode
-	C: "OO",3092404935536,0
+	C: "OO",2870400721952,0
 	
 	;Geometry::, Model::cup_internalVolume
-	C: "OO",3092450519920,3092404935536
+	C: "OO",2870317292096,2870400721952
 	
-	;Material::lambert1, Model::cup_internalVolume
-	C: "OO",3092416751808,3092404935536
+	;Material::lambert2, Model::cup_internalVolume
+	C: "OO",2870221204832,2870400721952
 }
