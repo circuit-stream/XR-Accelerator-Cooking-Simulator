@@ -32,7 +32,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.65
+    m_Value: 0.25
   contrast:
     m_OverrideState: 0
     m_Value: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
     max: 180
   saturation:
     m_OverrideState: 1
-    m_Value: -7
+    m_Value: -5
     min: -100
     max: 100
 --- !u!114 &6709291040832226184
@@ -84,7 +84,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   debugMode:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
   radius:
     m_OverrideState: 1
@@ -93,7 +93,7 @@ MonoBehaviour:
     max: 5
   maxRadiusPixels:
     m_OverrideState: 1
-    m_Value: 64
+    m_Value: 100
     min: 16
     max: 256
   bias:
@@ -103,7 +103,7 @@ MonoBehaviour:
     max: 0.5
   intensity:
     m_OverrideState: 1
-    m_Value: 0.4
+    m_Value: 0.6
     min: 0
     max: 4
   useMultiBounce:
