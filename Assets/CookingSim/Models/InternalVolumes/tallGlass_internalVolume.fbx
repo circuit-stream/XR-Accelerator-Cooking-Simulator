@@ -7,12 +7,12 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2020
-		Month: 9
-		Day: 24
-		Hour: 12
-		Minute: 44
-		Second: 15
-		Millisecond: 864
+		Month: 10
+		Day: 7
+		Hour: 9
+		Minute: 55
+		Second: 23
+		Millisecond: 552
 	}
 	Creator: "FBX SDK/FBX Plugins version 2020.0.1"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -28,21 +28,20 @@ FBXHeaderExtension:  {
 			Comment: ""
 		}
 		Properties70:  {
-			P: "DocumentUrl", "KString", "Url", "", "C:\Users\Brad\Documents\maya\projects\kitchen\scenes\tallGlass_internalVolume.fbx"
-			P: "SrcDocumentUrl", "KString", "Url", "", "C:\Users\Brad\Documents\maya\projects\kitchen\scenes\tallGlass_internalVolume.fbx"
+			P: "DocumentUrl", "KString", "Url", "", "S:\cookingSim\XR-Accelerator-Cooking-Simulator\Assets\CookingSim\Models\InternalVolumes\tallGlass_internalVolume.fbx"
+			P: "SrcDocumentUrl", "KString", "Url", "", "S:\cookingSim\XR-Accelerator-Cooking-Simulator\Assets\CookingSim\Models\InternalVolumes\tallGlass_internalVolume.fbx"
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "Original|ApplicationName", "KString", "", "", "Maya"
 			P: "Original|ApplicationVersion", "KString", "", "", "202002"
-			P: "Original|DateTime_GMT", "DateTime", "", "", "24/09/2020 19:44:15.860"
-			P: "Original|FileName", "KString", "", "", "C:\Users\Brad\Documents\maya\projects\kitchen\scenes\tallGlass_internalVolume.fbx"
+			P: "Original|DateTime_GMT", "DateTime", "", "", "07/10/2020 16:55:23.551"
+			P: "Original|FileName", "KString", "", "", "S:\cookingSim\XR-Accelerator-Cooking-Simulator\Assets\CookingSim\Models\InternalVolumes\tallGlass_internalVolume.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Maya"
 			P: "LastSaved|ApplicationVersion", "KString", "", "", "202002"
-			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "24/09/2020 19:44:15.860"
-			P: "Original|ApplicationActiveProject", "KString", "", "", "C:\Users\Brad\Documents\maya\projects\kitchen\scenes"
-			P: "Original|ApplicationNativeFile", "KString", "", "", "C:\Users\Brad\Documents\maya\projects\kitchen\scenes\tallGlass.ma"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "07/10/2020 16:55:23.551"
+			P: "Original|ApplicationActiveProject", "KString", "", "", "S:\cookingSim\XR-Accelerator-Cooking-Simulator\Assets\CookingSim\Models\InternalVolumes"
 		}
 	}
 }
@@ -77,7 +76,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 3092404843696, "", "Scene" {
+	Document: 2870440315792, "", "Scene" {
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
 			P: "ActiveAnimStackName", "KString", "", "", "Take 001"
@@ -222,7 +221,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 3092442845824, "Geometry::", "Mesh" {
+	Geometry: 2870446878816, "Geometry::", "Mesh" {
 		Vertices: *144 {
 			a: -0.811067879199982,0.260585159063339,-3.02690601348877,-1.09197362689883e-05,0.260585129261017,-3.13368368148804,-2.21585988998413,0.260585457086563,-2.21584868431091,-3.02691674232483,0.260585695505142,-0.811057031154633,-3.02691674232483,0.260585963726044,0.811057031154633,-2.21585988998413,0.260586082935333,2.21584868431091,-0.811067879199982,0.260586023330688,3.02690601348877,0.811046004295349,0.260585784912109,3.02690601348877,2.21583795547485,0.26058554649353,2.21584868431091,3.02689456939697,0.260585248470306,0.811057031154633,3.02689456939697,0.260585010051727,-0.811057031154633,2.21583795547485,0.260584950447083,-2.21584868431091,0.811046004295349,0.260584950447083,-3.02690601348877,-1.56685280799866,0.260585337877274,-2.71384930610657,-2.71386051177979,0.260585606098175,-1.56684184074402,-3.13369464874268,0.260585874319077,-8.12598486277238e-08,-2.71386051177979,0.260586053133011,1.56684184074402,-1.56685280799866,0.260585993528366,2.71384930610657,-1.09197362689883e-05,0.260585874319077,3.13368368148804,1.56683087348938,0.26058566570282,2.71384930610657,2.71383857727051,0.260585367679596,1.56684184074402,3.13367295265198,0.260585129261017,-8.12597491517408e-08,2.71383857727051,0.26058492064476,-1.56684184074402,1.56683087348938,0.260584950447083,-2.71384930610657,3.68512320518494,12.5423288345337,-1.05521294244681e-05,3.55955481529236,12.5423269271851,0.953777968883514,3.19140577316284,12.5423269271851,1.84256732463837,2.60576581954956,12.5423269271851,2.60578775405884,1.84254539012909,12.5423269271851,3.19142746925354,0.953755736351013,12.5423269271851,3.5595760345459,-3.27009947795887e-05,12.5423269271851,3.68514513969421,-0.953821182250977,12.5423269271851,3.5595760345459,-1.8426102399826,12.5423269271851,3.19142723083496,-2.60583114624023,12.5423269271851,2.60578751564026,-3.19147062301636,12.5423269271851,1.8425669670105,-3.55961942672729,12.5423269271851,0.953777313232422,-3.68518877029419,12.5423316955566,-1.11506496978109e-05,-3.55961942672729,12.5423316955566,-0.953799605369568,
 -3.19147062301636,12.5423316955566,-1.84258902072906,-2.60583066940308,12.5423316955566,-2.60580968856812,-1.84260976314545,12.5423316955566,-3.19144988059998,-0.953820645809174,12.5423288345337,-3.55959844589233,-3.21024745062459e-05,12.5423288345337,-3.68516707420349,0.953756332397461,12.5423288345337,-3.55959844589233,1.84254550933838,12.5423288345337,-3.19144940376282,2.6057665348053,12.5423288345337,-2.60580945014954,3.19140577316284,12.5423288345337,-1.8425886631012,3.55955481529236,12.5423288345337,-0.953798949718475
@@ -231,7 +230,7 @@ Objects:  {
 			a: 3,4,-16,25,9,21,-25,20,9,25,-27,27,8,20,-27,19,8,27,-29,29,7,19,-29,18,7,29,-31,31,6,18,-31,17,6,31,-33,33,5,17,-33,34,16,5,-34,35,4,16,-35,4,35,36,-16,37,3,15,-37,14,3,37,-39,39,2,14,-39,13,2,39,-41,41,0,13,-41,1,0,41,-43,43,12,1,-43,23,12,43,-45,45,11,23,-45,46,22,11,-46,47,10,22,-47,10,47,24,-22,30,42,41,-32,25,24,-48,30,29,43,-43,29,28,44,-44,28,27,45,-45,27,26,46,-46,26,25,47,-47,41,40,32,-32,40,39,33,-33,39,38,34,-34,38,37,35,-35,37,36,-36,9,10,-22,0,1,18,-7,0,6,17,-14,13,17,5,-3,2,5,16,-15,14,16,4,-4,18,1,12,-8,7,12,23,-20,19,23,11,-9,8,11,22,-21,20,22,10,-10
 		} 
 		Edges: *94 {
-			a: 10,7,1,49,12,11,4,2,51,60,59,55,20,19,15,68,67,63,26,23,74,71,76,75,84,83,79,36,35,31,88,87,40,39,92,91,28,44,98,5,3,6,9,14,18,17,22,25,27,30,34,33,38,42,43,46,48,54,58,57,62,66,65,70,73,78,82,81,86,90,94,96,99,107,111,115,119,105,101,127,131,135,139,149,151,154,158,162,0,170,174,178,182,145
+			a: 0,1,2,3,4,5,6,7,9,10,11,12,14,15,17,18,19,20,22,23,25,26,27,28,30,31,33,34,35,36,38,39,40,42,43,44,46,48,49,51,54,55,57,58,59,60,62,63,65,66,67,68,70,71,73,74,75,76,78,79,81,82,83,84,86,87,88,90,91,92,94,96,98,99,101,105,107,111,115,119,127,131,135,139,145,149,151,154,158,162,170,174,178,182
 		} 
 		GeometryVersion: 124
 		LayerElementNormal: 0 {
@@ -268,11 +267,11 @@ Objects:  {
 			}
 		}
 	}
-	Model: 3092404320544, "Model::tallGlass_internalVolume", "Mesh" {
+	Model: 2870400738192, "Model::tallGlass_internalVolume", "Mesh" {
 		Version: 232
 		Properties70:  {
-			P: "RotationPivot", "Vector3D", "Vector", "",-1.09197362689883e-05,0.260585129261017,-3.13368368148804
-			P: "ScalingPivot", "Vector3D", "Vector", "",-1.09197362689883e-05,0.260585129261017,-3.13368368148804
+			P: "RotationPivot", "Vector3D", "Vector", "",-3.27825546264648e-05,0.260585606098173,-1.09672546386719e-05
+			P: "ScalingPivot", "Vector3D", "Vector", "",-3.27825546264648e-05,0.260585606098173,-1.09672546386719e-05
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
@@ -282,7 +281,7 @@ Objects:  {
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Material: 3094449691136, "Material::lambert1", "" {
+	Material: 2870221211632, "Material::lambert2", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -305,11 +304,11 @@ Objects:  {
 Connections:  {
 	
 	;Model::tallGlass_internalVolume, Model::RootNode
-	C: "OO",3092404320544,0
+	C: "OO",2870400738192,0
 	
 	;Geometry::, Model::tallGlass_internalVolume
-	C: "OO",3092442845824,3092404320544
+	C: "OO",2870446878816,2870400738192
 	
-	;Material::lambert1, Model::tallGlass_internalVolume
-	C: "OO",3094449691136,3092404320544
+	;Material::lambert2, Model::tallGlass_internalVolume
+	C: "OO",2870221211632,2870400738192
 }
