@@ -1277,7 +1277,7 @@ MonoBehaviour:
   containerVolume: 2000
   isMeshOriginOnCenter: 0
   meshRenderer: {fileID: 8362722299602265423}
-  stirringParticleSystem: {fileID: 0}
+  stirringParticleSystem: {fileID: 3344172178252205265}
   MaxWobble: 0.01
   WobbleSpeed: 1
   WobbleRecovery: 1
@@ -1651,6 +1651,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6120988017138624899}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &3344172178252205265 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8834651568177407314, guid: 620c62eae908a4849b8adf464c5152a2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6120988017138624899}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8026313488632487882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1740,6 +1746,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c70c19ea7f83a44ba3ff73b11cdfe02, type: 3}
+--- !u!4 &6361251569802713093 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3973447069798041551, guid: 5c70c19ea7f83a44ba3ff73b11cdfe02,
+    type: 3}
+  m_PrefabInstance: {fileID: 8026313488632487882}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4596449364134355747 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5812721878071114985, guid: 5c70c19ea7f83a44ba3ff73b11cdfe02,
@@ -1752,9 +1764,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0472b6bc6e7a4638b9f3de377cd800ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &6361251569802713093 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3973447069798041551, guid: 5c70c19ea7f83a44ba3ff73b11cdfe02,
-    type: 3}
-  m_PrefabInstance: {fileID: 8026313488632487882}
-  m_PrefabAsset: {fileID: 0}

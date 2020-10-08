@@ -1328,6 +1328,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gas_Flames (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5590925907895031777, guid: cf5d287f8edcc304db9beaa9876e1049,
+        type: 3}
+      propertyPath: stoveSwitch
+      value: 
+      objectReference: {fileID: 1205227029233414588}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf5d287f8edcc304db9beaa9876e1049, type: 3}
 --- !u!4 &2548596769360609158 stripped
@@ -1418,6 +1423,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gas_Flames
       objectReference: {fileID: 0}
+    - target: {fileID: 5590925907895031777, guid: cf5d287f8edcc304db9beaa9876e1049,
+        type: 3}
+      propertyPath: stoveSwitch
+      value: 
+      objectReference: {fileID: 2361225461481472309}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf5d287f8edcc304db9beaa9876e1049, type: 3}
 --- !u!4 &3773310017226901642 stripped
@@ -1508,6 +1518,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gas_Flames (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5590925907895031777, guid: cf5d287f8edcc304db9beaa9876e1049,
+        type: 3}
+      propertyPath: stoveSwitch
+      value: 
+      objectReference: {fileID: 1086898539993086005}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf5d287f8edcc304db9beaa9876e1049, type: 3}
 --- !u!4 &6493613008662326566 stripped
@@ -1598,6 +1613,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gas_Flames (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5590925907895031777, guid: cf5d287f8edcc304db9beaa9876e1049,
+        type: 3}
+      propertyPath: stoveSwitch
+      value: 
+      objectReference: {fileID: 8432636032999347974}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf5d287f8edcc304db9beaa9876e1049, type: 3}
 --- !u!4 &8432427916753071838 stripped
