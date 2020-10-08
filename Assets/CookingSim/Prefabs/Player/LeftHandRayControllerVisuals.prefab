@@ -301,7 +301,7 @@ PrefabInstance:
         type: 3}
       propertyPath: attachPoint
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2448045319192819050}
     - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: interactionType
@@ -404,6 +404,12 @@ PrefabInstance:
 --- !u!1 &4770210377153078287 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 81a40f51c0f4acb49b8245bde3ec2913,
+    type: 3}
+  m_PrefabInstance: {fileID: 5688706867926817118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2448045319192819050 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -1221763032459121612, guid: 81a40f51c0f4acb49b8245bde3ec2913,
     type: 3}
   m_PrefabInstance: {fileID: 5688706867926817118}
   m_PrefabAsset: {fileID: 0}
