@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 using XRAccelerator.Services;
 
@@ -10,6 +11,7 @@ namespace XRAccelerator.Gameplay
         [SerializeField]
         [Tooltip("How much force should break the FixedJoint proxy <> connectedBody")]
         private float breakForce;
+
         [SerializeField]
         [Tooltip("How much torque should break the FixedJoint proxy <> connectedBody")]
         private float breakTorque;
@@ -18,9 +20,16 @@ namespace XRAccelerator.Gameplay
         [SerializeField]
         [Tooltip("The actual object that will be lifted when the user picks up this proxy")]
         private Rigidbody connectedBody;
+
         [SerializeField]
-        [Tooltip("A reference to a ProxyHandVisual monobehavior component.\nSet this if you want to display a geometric matched hand when the proxy is grabbed")]
-        private ProxyHandVisuals proxyHandVisuals;
+        [Tooltip("A reference to the right hand ProxyHandVisual component.\nSet this if you want to display a geometric matched hand when the proxy is grabbed")]
+        private ProxyHandVisuals rightHandProxyHandVisuals;
+
+        [SerializeField]
+        [Tooltip("A reference to the left hand ProxyHandVisual component.\nSet this if you want to display a geometric matched hand when the proxy is grabbed")]
+        private ProxyHandVisuals leftHandProxyHandVisuals;
+
+        private bool HasProxyVisuals => rightHandProxyHandVisuals != null;
 
         private Rigidbody proxyBody;
         private Collider proxyCollider;
@@ -47,27 +56,38 @@ namespace XRAccelerator.Gameplay
             StartCoroutine(ReenableGrab());
         }
 
+        #region Proxy Hands
+
         private void EnableProxyHandVisual()
         {
-            if (proxyHandVisuals == null)
+            if (!HasProxyVisuals)
             {
                 return;
             }
 
-            proxyHandVisuals.Enable(currentInteractor.transform);
+            GetMatchingControllerProxy().Enable(currentInteractor.transform);
             currentController.hideControllerModel = true;
         }
 
         private void DisableProxyHandVisual()
         {
-            if (proxyHandVisuals == null)
+            if (!HasProxyVisuals)
             {
                 return;
             }
 
-            proxyHandVisuals.Disable();
+            GetMatchingControllerProxy().Disable();
             currentController.hideControllerModel = false;
         }
+
+        private ProxyHandVisuals GetMatchingControllerProxy()
+        {
+            return currentController.controllerNode == XRNode.RightHand
+                ? rightHandProxyHandVisuals
+                : leftHandProxyHandVisuals;
+        }
+
+        #endregion
 
         private void OnGrab(XRBaseInteractor interactor)
         {
@@ -176,6 +196,12 @@ namespace XRAccelerator.Gameplay
             foreach (var locomotionProvider in referencesProvider.registeredLocomotionProviders)
             {
                 locomotionProvider.startLocomotion += OnRigStartLocomotion;
+            }
+
+            if (HasProxyVisuals)
+            {
+                rightHandProxyHandVisuals.Disable();
+                leftHandProxyHandVisuals.Disable();
             }
         }
 
