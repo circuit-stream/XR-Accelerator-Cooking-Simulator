@@ -72,7 +72,12 @@ namespace XRAccelerator.Gameplay
         {
             currentLiquidVolume += volume;
             currentLiquidHeight += volume / containerVolumePerHeight;
-            meshRenderer.material = newMaterial;
+
+            if (newMaterial != meshRenderer.material)
+            {
+                meshRenderer.material = newMaterial;
+                UpdateShaderFillAmount();
+            }
         }
 
         public void Empty()
@@ -171,7 +176,7 @@ namespace XRAccelerator.Gameplay
         private void UpdateShaderFillAmount()
         {
             float shaderFill = currentLiquidHeight <= 0 ? -500 : GetLiquidLocalHeight();
-            _renderer.material.SetFloat(FillAmountShaderName, shaderFill) ;
+            _renderer.material.SetFloat(FillAmountShaderName, shaderFill);
         }
 
         #endregion
