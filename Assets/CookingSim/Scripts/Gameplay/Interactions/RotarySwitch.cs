@@ -223,14 +223,15 @@ namespace XRAccelerator.Gameplay
             Vector3 axis = _transform.up;
             if (rotationAxis == RotationAxis.X)
             {
-                axis = _transform.forward;
+                axis = _transform.right;
             }
             else if (rotationAxis == RotationAxis.Z)
             {
-                axis = _transform.right;
+                axis = _transform.forward;
             }
 
-                (B * Quaternion.Inverse(A)).ToAngleAxis(out float angle, out Vector3 angleAxis);
+            (B * Quaternion.Inverse(A)).ToAngleAxis(out float angle, out Vector3 angleAxis);
+
             if (Vector3.Angle(axis, angleAxis) > 90f)
             {
                 angle = -angle;
