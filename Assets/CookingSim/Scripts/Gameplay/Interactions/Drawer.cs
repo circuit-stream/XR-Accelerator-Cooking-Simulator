@@ -46,8 +46,6 @@ namespace XRAccelerator.Gameplay
 
         protected override void Awake()
         {
-            base.Awake();
-
             if (initialDrawerPosition == null)
             {
                 Debug.LogError("Please Set the initial drawer position transform", this.gameObject);
@@ -66,6 +64,8 @@ namespace XRAccelerator.Gameplay
 
             onSelectEnter.AddListener(OnBeginInteraction);
             onSelectExit.AddListener(OnEndInteraction);
+
+            base.Awake();
         }
 
 
