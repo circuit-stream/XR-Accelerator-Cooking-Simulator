@@ -60,14 +60,14 @@ Material:
     - _Cutoff: 0.5
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _FillAmount: 100
+    - _FillAmount: 4.84
     - _FoamColor: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Offset: 0
+    - _Offset: 6.77
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
@@ -75,16 +75,16 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _WobbleX: 0
-    - _WobbleZ: 0
+    - _WobbleX: 1
+    - _WobbleZ: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BottomColor: {r: 0, g: 0.6627451, b: 1, a: 0.23529412}
+    - _BottomColor: {r: 0, g: 0.6627451, b: 1, a: 0.2509804}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 0, g: 0.6627451, b: 1, a: 0.23529412}
+    - _FoamColor: {r: 0, g: 0.6627451, b: 1, a: 0.2509804}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _TopColor: {r: 0, g: 0.6627451, b: 1, a: 0.23529412}
 --- !u!114 &6127170826230790400
