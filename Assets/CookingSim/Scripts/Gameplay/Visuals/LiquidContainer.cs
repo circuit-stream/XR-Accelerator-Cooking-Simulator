@@ -39,6 +39,10 @@ namespace XRAccelerator.Gameplay
         [Tooltip("How fast should the liquid stop wobbling")]
         private float WobbleRecovery = 1f;
 
+        [SerializeField]
+        [Tooltip("[Optional] If a non ingredient mesh should be updated as submerged.\nThe submergedShader must be applied manually to the desired materials")]
+        private MeshRenderer defaultSubmergedMesh;
+
         // Container Variables
         private const int pourPointsAmount = 10;
         private List<Transform> pourPoints;
@@ -241,27 +245,22 @@ namespace XRAccelerator.Gameplay
 
         #region ObjectSubmersion
 
-        private void SubmergeMeshRenderer(MeshRenderer submergedRenderer)
+        private void SubmergeMeshRenderer(MeshRenderer submergedRenderer, bool changeShader = true)
         {
-            if (submergedShader == null)
-            {
-                submergedShader = Shader.Find("Custom/SubmergedLit");
-            }
-
-            if (submergedRenderer.gameObject.layer != LayerMask.NameToLayer("Ingredient"))
-            {
-                return;
-            }
-
             submergedMeshRendererOriginalShaders.Add(submergedRenderer, submergedRenderer.materials.Select(material => material.shader).ToList());
 
             var submergedPosition = submergedRenderer.transform.position;
+            var color = LiquidColor;
 
             foreach (var material in submergedRenderer.materials)
             {
-                material.shader = submergedShader;
-                material.SetColor(LiquidColorShaderName, LiquidColor);
-                SetSubmergedFillAmount(submergedPosition, material);
+                if (changeShader)
+                {
+                    material.shader = submergedShader;
+                }
+
+                SetSubmergedMaterialColor(material, color);
+                SetSubmergedMaterialFillAmount(submergedPosition, material);
             }
         }
 
@@ -273,7 +272,7 @@ namespace XRAccelerator.Gameplay
 
                 foreach (var material in submergedRenderer.materials)
                 {
-                    SetSubmergedFillAmount(submergedPosition, material);
+                    SetSubmergedMaterialFillAmount(submergedPosition, material);
                 }
             }
         }
@@ -284,15 +283,26 @@ namespace XRAccelerator.Gameplay
             {
                 foreach (var material in submergedRenderer.materials)
                 {
-                    material.SetColor(LiquidColorShaderName, color);
+                    SetSubmergedMaterialColor(material, color);
                 }
             }
         }
 
-        private void SetSubmergedFillAmount(Vector3 submergedPosition, Material material)
+        private void SetSubmergedMaterialColor(Material material, Color color)
         {
-            var fill = transform.position.y - submergedPosition.y + currentLiquidHeight;
-            material.SetFloat(FillAmountShaderName, fill);
+            if (material.shader == submergedShader)
+            {
+                material.SetColor(LiquidColorShaderName, color);
+            }
+        }
+
+        private void SetSubmergedMaterialFillAmount(Vector3 submergedPosition, Material material)
+        {
+            if (material.shader == submergedShader)
+            {
+                var fill = transform.position.y - submergedPosition.y + currentLiquidHeight;
+                material.SetFloat(FillAmountShaderName, fill);
+            }
         }
 
         private void DryMeshRenderer(MeshRenderer submergedRenderer)
@@ -315,23 +325,28 @@ namespace XRAccelerator.Gameplay
 
         private void OnTriggerEnter(Collider other)
         {
-            foreach (var meshRenderer in other.GetComponentsInChildren<MeshRenderer>())
+            if (other.gameObject.layer != LayerMask.NameToLayer("Ingredient"))
             {
-                SubmergeMeshRenderer(meshRenderer);
+                return;
+            }
+
+            foreach (var colliderRenderer in other.GetComponentsInChildren<MeshRenderer>())
+            {
+                SubmergeMeshRenderer(colliderRenderer);
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            foreach (var meshRenderer in other.GetComponentsInChildren<MeshRenderer>())
+            foreach (var colliderRenderer in other.GetComponentsInChildren<MeshRenderer>())
             {
-                DryMeshRenderer(meshRenderer);
+                DryMeshRenderer(colliderRenderer);
             }
         }
 
         #endregion
 
-        private void CreatePoints(List<Transform> points, float verticalOffset, string groupName, float horizontalOffset = 0)
+        private void CreatePoints(List<Transform> points, float verticalOffset, string groupName)
         {
             Transform pointsParent = new GameObject(groupName).transform;
             pointsParent.parent = _transform;
@@ -384,8 +399,15 @@ namespace XRAccelerator.Gameplay
             _renderer = GetComponent<Renderer>();
             _transform = transform;
 
+            submergedShader = Shader.Find("Custom/SubmergedLit");
+            if (defaultSubmergedMesh != null)
+            {
+                SubmergeMeshRenderer(defaultSubmergedMesh, false);
+            }
+
             InitializeConstantVariables();
             UpdateShaderFillAmount();
+            UpdateSubmergedMaterialFill();
         }
     }
 }
