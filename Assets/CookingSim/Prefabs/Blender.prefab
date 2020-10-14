@@ -5881,7 +5881,7 @@ MonoBehaviour:
   MaxWobble: 0.01
   WobbleSpeed: 1
   WobbleRecovery: 1
-  defaultSubmergedMesh: {fileID: 2378120}
+  defaultSubmergedMesh: {fileID: 0}
 --- !u!1 &8492532220255561492
 GameObject:
   m_ObjectHideFlags: 0
