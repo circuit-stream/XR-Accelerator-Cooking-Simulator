@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace XRAccelerator.Gameplay
@@ -9,6 +10,7 @@ namespace XRAccelerator.Gameplay
         private static readonly int WobbleXShaderName = Shader.PropertyToID("_WobbleX");
         private static readonly int WobbleZShaderName = Shader.PropertyToID("_WobbleZ");
         private static readonly int FillAmountShaderName = Shader.PropertyToID("_FillAmount");
+        private static readonly int LiquidColorShaderName = Shader.PropertyToID("_LiquidColor");
 
         public Action<float> Spilled;
 
@@ -36,6 +38,10 @@ namespace XRAccelerator.Gameplay
         [SerializeField]
         [Tooltip("How fast should the liquid stop wobbling")]
         private float WobbleRecovery = 1f;
+
+        [SerializeField]
+        [Tooltip("[Optional] If a non ingredient mesh should be updated as submerged.\nThe submergedShader must be applied manually to the desired materials")]
+        private MeshRenderer defaultSubmergedMesh;
 
         // Container Variables
         private const int pourPointsAmount = 10;
@@ -68,6 +74,11 @@ namespace XRAccelerator.Gameplay
 
         public Transform GetCurrentPourPoint => lowestPourPoint;
 
+        private Color LiquidColor => meshRenderer.material.GetColor(LiquidColorShaderName);
+        private Shader submergedShader;
+        private readonly Dictionary<MeshRenderer, List<Shader>> submergedMeshRendererOriginalShaders
+            = new Dictionary<MeshRenderer, List<Shader>>();
+
         public void AddLiquid(float volume, Material newMaterial)
         {
             currentLiquidVolume += volume;
@@ -77,6 +88,7 @@ namespace XRAccelerator.Gameplay
             {
                 meshRenderer.material = newMaterial;
                 UpdateShaderFillAmount();
+                UpdateSubmergedMaterialColor(LiquidColor);
             }
         }
 
@@ -228,9 +240,113 @@ namespace XRAccelerator.Gameplay
 
             TrySpill();
             UpdateShaderFillAmount();
+            UpdateSubmergedMaterialFill();
         }
 
-        private void CreatePoints(List<Transform> points, float verticalOffset, string groupName, float horizontalOffset = 0)
+        #region ObjectSubmersion
+
+        private void SubmergeMeshRenderer(MeshRenderer submergedRenderer, bool changeShader = true)
+        {
+            submergedMeshRendererOriginalShaders.Add(submergedRenderer, submergedRenderer.materials.Select(material => material.shader).ToList());
+
+            var submergedPosition = submergedRenderer.transform.position;
+            var color = LiquidColor;
+
+            foreach (var material in submergedRenderer.materials)
+            {
+                if (changeShader)
+                {
+                    material.shader = submergedShader;
+                }
+
+                SetSubmergedMaterialColor(material, color);
+                SetSubmergedMaterialFillAmount(submergedPosition, material);
+            }
+        }
+
+        private void UpdateSubmergedMaterialFill()
+        {
+            foreach (var submergedRenderer in submergedMeshRendererOriginalShaders.Keys)
+            {
+                var submergedPosition = submergedRenderer.transform.position;
+
+                foreach (var material in submergedRenderer.materials)
+                {
+                    SetSubmergedMaterialFillAmount(submergedPosition, material);
+                }
+            }
+        }
+
+        private void UpdateSubmergedMaterialColor(Color color)
+        {
+            foreach (var submergedRenderer in submergedMeshRendererOriginalShaders.Keys)
+            {
+                foreach (var material in submergedRenderer.materials)
+                {
+                    SetSubmergedMaterialColor(material, color);
+                }
+            }
+        }
+
+        private void SetSubmergedMaterialColor(Material material, Color color)
+        {
+            if (material.shader == submergedShader)
+            {
+                material.SetColor(LiquidColorShaderName, color);
+            }
+        }
+
+        private void SetSubmergedMaterialFillAmount(Vector3 submergedPosition, Material material)
+        {
+            if (material.shader == submergedShader)
+            {
+                var fill = transform.position.y - submergedPosition.y + currentLiquidHeight;
+                material.SetFloat(FillAmountShaderName, fill);
+            }
+        }
+
+        private void DryMeshRenderer(MeshRenderer submergedRenderer)
+        {
+            if (!submergedMeshRendererOriginalShaders.ContainsKey(submergedRenderer))
+            {
+                return;
+            }
+
+            var originalShaders = submergedMeshRendererOriginalShaders[submergedRenderer];
+
+            for (var index = 0; index < submergedRenderer.materials.Length; index++)
+            {
+                var material = submergedRenderer.materials[index];
+                material.shader = originalShaders[index];
+            }
+
+            submergedMeshRendererOriginalShaders.Remove(submergedRenderer);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.layer != LayerMask.NameToLayer("Ingredient"))
+            {
+                return;
+            }
+
+            foreach (var colliderRenderer in other.GetComponentsInChildren<MeshRenderer>())
+            {
+                SubmergeMeshRenderer(colliderRenderer);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            foreach (var colliderRenderer in other.GetComponentsInChildren<MeshRenderer>())
+            {
+                DryMeshRenderer(colliderRenderer);
+            }
+        }
+
+        #endregion
+
+        private void CreatePoints(List<Transform> points, float verticalOffset, string groupName)
         {
             Transform pointsParent = new GameObject(groupName).transform;
             pointsParent.parent = _transform;
@@ -283,8 +399,15 @@ namespace XRAccelerator.Gameplay
             _renderer = GetComponent<Renderer>();
             _transform = transform;
 
+            submergedShader = Shader.Find("Custom/SubmergedLit");
+            if (defaultSubmergedMesh != null)
+            {
+                SubmergeMeshRenderer(defaultSubmergedMesh, false);
+            }
+
             InitializeConstantVariables();
             UpdateShaderFillAmount();
+            UpdateSubmergedMaterialFill();
         }
     }
 }

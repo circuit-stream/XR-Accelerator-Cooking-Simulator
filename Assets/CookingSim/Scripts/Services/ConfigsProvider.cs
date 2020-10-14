@@ -21,12 +21,6 @@ namespace XRAccelerator.Services
             return recipeConfigs.Where(recipeConfig => recipeConfig.ApplianceType == applianceType).ToList();
         }
 
-        public List<LevelConfig> GetAllLevelConfigs()
-        {
-            // TODO Arthur: return all LevelConfigs
-            throw new NotImplementedException();
-        }
-
         private void FetchConfigs()
         {
             // TODO Arthur: Load RecipeConfigs / IngredientConfigs / ...

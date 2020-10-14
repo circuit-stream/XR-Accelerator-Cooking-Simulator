@@ -90,6 +90,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1473601134}
+  - {fileID: 7024112658337498511}
   m_Father: {fileID: 1574985782}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -111,6 +112,9 @@ MonoBehaviour:
   customModelsOffsets:
   - vrController: 2
     offset: {fileID: 1473601134}
+    colliderOffset: {x: 0, y: 0, z: 0}
+  - vrController: 1
+    offset: {fileID: 7024112658337498511}
     colliderOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &251082207526534994
 GameObject:
@@ -141,6 +145,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8475425414472500515}
+  - {fileID: 7185776643504779190}
   m_Father: {fileID: 6780010364333212457}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -162,6 +167,9 @@ MonoBehaviour:
   customModelsOffsets:
   - vrController: 2
     offset: {fileID: 8475425414472500515}
+    colliderOffset: {x: 0, y: 0, z: 0}
+  - vrController: 1
+    offset: {fileID: 7185776643504779190}
     colliderOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &665028060846402754
 GameObject:
@@ -192,6 +200,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1472949021281702295}
+  - {fileID: 8626955834770104230}
   m_Father: {fileID: 3603968398999599217}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -213,6 +222,9 @@ MonoBehaviour:
   customModelsOffsets:
   - vrController: 2
     offset: {fileID: 1472949021281702295}
+    colliderOffset: {x: -0.04, y: 0.025, z: -0.08}
+  - vrController: 1
+    offset: {fileID: 8626955834770104230}
     colliderOffset: {x: -0.04, y: 0.025, z: -0.08}
 --- !u!1 &863969138490613773
 GameObject:
@@ -245,6 +257,36 @@ Transform:
   m_Father: {fileID: 1104582062034549806}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &935503078123828921
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8626955834770104230}
+  m_Layer: 0
+  m_Name: OculusQuest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8626955834770104230
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935503078123828921}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: -0, y: 0, z: -0.05}
+  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5762843615188725683}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -90}
 --- !u!1 &1335967015815361631
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,6 +377,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2241744533183970782}
+  - {fileID: 2077122535298434906}
   m_Father: {fileID: 2318394076519534889}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -357,6 +400,39 @@ MonoBehaviour:
   - vrController: 2
     offset: {fileID: 2241744533183970782}
     colliderOffset: {x: 0, y: 0, z: 0}
+  - vrController: 1
+    offset: {fileID: 2077122535298434906}
+    colliderOffset: {x: 0, y: 0, z: 0}
+--- !u!1 &1830832085112428072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7921142264425265363}
+  m_Layer: 0
+  m_Name: OculusTouch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7921142264425265363
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1830832085112428072}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: -0, y: 0, z: -0.05}
+  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4976807838323930445}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -90}
 --- !u!1 &1945692590235693664
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,6 +464,66 @@ Transform:
   m_Father: {fileID: 4747900811275369542}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2073955106957051654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7024112658337498511}
+  m_Layer: 0
+  m_Name: OculusTouch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7024112658337498511
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073955106957051654}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: -0.05}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2006524875}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
+--- !u!1 &3115450374150976206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2077122535298434906}
+  m_Layer: 0
+  m_Name: OculusTouch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2077122535298434906
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3115450374150976206}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: -0.05}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7125966434045270427}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!1 &3263782043034185866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1259,6 +1395,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8405781294271361265}
+  - {fileID: 7921142264425265363}
   m_Father: {fileID: 6233975073978291789}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1280,6 +1417,9 @@ MonoBehaviour:
   customModelsOffsets:
   - vrController: 2
     offset: {fileID: 8405781294271361265}
+    colliderOffset: {x: 0, y: 0, z: 0}
+  - vrController: 1
+    offset: {fileID: 7921142264425265363}
     colliderOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &4610299843341036632
 GameObject:
@@ -1408,7 +1548,7 @@ MonoBehaviour:
   m_SphereCastRadius: 0
   m_RaycastMask:
     serializedVersion: 2
-    m_Bits: 33
+    m_Bits: 32
   m_RaycastTriggerInteraction: 1
   m_HoverToSelect: 0
   m_HoverTimeToSelect: 0.5
@@ -1484,6 +1624,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2222252271524689568}
+  - {fileID: 941125400175154513}
   m_Father: {fileID: 5514964690951192012}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1506,6 +1647,39 @@ MonoBehaviour:
   - vrController: 2
     offset: {fileID: 2222252271524689568}
     colliderOffset: {x: 0.04, y: 0.025, z: -0.08}
+  - vrController: 1
+    offset: {fileID: 941125400175154513}
+    colliderOffset: {x: 0.04, y: 0.025, z: -0.08}
+--- !u!1 &6441083817792132190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7185776643504779190}
+  m_Layer: 0
+  m_Name: OculusTouch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7185776643504779190
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6441083817792132190}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: -0, y: 0, z: -0.05}
+  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1766585424176263463}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -90}
 --- !u!1 &6465321694212081433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,6 +1824,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fbdb30b2a64e3b8494022ade85cbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6903417386562416333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 941125400175154513}
+  m_Layer: 0
+  m_Name: OculusTouch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &941125400175154513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6903417386562416333}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: -0.05}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5839795127439577226}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!1 &7825174951782923023
 GameObject:
   m_ObjectHideFlags: 0

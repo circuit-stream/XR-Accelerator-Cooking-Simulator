@@ -296,7 +296,7 @@ PrefabInstance:
         type: 3}
       propertyPath: attachPoint
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6492411580446183596}
     - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: interactorLineVisual
@@ -398,6 +398,12 @@ PrefabInstance:
 --- !u!1 &9150509919633120865 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3bc53aa9822f9304c8d6f5a71068d53b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8231539550219313968}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6492411580446183596 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2892965127047754652, guid: 3bc53aa9822f9304c8d6f5a71068d53b,
     type: 3}
   m_PrefabInstance: {fileID: 8231539550219313968}
   m_PrefabAsset: {fileID: 0}
