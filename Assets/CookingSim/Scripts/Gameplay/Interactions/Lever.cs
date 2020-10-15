@@ -1,51 +1,38 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
+using XRAccelerator.Enums;
 
 namespace XRAccelerator.Gameplay
 {
     [RequireComponent(typeof(Collider))]
     public class Lever : XRSimpleInteractable
     {
-        private Transform currentControllerTransform;
-        private bool IsInteracting => currentControllerTransform != null;
-
-        [SerializeField] 
+        [SerializeField]
         [Tooltip("The Transform that is the pivot of the lever.")]
         private Transform leverPivot;
 
-        [SerializeField] 
+        [SerializeField]
         [Tooltip("The rotating part of the lever.")]
         private Transform movableTransform;
-
-        private enum Axis
-        {
-            X,
-            Y,
-            Z
-        }
 
         [SerializeField]
         [Tooltip("Based off of the orientation of the local orientation of the \"LeverPivot\"")]
         private Axis pivotLocalRotationAxis = Axis.X;
 
-        [SerializeField] 
+        [SerializeField]
         [Tooltip("Based off of the orientation of the local orientation of the \"LeverPivot\"")]
         private bool invertAxis = false;
 
-        [SerializeField] 
+        [SerializeField]
         [Tooltip("The Deactivated Position of the lever")]
         private Vector3 localStartDirection;
 
-        [SerializeField] 
+        [SerializeField]
         [Tooltip("The Activated Position of the lever")]
         private Vector3 localEndDirection;
 
-        [SerializeField] 
+        [SerializeField]
         [Tooltip("If no limits, the lever can spin in circles")]
         private bool hasLimits = true;
 
@@ -53,38 +40,33 @@ namespace XRAccelerator.Gameplay
         [Tooltip("Reverse the rotation direction between the start and end directions")]
         private bool reverseRotation = false;
 
-        [SerializeField] 
+        [SerializeField]
         [Tooltip("Whether the lever snaps to start or end position")]
         private bool snapOnRelease = false;
 
-        [SerializeField] 
+        [SerializeField]
         [Tooltip("At what point the lever snaps")]
         private float snapToPercent = 0.5f;
 
-        public UnityEvent onActivated;
-        public UnityEvent onDeactivated;
-
-        [Serializable]
-        public class FloatEvent : UnityEvent<float>
-        {
-        }
-
-        public FloatEvent LeverChange;
-        public UnityEvent StartInteracting;
-        public UnityEvent EndInteracting;
-
-        private float localMaxAngle = 90f;
-        private Vector3 initialHandOffset;
+        public UnityEvent OnLeverReachedMax;
+        public UnityEvent OnLeverReachedMin;
+        public FloatEvent OnLeverMoved;
 
         public float PercentOpen { get; private set; }
-        public bool IsActivated { get; private set; }
+        public bool WasPreviouslyAtMax { get; private set; }
 
         public bool IsAtMax => Mathf.Approximately(PercentOpen, 1f);
 
         public bool IsAtMin => Mathf.Approximately(PercentOpen, 0f);
 
+        private Transform currentControllerTransform;
+        private bool IsInteracting => currentControllerTransform != null;
 
-        Vector3 localRotationAxis
+        private float localMaxAngle = 90f;
+        private Vector3 initialHandOffset;
+        private Quaternion startRotation;
+
+        private Vector3 LocalRotationAxis
         {
             get
             {
@@ -100,56 +82,14 @@ namespace XRAccelerator.Gameplay
             }
         }
 
-        private Quaternion startRotation;
-
-        protected override void Awake()
-        {
-            if (leverPivot == null)
-            {
-                Debug.LogError("Please Set the initial drawer position transform", this.gameObject);
-            }
-
-            if (movableTransform == null)
-            {
-                Debug.LogError("Please Set the initial movable drawer position transform", this.gameObject);
-            }
-
-            if (localRotationAxis == Vector3.zero)
-            {
-                Debug.LogError("Please set a rotational axis", this.gameObject);
-            }
-
-            Initialize();
-            
-            onSelectEnter.AddListener(OnBeginInteraction);
-            onSelectExit.AddListener(OnEndInteraction);
-            base.Awake();
-        }
-
-        private void Initialize()
-        {
-            if (hasLimits)
-            {
-                localMaxAngle = Vector3.Angle(localStartDirection, localEndDirection);
-                if (reverseRotation)
-                {
-                    localMaxAngle = -localMaxAngle;
-                }
-            }
-
-            startRotation = movableTransform.localRotation;
-        }
-
-        public void Interacting()
+        private void Interacting()
         {
             Vector3 leverDirection = ConvertWorldPointToAxisDirection(currentControllerTransform.transform.position);
-
             Vector3 startDirection = leverPivot.TransformDirection(localStartDirection);
-
             Vector3 perendicularAxisToDetermineRoationAngle = Vector3.Cross(startDirection, leverDirection);
 
             float currentAngle = Vector3.Angle(startDirection, leverDirection);
-            if (Vector3.Dot(perendicularAxisToDetermineRoationAngle, leverPivot.TransformDirection(localRotationAxis)) <
+            if (Vector3.Dot(perendicularAxisToDetermineRoationAngle, leverPivot.TransformDirection(LocalRotationAxis)) <
                 0)
             {
                 //TODO: fix this for any limits > 180
@@ -175,38 +115,33 @@ namespace XRAccelerator.Gameplay
 
         private Vector3 ConvertWorldPointToAxisDirection(Vector3 point)
         {
-            Vector3 pivotAxis = leverPivot.TransformDirection(localRotationAxis.normalized);
+            Vector3 pivotAxis = leverPivot.TransformDirection(LocalRotationAxis.normalized);
             return Vector3.ProjectOnPlane((point) - leverPivot.position, pivotAxis).normalized;
         }
 
         private void SetOpenPercent(float percent)
         {
             PercentOpen = Mathf.Clamp01(percent);
-            Vector3 pivotAxis = leverPivot.TransformDirection(localRotationAxis.normalized);
+            Vector3 pivotAxis = leverPivot.TransformDirection(LocalRotationAxis.normalized);
             movableTransform.localRotation = startRotation;
             movableTransform.RotateAround(leverPivot.transform.position, pivotAxis, PercentOpen * localMaxAngle);
-            LeverChange.Invoke(PercentOpen);
+            OnLeverMoved.Invoke(PercentOpen);
 
-            if (IsAtMax && !IsActivated)
+            if (IsAtMax && !WasPreviouslyAtMax)
             {
-                IsActivated = true;
-                onActivated.Invoke();
+                WasPreviouslyAtMax = true;
+                OnLeverReachedMax.Invoke();
             }
-            else if (IsAtMin && IsActivated)
+            else if (IsAtMin && WasPreviouslyAtMax)
             {
-                IsActivated = false;
-                onDeactivated.Invoke();
+                WasPreviouslyAtMax = false;
+                OnLeverReachedMin.Invoke();
             }
-        }
-
-        public void NotInteracting()
-        {
         }
 
         private void OnBeginInteraction(XRBaseInteractor interactor)
         {
             currentControllerTransform = interactor.transform;
-            StartInteracting?.Invoke();
         }
 
         private void OnEndInteraction(XRBaseInteractor interactor)
@@ -226,10 +161,8 @@ namespace XRAccelerator.Gameplay
                 }
             }
 
-            EndInteracting?.Invoke();
             currentControllerTransform = null;
         }
-
 
         private void Update()
         {
@@ -237,10 +170,34 @@ namespace XRAccelerator.Gameplay
             {
                 Interacting();
             }
-            else
+        }
+
+        private void Initialize()
+        {
+            if (hasLimits)
             {
-                NotInteracting();
+                localMaxAngle = Vector3.Angle(localStartDirection, localEndDirection);
+                if (reverseRotation)
+                {
+                    localMaxAngle = -localMaxAngle;
+                }
             }
+
+            startRotation = movableTransform.localRotation;
+        }
+
+        protected override void Awake()
+        {
+            Debug.Assert(leverPivot != null, "Please Set the initial lever position transform", gameObject);
+            Debug.Assert(movableTransform != null, "Please Set the initial movable lever position transform", gameObject);
+            Debug.Assert(LocalRotationAxis != Vector3.zero, "Please set a rotational axis", gameObject);
+
+            Initialize();
+
+            onSelectEnter.AddListener(OnBeginInteraction);
+            onSelectExit.AddListener(OnEndInteraction);
+
+            base.Awake();
         }
     }
 }

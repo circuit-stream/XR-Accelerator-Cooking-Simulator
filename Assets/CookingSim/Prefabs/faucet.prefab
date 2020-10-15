@@ -153,8 +153,9 @@ MonoBehaviour:
   breakForce: 50
   breakTorque: 1
   connectedBody: {fileID: 2270242617945461883}
-  rightHandProxyHandVisuals: {fileID: 5370682131928462959}
-  leftHandProxyHandVisuals: {fileID: 2605790356639453917}
+  proxyHands:
+    rightHandProxyHandVisuals: {fileID: 5370682131928462959}
+    leftHandProxyHandVisuals: {fileID: 2605790356639453917}
 --- !u!1 &719254348
 GameObject:
   m_ObjectHideFlags: 0
