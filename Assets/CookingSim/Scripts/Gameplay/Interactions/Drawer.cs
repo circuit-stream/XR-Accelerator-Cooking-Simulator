@@ -26,8 +26,11 @@ namespace XRAccelerator.Gameplay
         [Tooltip("Based off of the orientation of the \"initialPosition\" transform's orientation")]
         private Vector3 localPulloutDirection;
 
-        private Vector3 initialHandOffset;
+        [SerializeField]
+        [Tooltip("Proxy Hands references")]
+        private ProxyHandsVisuals handsVisuals;
 
+        [Header("Drawer Events")]
         public FloatEvent PercentOpenOnRelease;
         public UnityEvent OnOpen;
         public UnityEvent OnClose;
@@ -38,12 +41,15 @@ namespace XRAccelerator.Gameplay
 
         private Transform currentControllerTransform;
         private bool IsInteracting => currentControllerTransform != null;
+        private Vector3 initialHandOffset;
 
         protected override void Awake()
         {
             Debug.Assert(initialDrawerPosition != null, "Please Set the initial drawer position transform", gameObject);
             Debug.Assert(movableTransform != null, "Please Set the initial movable drawer position transform", gameObject);
             Debug.Assert(localPulloutDirection != Vector3.zero, "Please set a normal direction for the Drawer pullout", gameObject);
+
+            handsVisuals.Setup();
 
             onSelectEnter.AddListener(OnBeginInteraction);
             onSelectExit.AddListener(OnEndInteraction);
@@ -116,12 +122,15 @@ namespace XRAccelerator.Gameplay
 
             initialHandOffset = currentControllerTransform.position -
                                 (initialDrawerPosition.position - transform.localPosition);
+
+            handsVisuals.EnableProxyHandVisual(interactor.GetComponent<XRController>(), interactor);
         }
 
         private void OnEndInteraction(XRBaseInteractor interactor)
         {
             currentControllerTransform = null;
             PercentOpenOnRelease.Invoke(PercentOpen);
+            handsVisuals.DisableProxyHandVisual();
         }
     }
 }
