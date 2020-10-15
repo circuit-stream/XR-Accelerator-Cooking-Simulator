@@ -146,6 +146,10 @@ namespace XRAccelerator.Gameplay
             {
                 Destroy(currentJoint);
                 currentJoint = null;
+
+                // [Hack] For some reason, stationary objects were not falling after joint destruction
+                connectedBody.isKinematic = true;
+                connectedBody.isKinematic = false;
             }
         }
 
