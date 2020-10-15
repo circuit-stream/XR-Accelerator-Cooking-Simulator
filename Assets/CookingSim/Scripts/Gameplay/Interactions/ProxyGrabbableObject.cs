@@ -22,14 +22,8 @@ namespace XRAccelerator.Gameplay
         private Rigidbody connectedBody;
 
         [SerializeField]
-        [Tooltip("A reference to the right hand ProxyHandVisual component.\nSet this if you want to display a geometric matched hand when the proxy is grabbed")]
-        private ProxyHandVisuals rightHandProxyHandVisuals;
-
-        [SerializeField]
-        [Tooltip("A reference to the left hand ProxyHandVisual component.\nSet this if you want to display a geometric matched hand when the proxy is grabbed")]
-        private ProxyHandVisuals leftHandProxyHandVisuals;
-
-        private bool HasProxyVisuals => rightHandProxyHandVisuals != null;
+        [Tooltip("Proxy Hands references")]
+        private ProxyHandsVisuals proxyHands;
 
         private Rigidbody proxyBody;
         private Collider proxyCollider;
@@ -56,39 +50,6 @@ namespace XRAccelerator.Gameplay
             StartCoroutine(ReenableGrab());
         }
 
-        #region Proxy Hands
-
-        private void EnableProxyHandVisual()
-        {
-            if (!HasProxyVisuals)
-            {
-                return;
-            }
-
-            GetMatchingControllerProxy().Enable(currentInteractor.transform);
-            currentController.hideControllerModel = true;
-        }
-
-        private void DisableProxyHandVisual()
-        {
-            if (!HasProxyVisuals)
-            {
-                return;
-            }
-
-            GetMatchingControllerProxy().Disable();
-            currentController.hideControllerModel = false;
-        }
-
-        private ProxyHandVisuals GetMatchingControllerProxy()
-        {
-            return currentController.controllerNode == XRNode.RightHand
-                ? rightHandProxyHandVisuals
-                : leftHandProxyHandVisuals;
-        }
-
-        #endregion
-
         private void OnGrab(XRBaseInteractor interactor)
         {
             isBeingGrabbed = true;
@@ -96,14 +57,14 @@ namespace XRAccelerator.Gameplay
             currentController = currentInteractor.GetComponent<XRController>();
 
             StartCoroutine(CreateJoint());
-            EnableProxyHandVisual();
+            proxyHands.EnableProxyHandVisual(currentController, currentInteractor);
         }
 
         private void OnGrabRelease(XRBaseInteractor interactor)
         {
             isBeingGrabbed = false;
             DestroyJoint();
-            DisableProxyHandVisual();
+            proxyHands.DisableProxyHandVisual();
 
             currentInteractor = null;
             currentController = null;
@@ -202,11 +163,7 @@ namespace XRAccelerator.Gameplay
                 locomotionProvider.startLocomotion += OnRigStartLocomotion;
             }
 
-            if (HasProxyVisuals)
-            {
-                rightHandProxyHandVisuals.Disable();
-                leftHandProxyHandVisuals.Disable();
-            }
+            proxyHands.Setup();
         }
 
         // [XRToolkitWorkaround] These functions only exist because XRToolkit provides no way to forcefully deselect a interactable

@@ -721,8 +721,9 @@ MonoBehaviour:
   breakForce: 300
   breakTorque: 1e+17
   connectedBody: {fileID: 7434115144970843019}
-  rightHandProxyHandVisuals: {fileID: 1461894551983791023}
-  leftHandProxyHandVisuals: {fileID: 1874659873299038963}
+  proxyHands:
+    rightHandProxyHandVisuals: {fileID: 1461894551983791023}
+    leftHandProxyHandVisuals: {fileID: 1874659873299038963}
 --- !u!64 &6726411566268461128
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -950,8 +951,9 @@ MonoBehaviour:
   breakForce: 300
   breakTorque: 1e+17
   connectedBody: {fileID: 7434115144970843019}
-  rightHandProxyHandVisuals: {fileID: 6848869940863387214}
-  leftHandProxyHandVisuals: {fileID: 3156240519914883336}
+  proxyHands:
+    rightHandProxyHandVisuals: {fileID: 6848869940863387214}
+    leftHandProxyHandVisuals: {fileID: 3156240519914883336}
 --- !u!64 &5082182595476189245
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -999,6 +1001,7 @@ MonoBehaviour:
   MaxWobble: 0.01
   WobbleSpeed: 1
   WobbleRecovery: 1
+  defaultSubmergedMesh: {fileID: 0}
 --- !u!64 &6989687748607828780
 MeshCollider:
   m_ObjectHideFlags: 0
