@@ -121,7 +121,7 @@ namespace XRAccelerator.Gameplay
             currentControllerTransform = interactor.transform;
 
             initialHandOffset = currentControllerTransform.position -
-                                (initialDrawerPosition.position - transform.localPosition);
+                                (initialDrawerPosition.position + movableTransform.localPosition);
 
             handsVisuals.EnableProxyHandVisual(interactor.GetComponent<XRController>(), interactor);
         }
