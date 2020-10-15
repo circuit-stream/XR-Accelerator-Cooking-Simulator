@@ -48,6 +48,11 @@ namespace XRAccelerator.Gameplay
         [Tooltip("At what point the lever snaps")]
         private float snapToPercent = 0.5f;
 
+        [SerializeField]
+        [Tooltip("Proxy Hands references")]
+        private ProxyHandsVisuals handsVisuals;
+
+        [Header("Lever Events")]
         public UnityEvent OnLeverReachedMax;
         public UnityEvent OnLeverReachedMin;
         public FloatEvent OnLeverMoved;
@@ -142,6 +147,8 @@ namespace XRAccelerator.Gameplay
         private void OnBeginInteraction(XRBaseInteractor interactor)
         {
             currentControllerTransform = interactor.transform;
+
+            handsVisuals.EnableProxyHandVisual(interactor.GetComponent<XRController>(), interactor);
         }
 
         private void OnEndInteraction(XRBaseInteractor interactor)
@@ -161,6 +168,7 @@ namespace XRAccelerator.Gameplay
                 }
             }
 
+            handsVisuals.DisableProxyHandVisual();
             currentControllerTransform = null;
         }
 
@@ -193,6 +201,8 @@ namespace XRAccelerator.Gameplay
             Debug.Assert(LocalRotationAxis != Vector3.zero, "Please set a rotational axis", gameObject);
 
             Initialize();
+
+            handsVisuals.Setup();
 
             onSelectEnter.AddListener(OnBeginInteraction);
             onSelectExit.AddListener(OnEndInteraction);

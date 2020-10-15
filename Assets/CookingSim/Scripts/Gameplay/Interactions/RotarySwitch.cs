@@ -32,6 +32,10 @@ namespace XRAccelerator.Gameplay
         [Tooltip("The speed at which the rotation settles")]
         private RotationAxis rotationAxis;
 
+        [SerializeField]
+        [Tooltip("Proxy Hands references")]
+        private ProxyHandsVisuals handsVisuals;
+
         [NonSerialized]
         public Action<int> StateChanged;
 
@@ -125,6 +129,8 @@ namespace XRAccelerator.Gameplay
             startingControllerRotation = currentControllerTransform.rotation;
             startingRotation = _transform.localRotation;
             isTweening = false;
+
+            handsVisuals.EnableProxyHandVisual(interactor.GetComponent<XRController>(), interactor);
         }
 
         private void OnEndInteraction(XRBaseInteractor interactor)
@@ -134,6 +140,7 @@ namespace XRAccelerator.Gameplay
 
             float previousAngle = angleBetweenStates * previousIndex;
             elapsedTweenTime = Mathf.Abs(GetAngleFromDesiredAxis(_transform.localRotation) - previousAngle) / angleBetweenStates * tweenSpeed;
+            handsVisuals.DisableProxyHandVisual();
         }
 
         /// <summary>
@@ -248,6 +255,7 @@ namespace XRAccelerator.Gameplay
             Debug.Assert(angleBetweenStates > 0f, "Rotary Switch angle between states must be greater than 0", gameObject);
             Debug.Assert(numberOfStates > indexOfStartingState, "Rotary Switch starting state must be less than number of states", gameObject);
 
+            handsVisuals.Setup();
             JumpToIndex(indexOfStartingState - 1);
             _transform = transform;
 
