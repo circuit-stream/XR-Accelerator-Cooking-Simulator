@@ -46,37 +46,19 @@ namespace XRAccelerator.Gameplay
 
         private Transform _transform;
 
-        /// <summary>
-        /// Return the number of states
-        /// </summary>
         public int NumberOfStates => numberOfStates;
-
-        /// <summary>
-        /// Whether or not the button is pressed
-        /// </summary>
         public int CurrentStateIndex { get; private set; } = 0;
 
-        /// <summary>
-        /// Increase the state index to the upper state
-        /// </summary>
         public void IncreaseStateIndex()
         {
             ChangeState(CurrentStateIndex + 1);
         }
 
-        /// <summary>
-        /// Decrease the state index to the lower state
-        /// </summary>
         public void DecreaseStateIndex()
         {
             ChangeState(CurrentStateIndex - 1);
         }
 
-        /// <summary>
-        /// Jump to a state index
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="triggerEvents"></param>
         public void JumpToIndex(int index, bool triggerEvents = false)
         {
             ChangeState(index, triggerEvents);
@@ -274,48 +256,5 @@ namespace XRAccelerator.Gameplay
 
             base.Awake();
         }
-
-        #region Debug
-#if UNITY_EDITOR
-
-        private void OnDrawGizmosSelected()
-        {
-            float angle = -Mathf.Deg2Rad * angleBetweenStates;
-
-            Matrix4x4 rotationMatrix = Matrix4x4.TRS(_transform.position, _transform.parent.rotation, _transform.lossyScale);
-            Gizmos.matrix = rotationMatrix;
-
-            // draw the state points
-            for (int i = 0; i < numberOfStates; i++)
-            {
-                // adj = cos@ * hyp
-                float x = Mathf.Cos(angle * i) * k_debugRadius;
-                // opp = sin@ * hyp
-                float y = Mathf.Sin(angle * i) * k_debugRadius;
-
-                // create target position (y up)
-                Vector3 target = new Vector3(x, 0f, y);
-
-                Gizmos.DrawRay(Vector3.zero, target* 10);
-                Gizmos.DrawRay(Vector3.down, target * 10);
-
-            }
-
-            Gizmos.DrawSphere(Vector3.zero, 0.01f);
-            Gizmos.DrawLine(Vector3.zero, Vector3.down);
-            Gizmos.DrawSphere(Vector3.down * 0.1f, 0.01f);
-            Gizmos.DrawSphere(Vector3.down * 0.2f, 0.01f);
-            Gizmos.DrawSphere(Vector3.down * 0.3f, 0.01f);
-            Gizmos.DrawSphere(Vector3.down * 0.4f, 0.01f);
-            Gizmos.DrawSphere(Vector3.down * 0.5f, 0.01f);
-            Gizmos.DrawSphere(Vector3.down * 0.6f, 0.01f);
-            Gizmos.DrawSphere(Vector3.down * 0.7f, 0.01f);
-            Gizmos.DrawSphere(Vector3.down * 0.8f, 0.01f);
-            Gizmos.DrawSphere(Vector3.down * 0.9f, 0.01f);
-            Gizmos.DrawSphere(Vector3.down, 0.01f);
-        }
-
-#endif
-        #endregion
     }
 }

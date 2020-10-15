@@ -10,16 +10,20 @@ namespace XRAccelerator.Gameplay
 {
     public class Drawer : XRSimpleInteractable
     {
-        [SerializeField] [Tooltip("The index of the state to start on (1=start)")]
+        [SerializeField]
+        [Tooltip("The index of the state to start on (1=start)")]
         private float pullOutDistance = 0.5f;
 
-        [SerializeField] [Tooltip("The initial position of the tray")]
+        [SerializeField]
+        [Tooltip("The initial position of the tray")]
         private Transform initialDrawerPosition;
 
-        [SerializeField] [Tooltip("The transform that is going to be moved while interacting")]
+        [SerializeField]
+        [Tooltip("The transform that is going to be moved while interacting")]
         private Transform movableTransform;
 
-        [SerializeField] [Tooltip("Based off of the orientation of the \"initialPosition\" transform's orientation")]
+        [SerializeField]
+        [Tooltip("Based off of the orientation of the \"initialPosition\" transform's orientation")]
         private Vector3 localPulloutDirection;
 
         private Vector3 initialHandOffset;
@@ -27,8 +31,6 @@ namespace XRAccelerator.Gameplay
         public FloatEvent PercentOpenOnRelease;
         public UnityEvent OnOpen;
         public UnityEvent OnClose;
-        public UnityEvent OnStartInteracting;
-        public UnityEvent OnEndInteracting;
 
         public float PercentOpen { get; private set; }
         public bool IsFullyOpen { get; private set; }
@@ -37,30 +39,11 @@ namespace XRAccelerator.Gameplay
         private Transform currentControllerTransform;
         private bool IsInteracting => currentControllerTransform != null;
 
-
-        [Serializable]
-        public class FloatEvent : UnityEvent<float>
-        {
-        }
-
-
         protected override void Awake()
         {
-            if (initialDrawerPosition == null)
-            {
-                Debug.LogError("Please Set the initial drawer position transform", this.gameObject);
-            }
-
-            if (movableTransform == null)
-            {
-                Debug.LogError("Please Set the initial movable drawer position transform", this.gameObject);
-            }
-
-            if (localPulloutDirection == Vector3.zero)
-            {
-                Debug.LogError("Please set a normal direction for the Drawer pullout", this.gameObject);
-            }
-
+            Debug.Assert(initialDrawerPosition != null, "Please Set the initial drawer position transform", gameObject);
+            Debug.Assert(movableTransform != null, "Please Set the initial movable drawer position transform", gameObject);
+            Debug.Assert(localPulloutDirection != Vector3.zero, "Please set a normal direction for the Drawer pullout", gameObject);
 
             onSelectEnter.AddListener(OnBeginInteraction);
             onSelectExit.AddListener(OnEndInteraction);
@@ -68,32 +51,23 @@ namespace XRAccelerator.Gameplay
             base.Awake();
         }
 
-
         private void Update()
         {
             if (IsInteracting)
             {
                 Interacting();
             }
-            else
-            {
-                NotInteracting();
-            }
         }
-
 
         private void Interacting()
         {
             Vector3 handPosition = currentControllerTransform.position - initialHandOffset;
 
-
             Vector3 drawerDirectionWorldNormal =
                 initialDrawerPosition.TransformDirection(localPulloutDirection.normalized);
 
-
             Vector3 positionOnDrawerNormal = Vector3.Project(handPosition - initialDrawerPosition.position,
                 drawerDirectionWorldNormal);
-
 
             if (Vector3.Dot(positionOnDrawerNormal, drawerDirectionWorldNormal) > 0)
             {
@@ -136,24 +110,18 @@ namespace XRAccelerator.Gameplay
             }
         }
 
-        public void NotInteracting()
-        {
-        }
-
-        public void OnBeginInteraction(XRBaseInteractor interactor)
+        private void OnBeginInteraction(XRBaseInteractor interactor)
         {
             currentControllerTransform = interactor.transform;
 
             initialHandOffset = currentControllerTransform.position -
                                 (initialDrawerPosition.position - transform.localPosition);
-            OnStartInteracting?.Invoke();
         }
 
-        public void OnEndInteraction(XRBaseInteractor interactor)
+        private void OnEndInteraction(XRBaseInteractor interactor)
         {
             currentControllerTransform = null;
             PercentOpenOnRelease.Invoke(PercentOpen);
-            OnEndInteracting?.Invoke();
         }
     }
 }
