@@ -31,7 +31,7 @@ namespace XRAccelerator.Gameplay
             currentInteractor = interactor;
             currentController = controller;
 
-            GetMatchingControllerProxy().Enable(currentInteractor.transform);
+            GetMatchingControllerProxy().Enable();
             currentController.hideControllerModel = true;
         }
 
