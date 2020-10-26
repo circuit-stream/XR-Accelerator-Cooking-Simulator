@@ -5,6 +5,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 namespace XRAccelerator.Gameplay
 {
+    
+    [Serializable]
+    public  class ValueChanged : UnityEvent <float>{ } ;
     public class RotarySwitch : XRSimpleInteractable
     {
         private enum RotationAxis {X, Y, Z};
@@ -38,6 +41,9 @@ namespace XRAccelerator.Gameplay
 
         [NonSerialized]
         public Action<int> StateChanged;
+
+        [Tooltip("Notifies the normalized value of the switch")]
+        public ValueChanged valueChanged;
 
         private Quaternion? startingControllerRotation;
         private Quaternion? startingRotation;
@@ -82,6 +88,10 @@ namespace XRAccelerator.Gameplay
             int index = Mathf.RoundToInt(division);
 
             ChangeState(index);
+            valueChanged?.Invoke(division);
+            
+            Debug.Log("Angle: " + angle);
+            Debug.Log("Division: " + division);
         }
 
         private void NotInteracting()

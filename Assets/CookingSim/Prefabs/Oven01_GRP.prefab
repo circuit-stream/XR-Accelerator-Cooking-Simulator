@@ -359,6 +359,9 @@ MonoBehaviour:
   handsVisuals:
     rightHandProxyHandVisuals: {fileID: 419094029279448632}
     leftHandProxyHandVisuals: {fileID: 7822594764017187828}
+  valueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3178935147287269776
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,6 +874,9 @@ MonoBehaviour:
   handsVisuals:
     rightHandProxyHandVisuals: {fileID: 5619965477493499216}
     leftHandProxyHandVisuals: {fileID: 4077310443852618926}
+  valueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4908266994790809033
 GameObject:
   m_ObjectHideFlags: 0
@@ -1100,6 +1106,9 @@ MonoBehaviour:
   handsVisuals:
     rightHandProxyHandVisuals: {fileID: 336068218031755194}
     leftHandProxyHandVisuals: {fileID: 7281605471277841287}
+  valueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5479998768235913980
 GameObject:
   m_ObjectHideFlags: 0
@@ -1802,6 +1811,9 @@ MonoBehaviour:
   handsVisuals:
     rightHandProxyHandVisuals: {fileID: 1380330717120360599}
     leftHandProxyHandVisuals: {fileID: 7618362451817720906}
+  valueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7620607999509489308
 GameObject:
   m_ObjectHideFlags: 0
@@ -1965,6 +1977,9 @@ MonoBehaviour:
   handsVisuals:
     rightHandProxyHandVisuals: {fileID: 2233033192697827114}
     leftHandProxyHandVisuals: {fileID: 2200965732115744582}
+  valueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &1241533491863894686
 Animator:
   serializedVersion: 3
