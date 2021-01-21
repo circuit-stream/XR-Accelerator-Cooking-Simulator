@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace XRAccelerator.Player
@@ -16,10 +17,14 @@ namespace XRAccelerator.Player
         [Tooltip("If the hover event requests the activation of this controller.")]
         private bool requestControlOnHover = true;
 
+        [SerializeField]
+        [Tooltip("If the action that requests the activation of this controller should be the uiPressAction.")]
+        private bool useUIPressAction = false;
+
         [Header("References")]
         [SerializeField]
         [Tooltip("The controller to be activated.")]
-        private XRController xrController;
+        private ActionBasedController xrController;
         private XRBaseInteractor xrControllerInteractor;
 
         private bool isHovering;
@@ -28,9 +33,9 @@ namespace XRAccelerator.Player
         public bool IsRequestingControl => (requestControlOnHover && isHovering) || IsPressingAction();
         public bool IsLockingControl => isSelecting;
 
-        private InputHelpers.Button ActionButton => xrController.selectUsage == InputHelpers.Button.None
-            ? xrController.uiPressUsage
-            : xrController.selectUsage;
+        private InputAction ActivationAction => useUIPressAction
+            ? xrController.selectAction.action
+            : xrController.uiPressAction.action;
 
         public void EnableController()
         {
@@ -53,17 +58,17 @@ namespace XRAccelerator.Player
             xrControllerInteractor = xrController.GetComponent<XRBaseInteractor>();
 
             // These events don't work for UI Elements.
-            xrControllerInteractor.onHoverEnter.AddListener(OnHoverEnter);
-            xrControllerInteractor.onHoverExit.AddListener(OnHoverExit);
-            xrControllerInteractor.onSelectEnter.AddListener(OnSelectEnter);
-            xrControllerInteractor.onSelectExit.AddListener(OnSelectExit);
+            xrControllerInteractor.onHoverEntered.AddListener(OnHoverEnter);
+            xrControllerInteractor.onHoverExited.AddListener(OnHoverExit);
+            xrControllerInteractor.onSelectEntered.AddListener(OnSelectEnter);
+            xrControllerInteractor.onSelectExited.AddListener(OnSelectExit);
         }
 
         private bool IsPressingAction()
         {
-            xrController.inputDevice.IsPressed(ActionButton, out var pressed,
-                xrController.axisToPressThreshold);
-            return pressed;
+            return ActivationAction.triggered ||
+                   ActivationAction.phase == InputActionPhase.Performed ||
+                   ActivationAction.ReadValue<float>() >= xrController.buttonPressPoint;
         }
 
         #region XRControllerInteractor callbacks

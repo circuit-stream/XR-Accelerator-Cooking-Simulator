@@ -23,8 +23,8 @@ namespace XRAccelerator.Gameplay
         private void Start()
         {
             var component = GetComponent<XRBaseInteractable>();
-            component.onSelectEnter.AddListener(OnGrab);
-            component.onSelectExit.AddListener(OnGrabRelease);
+            component.onSelectEntered.AddListener(OnGrab);
+            component.onSelectExited.AddListener(OnGrabRelease);
         }
     }
 }

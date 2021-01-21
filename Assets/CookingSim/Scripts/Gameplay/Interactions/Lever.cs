@@ -204,8 +204,8 @@ namespace XRAccelerator.Gameplay
 
             handsVisuals.Setup();
 
-            onSelectEnter.AddListener(OnBeginInteraction);
-            onSelectExit.AddListener(OnEndInteraction);
+            onSelectEntered.AddListener(OnBeginInteraction);
+            onSelectExited.AddListener(OnEndInteraction);
 
             base.Awake();
         }

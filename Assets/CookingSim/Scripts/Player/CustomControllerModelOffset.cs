@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 using XRAccelerator.Enums;
+using InputDevice = UnityEngine.XR.InputDevice;
 
 namespace XRAccelerator.Player
 {
@@ -25,7 +27,7 @@ namespace XRAccelerator.Player
         }
 
         [SerializeField]
-        private XRController xrController;
+        private ActionBasedController xrController;
 
         [SerializeField]
         private Transform modelAttachPoint;
@@ -44,12 +46,11 @@ namespace XRAccelerator.Player
 
         private void TryApplyOffsets(InputDevice inputDevice)
         {
-            if (xrController.inputDevice != inputDevice)
-            {
-                return;
-            }
+            var currentController = GetConnectedController(inputDevice.name);
 
-            var currentController = GetConnectedController();
+            if (currentController == SupportedVRControllers.Unsupported)
+                return;
+
             var modelOffset = customModelsOffsets.Find(entry => entry.vrController == currentController);
 
             ApplyOffsets(modelOffset);
@@ -74,10 +75,8 @@ namespace XRAccelerator.Player
             }
         }
 
-        private SupportedVRControllers GetConnectedController()
+        private SupportedVRControllers GetConnectedController(string controllerName)
         {
-            var controllerName = xrController.inputDevice.name;
-
             if (CaseInsensitiveContains(controllerName, knucklesControllerPartialName))
             {
                 return SupportedVRControllers.Knuckles;
@@ -95,7 +94,6 @@ namespace XRAccelerator.Player
                 return SupportedVRControllers.ViveWand;
             }
 
-            Debug.LogError("Using unsupported VR controller device!");
             return SupportedVRControllers.Unsupported;
         }
 

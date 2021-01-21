@@ -115,7 +115,7 @@ namespace CookingSim.Scripts.Gameplay.Appliances
             base.Awake();
 
             blenderSwitch.StateChanged += OnSwitchStateChange;
-            blenderSwitch.onSelectExit.AddListener(OnSwitchGrabRelease);
+            blenderSwitch.onSelectExited.AddListener(OnSwitchGrabRelease);
             glassSocket.OnAttach += OnGlassAttach;
             glassSocket.IgnoreCollisionWith(lidSocket.interactableColliders);
         }

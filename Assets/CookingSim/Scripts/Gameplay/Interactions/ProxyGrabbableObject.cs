@@ -126,11 +126,6 @@ namespace XRAccelerator.Gameplay
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                DestroyJoint();
-            }
-
             if (isBeingGrabbed)
             {
                 return;
@@ -154,8 +149,8 @@ namespace XRAccelerator.Gameplay
             initialTightenRotation = grabInteractable.tightenRotation;
             initialMovementType = grabInteractable.movementType;
 
-            grabInteractable.onSelectEnter.AddListener(OnGrab);
-            grabInteractable.onSelectExit.AddListener(OnGrabRelease);
+            grabInteractable.onSelectEntered.AddListener(OnGrab);
+            grabInteractable.onSelectExited.AddListener(OnGrabRelease);
 
             var referencesProvider = ServiceLocator.GetService<ComponentReferencesProvider>();
             foreach (var locomotionProvider in referencesProvider.registeredLocomotionProviders)
@@ -181,8 +176,8 @@ namespace XRAccelerator.Gameplay
             grabInteractable.smoothRotationAmount = initialSmoothRotationAmount;
             grabInteractable.movementType = initialMovementType;
 
-            grabInteractable.onSelectEnter.AddListener(OnGrab);
-            grabInteractable.onSelectExit.AddListener(OnGrabRelease);
+            grabInteractable.onSelectEntered.AddListener(OnGrab);
+            grabInteractable.onSelectExited.AddListener(OnGrabRelease);
         }
 
         private void DestroyXRGrabInteractableComponent()
@@ -192,20 +187,20 @@ namespace XRAccelerator.Gameplay
 
             // calling these events like this leaves some of the XRToolkit internal logic out, but so far I got no errors
             // an alternative would be using reflection here.
-            currentInteractor.onSelectExit?.Invoke(interactable);
-            currentInteractor.onHoverExit?.Invoke(interactable);
-            interactable.onSelectExit?.Invoke(interactor);
-            interactable.onHoverExit?.Invoke(interactor);
+            currentInteractor.onSelectExited?.Invoke(interactable);
+            currentInteractor.onHoverExited?.Invoke(interactable);
+            interactable.onSelectExited?.Invoke(interactor);
+            interactable.onHoverExited?.Invoke(interactor);
 
             // Clearing some references to the soon to be destroyed component
-            interactable.onSelectExit = null;
-            interactable.onSelectEnter = null;
-            interactable.onHoverEnter = null;
-            interactable.onHoverExit = null;
+            interactable.onSelectExited = null;
+            interactable.onSelectEntered = null;
+            interactable.onHoverEntered = null;
+            interactable.onHoverExited = null;
             interactable.onActivate = null;
             interactable.onDeactivate = null;
-            interactable.onFirstHoverEnter = null;
-            interactable.onLastHoverExit = null;
+            interactable.onFirstHoverEntered = null;
+            interactable.onLastHoverExited = null;
 
             Destroy(interactable);
         }

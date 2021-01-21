@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using XRAccelerator.Gameplay;
 
@@ -16,28 +15,17 @@ namespace XRAccelerator.Player
         private Transform attachPoint;
 
         private XRBaseControllerInteractor xrControllerInteractor;
-        private XRController xrController;
+        private ActionBasedController xrController;
 
         private void Update()
         {
-            SetAnimatorInputValue(xrController.selectUsage, ControllerSelectValueHash);
-            SetAnimatorInputValue(xrController.activateUsage, ControllerActivateValueHash);
+            SetAnimatorInputValue(xrController.selectAction.action, ControllerSelectValueHash);
+            SetAnimatorInputValue(xrController.activateAction.action, ControllerActivateValueHash);
         }
 
-        private void SetAnimatorInputValue(InputHelpers.Button button, int animationHashName)
+        private void SetAnimatorInputValue(InputAction action, int animationHashName)
         {
-            animator.SetFloat(animationHashName, GetButtonPressValue(button));
-        }
-
-        private float GetButtonPressValue(InputHelpers.Button button)
-        {
-            if (button == InputHelpers.Button.None)
-            {
-                return 0;
-            }
-
-            var gotValue = InputDeviceUtils.GetPressValue(xrController.inputDevice, button, out var pressValue);
-            return gotValue ? pressValue : 0;
+            animator.SetFloat(animationHashName, action.ReadValue<float>());
         }
 
         private void OnEnable()
@@ -84,7 +72,7 @@ namespace XRAccelerator.Player
 
             while (xrController == null || xrControllerInteractor == null)
             {
-                xrController = xrController != null ? xrController : currentTransform.GetComponent<XRController>();
+                xrController = xrController != null ? xrController : currentTransform.GetComponent<ActionBasedController>();
                 xrControllerInteractor = xrControllerInteractor != null ? xrControllerInteractor : currentTransform.GetComponent<XRBaseControllerInteractor>();
 
                 currentTransform = currentTransform.parent;
@@ -116,10 +104,10 @@ namespace XRAccelerator.Player
 
         private void RegisterControllerEventCallbacks()
         {
-            xrControllerInteractor.onHoverEnter.AddListener(OnXRControllerHoverEnter);
-            xrControllerInteractor.onHoverExit.AddListener(OnXRControllerHoverExit);
-            xrControllerInteractor.onSelectEnter.AddListener(OnXRControllerSelectEnter);
-            xrControllerInteractor.onSelectExit.AddListener(OnXRControllerSelectExit);
+            xrControllerInteractor.onHoverEntered.AddListener(OnXRControllerHoverEnter);
+            xrControllerInteractor.onHoverExited.AddListener(OnXRControllerHoverExit);
+            xrControllerInteractor.onSelectEntered.AddListener(OnXRControllerSelectEnter);
+            xrControllerInteractor.onSelectExited.AddListener(OnXRControllerSelectExit);
         }
 
         private void OnXRControllerHoverEnter(XRBaseInteractable interactable)

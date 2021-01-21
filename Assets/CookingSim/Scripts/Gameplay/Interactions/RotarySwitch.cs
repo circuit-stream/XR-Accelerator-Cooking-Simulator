@@ -269,8 +269,8 @@ namespace XRAccelerator.Gameplay
             JumpToIndex(indexOfStartingState - 1);
             _transform = transform;
 
-            onSelectEnter.AddListener(OnBeginInteraction);
-            onSelectExit.AddListener(OnEndInteraction);
+            onSelectEntered.AddListener(OnBeginInteraction);
+            onSelectExited.AddListener(OnEndInteraction);
 
             base.Awake();
         }
