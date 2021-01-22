@@ -10,22 +10,32 @@ namespace XRAccelerator.Player
         [SerializeField]
         [Tooltip("A reference to a XRInteractorLineVisual component that is inside the handModel, if it exists.")]
         private XRInteractorLineVisual interactorLineVisual;
+
         [SerializeField]
         [Tooltip("An optional attachPoint to replace the XRControllerInteractor when the model is instantiated.")]
         private Transform attachPoint;
+
+        [SerializeField]
+        [Tooltip("Axis action to control the main hand flex")]
+        private InputActionProperty mainFlexAction;
+
+        [SerializeField]
+        [Tooltip("Axis action to control the secondary hand flex")]
+        private InputActionProperty secondaryFlexAction;
 
         private XRBaseControllerInteractor xrControllerInteractor;
         private ActionBasedController xrController;
 
         private void Update()
         {
-            SetAnimatorInputValue(xrController.selectAction.action, ControllerSelectValueHash);
-            SetAnimatorInputValue(xrController.activateAction.action, ControllerActivateValueHash);
+            SetAnimatorInputValue(mainFlexAction.action, ControllerSelectValueHash);
+            SetAnimatorInputValue(secondaryFlexAction.action, ControllerActivateValueHash);
         }
 
         private void SetAnimatorInputValue(InputAction action, int animationHashName)
         {
-            animator.SetFloat(animationHashName, action.ReadValue<float>());
+            if (action != null)
+                animator.SetFloat(animationHashName, action.ReadValue<float>());
         }
 
         private void OnEnable()
@@ -94,7 +104,15 @@ namespace XRAccelerator.Player
                 return;
             }
 
-            var attachTransform = xrControllerInteractor.attachTransform;
+            Transform attachTransform;
+            if (xrControllerInteractor is XRRayInteractor)
+            {
+                var attachName = $"[{xrControllerInteractor.name}] Original Attach";
+                attachTransform = xrControllerInteractor.transform.Find(attachName);
+            }
+            else
+                attachTransform = xrControllerInteractor.attachTransform;
+
             attachTransform.parent = attachPoint.parent;
             attachTransform.localPosition = attachPoint.localPosition;
             attachTransform.localRotation = attachPoint.localRotation;

@@ -37,7 +37,7 @@ namespace XRAccelerator.Gameplay
         private XRBaseInteractable.MovementType initialMovementType;
 
         private XRBaseInteractor currentInteractor;
-        private XRController currentController;
+        private ActionBasedController currentController;
         private Joint currentJoint;
         private bool isBeingGrabbed;
 
@@ -54,7 +54,7 @@ namespace XRAccelerator.Gameplay
         {
             isBeingGrabbed = true;
             currentInteractor = interactor;
-            currentController = currentInteractor.GetComponent<XRController>();
+            currentController = currentInteractor.GetComponent<ActionBasedController>();
 
             StartCoroutine(CreateJoint());
             proxyHands.EnableProxyHandVisual(currentController, currentInteractor);

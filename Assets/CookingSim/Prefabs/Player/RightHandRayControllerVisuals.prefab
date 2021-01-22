@@ -312,6 +312,42 @@ PrefabInstance:
       propertyPath: interactorLineVisual
       value: 
       objectReference: {fileID: 5775566239162620510}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: mainFlexAction.m_Reference
+      value: 
+      objectReference: {fileID: -5914363796493329700, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: mainFlexAction.m_Action.m_Id
+      value: 9b69fde6-8d35-4947-8237-b37984b01a0b
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: mainFlexAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: mainFlexAction.m_Action.m_Name
+      value: Main Flex
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: secondaryFlexAction.m_Action.m_Id
+      value: b7b838c6-4ee9-4318-9567-2144739875de
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: secondaryFlexAction.m_UseReference
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: secondaryFlexAction.m_Action.m_Name
+      value: Secondary Flex
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9a25253dc530104d9064bb02aa4ce7b, type: 3}
 --- !u!1 &8775242037720007 stripped

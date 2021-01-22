@@ -312,6 +312,37 @@ PrefabInstance:
       propertyPath: interactorLineVisual
       value: 
       objectReference: {fileID: 2640091411948129006}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: mainFlexAction.m_Reference
+      value: 
+      objectReference: {fileID: 8536925288806903894, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: mainFlexAction.m_Action.m_Id
+      value: d1662508-1093-48d9-9296-092e5f4e6e01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: mainFlexAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: mainFlexAction.m_Action.m_Name
+      value: Main Flex
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: secondaryFlexAction.m_Action.m_Id
+      value: fabc54b3-2a6a-407f-84f1-f573f0d794a3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: secondaryFlexAction.m_Action.m_Name
+      value: Secondary Flex
+      objectReference: {fileID: 0}
     - target: {fileID: 8109987202214116692, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: m_Controller

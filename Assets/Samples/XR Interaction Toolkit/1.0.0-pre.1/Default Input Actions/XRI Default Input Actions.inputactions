@@ -154,6 +154,22 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "GripFlex",
+                    "type": "Value",
+                    "id": "5faa401f-66cb-457e-bf9f-e30b31c5eca8",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "TriggerFlex",
+                    "type": "Value",
+                    "id": "098506a4-8932-4036-959a-d7a649ae935b",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -420,6 +436,28 @@
                     "action": "Translate Anchor",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "b7372ab8-fc9c-4dd3-87b3-d15bd16cb603",
+                    "path": "<XRController>{RightHand}/grip",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GripFlex",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "551c4da3-4e40-436d-9fe8-b82201ed364a",
+                    "path": "<XRController>{RightHand}/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerFlex",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -528,6 +566,22 @@
                     "type": "Value",
                     "id": "6f7cf253-7062-443b-b10f-2be48a33f027",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "GripFlex",
+                    "type": "Value",
+                    "id": "a6485688-3227-48f0-b48e-af25ab502565",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "TriggerFlex",
+                    "type": "Value",
+                    "id": "28bb77d1-58e2-4300-a51a-aff038792a3c",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
                 }
@@ -785,6 +839,28 @@
                     "action": "Translate Anchor",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "0a5a04eb-395f-407b-989c-58b955c5c279",
+                    "path": "<XRController>{RightHand}/grip",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "GripFlex",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "299fe712-82a7-4518-9c55-60fe7ccc38a5",
+                    "path": "<XRController>{RightHand}/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerFlex",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

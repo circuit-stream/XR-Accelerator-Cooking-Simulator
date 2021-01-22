@@ -148,7 +148,7 @@ namespace XRAccelerator.Gameplay
         {
             currentControllerTransform = interactor.transform;
 
-            handsVisuals.EnableProxyHandVisual(interactor.GetComponent<XRController>(), interactor);
+            handsVisuals.EnableProxyHandVisual(interactor.GetComponent<ActionBasedController>(), interactor);
         }
 
         private void OnEndInteraction(XRBaseInteractor interactor)

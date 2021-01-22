@@ -28,6 +28,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 81a40f51c0f4acb49b8245bde3ec2913,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 81a40f51c0f4acb49b8245bde3ec2913,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
@@ -43,6 +48,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81a40f51c0f4acb49b8245bde3ec2913,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 81a40f51c0f4acb49b8245bde3ec2913,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -55,16 +65,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 81a40f51c0f4acb49b8245bde3ec2913,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 81a40f51c0f4acb49b8245bde3ec2913,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 81a40f51c0f4acb49b8245bde3ec2913,
         type: 3}
@@ -114,6 +114,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -129,6 +134,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -140,16 +150,6 @@ PrefabInstance:
     - target: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1645759528102768116, guid: b9a25253dc530104d9064bb02aa4ce7b,
@@ -174,14 +174,56 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 5904288655024365854}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
       propertyPath: attachPoint
       value: 
       objectReference: {fileID: 8990161205546085047}
     - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
-      propertyPath: animator
+      propertyPath: mainFlexAction.m_Reference
       value: 
-      objectReference: {fileID: 5904288655024365854}
+      objectReference: {fileID: 6131946397800350634, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: mainFlexAction.m_Action.m_Id
+      value: 91e861dd-7fae-4e16-9727-4fa358a499e7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: mainFlexAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: mainFlexAction.m_Action.m_Name
+      value: Main Flex
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: secondaryFlexAction.m_Reference
+      value: 
+      objectReference: {fileID: 8536925288806903894, guid: c348712bda248c246b8c49b3db54643f,
+        type: 3}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: secondaryFlexAction.m_Action.m_Id
+      value: fa8b3135-e148-4bc1-b884-9495e696a993
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: secondaryFlexAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877864335282156499, guid: b9a25253dc530104d9064bb02aa4ce7b,
+        type: 3}
+      propertyPath: secondaryFlexAction.m_Action.m_Name
+      value: Secondary Flex
+      objectReference: {fileID: 0}
     - target: {fileID: 8109987202214116692, guid: b9a25253dc530104d9064bb02aa4ce7b,
         type: 3}
       propertyPath: m_Controller

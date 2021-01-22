@@ -33,7 +33,7 @@ namespace XRAccelerator.Player
         public bool IsRequestingControl => (requestControlOnHover && isHovering) || IsPressingAction();
         public bool IsLockingControl => isSelecting;
 
-        private InputAction ActivationAction => useUIPressAction
+        private InputAction ActivationAction => !useUIPressAction
             ? xrController.selectAction.action
             : xrController.uiPressAction.action;
 
@@ -66,9 +66,7 @@ namespace XRAccelerator.Player
 
         private bool IsPressingAction()
         {
-            return ActivationAction.triggered ||
-                   ActivationAction.phase == InputActionPhase.Performed ||
-                   ActivationAction.ReadValue<float>() >= xrController.buttonPressPoint;
+            return ActivationAction.triggered || ActivationAction.phase == InputActionPhase.Performed;
         }
 
         #region XRControllerInteractor callbacks
