@@ -440,7 +440,7 @@
                 {
                     "name": "",
                     "id": "b7372ab8-fc9c-4dd3-87b3-d15bd16cb603",
-                    "path": "<XRController>{RightHand}/grip",
+                    "path": "<XRController>{LeftHand}/grip",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -451,7 +451,7 @@
                 {
                     "name": "",
                     "id": "551c4da3-4e40-436d-9fe8-b82201ed364a",
-                    "path": "<XRController>{RightHand}/trigger",
+                    "path": "<XRController>{LeftHand}/trigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
