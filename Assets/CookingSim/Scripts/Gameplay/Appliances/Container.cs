@@ -267,8 +267,8 @@ namespace XRAccelerator.Gameplay
 
             if (grabInteractable != null)
             {
-                grabInteractable.onSelectEnter.AddListener(OnGrab);
-                grabInteractable.onSelectExit.AddListener(OnGrabRelease);
+                grabInteractable.onSelectEntered.AddListener(OnGrab);
+                grabInteractable.onSelectExited.AddListener(OnGrabRelease);
             }
         }
     }

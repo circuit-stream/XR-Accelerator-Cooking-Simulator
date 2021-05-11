@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace XRAccelerator.Gameplay
@@ -19,9 +18,9 @@ namespace XRAccelerator.Gameplay
         private bool HasProxyVisuals => rightHandProxyHandVisuals != null;
 
         private XRBaseInteractor currentInteractor;
-        private XRController currentController;
+        private ActionBasedController currentController;
 
-        public void EnableProxyHandVisual(XRController controller, XRBaseInteractor interactor)
+        public void EnableProxyHandVisual(ActionBasedController controller, XRBaseInteractor interactor)
         {
             if (!HasProxyVisuals)
             {
@@ -57,7 +56,8 @@ namespace XRAccelerator.Gameplay
 
         private ProxyHandVisuals GetMatchingControllerProxy()
         {
-            return currentController.controllerNode == XRNode.RightHand
+            var isRightController = currentController.activateAction.action.actionMap.name.Contains("Right");
+            return isRightController
                 ? rightHandProxyHandVisuals
                 : leftHandProxyHandVisuals;
         }

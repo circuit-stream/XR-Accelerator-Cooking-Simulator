@@ -117,8 +117,8 @@ namespace XRAccelerator.Gameplay
             initialScale = interactableTransform.localScale;
             initialParent = interactableTransform.parent;
 
-            grabInteractable.onSelectEnter.AddListener(OnGrab);
-            grabInteractable.onSelectExit.AddListener(OnGrabRelease);
+            grabInteractable.onSelectEntered.AddListener(OnGrab);
+            grabInteractable.onSelectExited.AddListener(OnGrabRelease);
         }
     }
 }

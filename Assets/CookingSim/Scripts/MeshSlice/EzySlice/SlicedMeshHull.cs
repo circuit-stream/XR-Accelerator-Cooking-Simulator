@@ -54,8 +54,8 @@ namespace EzySlice
 
         private static void SetNewGameObjectTransform(Transform newTransform, Transform originalTransform)
         {
-            newTransform.localPosition = originalTransform.localPosition;
-            newTransform.localRotation = originalTransform.localRotation;
+            newTransform.position = originalTransform.position;
+            newTransform.rotation = originalTransform.rotation;
             newTransform.localScale = originalTransform.localScale;
         }
 

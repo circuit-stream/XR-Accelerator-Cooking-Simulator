@@ -51,8 +51,8 @@ namespace XRAccelerator.Gameplay
 
             handsVisuals.Setup();
 
-            onSelectEnter.AddListener(OnBeginInteraction);
-            onSelectExit.AddListener(OnEndInteraction);
+            onSelectEntered.AddListener(OnBeginInteraction);
+            onSelectExited.AddListener(OnEndInteraction);
 
             base.Awake();
         }
@@ -123,7 +123,7 @@ namespace XRAccelerator.Gameplay
             initialHandOffset = currentControllerTransform.position -
                                 (initialDrawerPosition.position + movableTransform.localPosition);
 
-            handsVisuals.EnableProxyHandVisual(interactor.GetComponent<XRController>(), interactor);
+            handsVisuals.EnableProxyHandVisual(interactor.GetComponent<ActionBasedController>(), interactor);
         }
 
         private void OnEndInteraction(XRBaseInteractor interactor)

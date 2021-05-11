@@ -97,9 +97,6 @@ namespace SpaceBear.VRUI
             currentIndex = Mathf.FloorToInt(pos * contentRectTransform.rect.width / carouselWidth);
 
             int index = Mathf.Max(Mathf.Min(currentIndex, pages - 1), 0);
-    
-            Debug.Log("index: " + index);
-            Debug.Log("count: " + radioBtns.Count);
 
             if (radioBtns.Count <= 0)
             {
@@ -117,7 +114,7 @@ namespace SpaceBear.VRUI
             return Mathf.Abs(a - b) < c;
         }
 
-        /* Calculate the size of the carousel and the number of pages, 
+        /* Calculate the size of the carousel and the number of pages,
          * and create a radio button for each page.
          * */
         IEnumerator CreatePagination()

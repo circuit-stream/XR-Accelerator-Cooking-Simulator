@@ -148,7 +148,7 @@ namespace XRAccelerator.Gameplay
         {
             currentControllerTransform = interactor.transform;
 
-            handsVisuals.EnableProxyHandVisual(interactor.GetComponent<XRController>(), interactor);
+            handsVisuals.EnableProxyHandVisual(interactor.GetComponent<ActionBasedController>(), interactor);
         }
 
         private void OnEndInteraction(XRBaseInteractor interactor)
@@ -204,8 +204,8 @@ namespace XRAccelerator.Gameplay
 
             handsVisuals.Setup();
 
-            onSelectEnter.AddListener(OnBeginInteraction);
-            onSelectExit.AddListener(OnEndInteraction);
+            onSelectEntered.AddListener(OnBeginInteraction);
+            onSelectExited.AddListener(OnEndInteraction);
 
             base.Awake();
         }

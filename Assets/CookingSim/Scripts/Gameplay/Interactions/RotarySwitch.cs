@@ -5,7 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 namespace XRAccelerator.Gameplay
 {
-    
+
     [Serializable]
     public  class ValueChanged : UnityEvent <float>{ } ;
     public class RotarySwitch : XRSimpleInteractable
@@ -89,9 +89,6 @@ namespace XRAccelerator.Gameplay
 
             ChangeState(index);
             valueChanged?.Invoke(division);
-            
-            Debug.Log("Angle: " + angle);
-            Debug.Log("Division: " + division);
         }
 
         private void NotInteracting()
@@ -140,7 +137,7 @@ namespace XRAccelerator.Gameplay
             startingRotation = _transform.localRotation;
             isTweening = false;
 
-            handsVisuals.EnableProxyHandVisual(interactor.GetComponent<XRController>(), interactor);
+            handsVisuals.EnableProxyHandVisual(interactor.GetComponent<ActionBasedController>(), interactor);
         }
 
         private void OnEndInteraction(XRBaseInteractor interactor)
@@ -269,8 +266,8 @@ namespace XRAccelerator.Gameplay
             JumpToIndex(indexOfStartingState - 1);
             _transform = transform;
 
-            onSelectEnter.AddListener(OnBeginInteraction);
-            onSelectExit.AddListener(OnEndInteraction);
+            onSelectEntered.AddListener(OnBeginInteraction);
+            onSelectExited.AddListener(OnEndInteraction);
 
             base.Awake();
         }

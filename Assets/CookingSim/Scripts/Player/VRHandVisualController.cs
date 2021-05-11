@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using XRAccelerator.Gameplay;
 
@@ -11,33 +10,32 @@ namespace XRAccelerator.Player
         [SerializeField]
         [Tooltip("A reference to a XRInteractorLineVisual component that is inside the handModel, if it exists.")]
         private XRInteractorLineVisual interactorLineVisual;
+
         [SerializeField]
         [Tooltip("An optional attachPoint to replace the XRControllerInteractor when the model is instantiated.")]
         private Transform attachPoint;
 
+        [SerializeField]
+        [Tooltip("Axis action to control the main hand flex")]
+        private InputActionProperty mainFlexAction;
+
+        [SerializeField]
+        [Tooltip("Axis action to control the secondary hand flex")]
+        private InputActionProperty secondaryFlexAction;
+
         private XRBaseControllerInteractor xrControllerInteractor;
-        private XRController xrController;
+        private ActionBasedController xrController;
 
         private void Update()
         {
-            SetAnimatorInputValue(xrController.selectUsage, ControllerSelectValueHash);
-            SetAnimatorInputValue(xrController.activateUsage, ControllerActivateValueHash);
+            SetAnimatorInputValue(mainFlexAction.action, ControllerSelectValueHash);
+            SetAnimatorInputValue(secondaryFlexAction.action, ControllerActivateValueHash);
         }
 
-        private void SetAnimatorInputValue(InputHelpers.Button button, int animationHashName)
+        private void SetAnimatorInputValue(InputAction action, int animationHashName)
         {
-            animator.SetFloat(animationHashName, GetButtonPressValue(button));
-        }
-
-        private float GetButtonPressValue(InputHelpers.Button button)
-        {
-            if (button == InputHelpers.Button.None)
-            {
-                return 0;
-            }
-
-            var gotValue = InputDeviceUtils.GetPressValue(xrController.inputDevice, button, out var pressValue);
-            return gotValue ? pressValue : 0;
+            if (action != null)
+                animator.SetFloat(animationHashName, action.ReadValue<float>());
         }
 
         private void OnEnable()
@@ -84,7 +82,7 @@ namespace XRAccelerator.Player
 
             while (xrController == null || xrControllerInteractor == null)
             {
-                xrController = xrController != null ? xrController : currentTransform.GetComponent<XRController>();
+                xrController = xrController != null ? xrController : currentTransform.GetComponent<ActionBasedController>();
                 xrControllerInteractor = xrControllerInteractor != null ? xrControllerInteractor : currentTransform.GetComponent<XRBaseControllerInteractor>();
 
                 currentTransform = currentTransform.parent;
@@ -106,7 +104,15 @@ namespace XRAccelerator.Player
                 return;
             }
 
-            var attachTransform = xrControllerInteractor.attachTransform;
+            Transform attachTransform;
+            if (xrControllerInteractor is XRRayInteractor)
+            {
+                var attachName = $"[{xrControllerInteractor.name}] Original Attach";
+                attachTransform = xrControllerInteractor.transform.Find(attachName);
+            }
+            else
+                attachTransform = xrControllerInteractor.attachTransform;
+
             attachTransform.parent = attachPoint.parent;
             attachTransform.localPosition = attachPoint.localPosition;
             attachTransform.localRotation = attachPoint.localRotation;
@@ -116,10 +122,10 @@ namespace XRAccelerator.Player
 
         private void RegisterControllerEventCallbacks()
         {
-            xrControllerInteractor.onHoverEnter.AddListener(OnXRControllerHoverEnter);
-            xrControllerInteractor.onHoverExit.AddListener(OnXRControllerHoverExit);
-            xrControllerInteractor.onSelectEnter.AddListener(OnXRControllerSelectEnter);
-            xrControllerInteractor.onSelectExit.AddListener(OnXRControllerSelectExit);
+            xrControllerInteractor.onHoverEntered.AddListener(OnXRControllerHoverEnter);
+            xrControllerInteractor.onHoverExited.AddListener(OnXRControllerHoverExit);
+            xrControllerInteractor.onSelectEntered.AddListener(OnXRControllerSelectEnter);
+            xrControllerInteractor.onSelectExited.AddListener(OnXRControllerSelectExit);
         }
 
         private void OnXRControllerHoverEnter(XRBaseInteractable interactable)

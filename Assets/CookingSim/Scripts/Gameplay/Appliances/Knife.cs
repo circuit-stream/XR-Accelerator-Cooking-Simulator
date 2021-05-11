@@ -142,8 +142,8 @@ namespace XRAccelerator.Gameplay
         {
             base.Awake();
 
-            grabInteractable.onSelectEnter.AddListener(OnGrab);
-            grabInteractable.onSelectExit.AddListener(OnReleaseGrab);
+            grabInteractable.onSelectEntered.AddListener(OnGrab);
+            grabInteractable.onSelectExited.AddListener(OnReleaseGrab);
 
             colliderCutCooldown = new Dictionary<Collider, float>();
 

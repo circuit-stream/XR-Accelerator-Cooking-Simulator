@@ -51,8 +51,8 @@ namespace XRAccelerator.Gameplay
         private void Start()
         {
             GestureInteractor.circularGestureRecognizer.OnGestureStarted += OnGestureStart;
-            grabInteractable.onSelectEnter.AddListener(OnGrab);
-            grabInteractable.onSelectExit.AddListener(OnGrabRelease);
+            grabInteractable.onSelectEntered.AddListener(OnGrab);
+            grabInteractable.onSelectExited.AddListener(OnGrabRelease);
         }
     }
 }
